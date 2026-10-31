@@ -13,8 +13,8 @@
 /data/rules/*
   Cache-Control: public, max-age=300, must-revalidate
 
-/data/_shared/artifacts/*
-  Cache-Control: public, max-age=3600
+/rules/*
+  Cache-Control: public, max-age=300, must-revalidate
   Access-Control-Allow-Origin: *
 
 /status.json

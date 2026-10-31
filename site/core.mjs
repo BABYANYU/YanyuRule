@@ -30,8 +30,9 @@ export function customSubscription({capability,artifacts,selected,available,skip
   if(!source)continue;
   if(declaration.action==='direct')return {url:safeURL(source.url,origin),label:source.label||output.label,action:'direct',source,output:output.id,types};
   if(source.byte_size>1048576)return {error:'完整源文件超过 1 MiB，无法使用客户端自定义过滤。请使用现成规则文件。'};
-  const name=new URL(source.url,origin).pathname.split('/').pop();
-  if(!/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,240}$/.test(name))return {error:'不支持此源文件路径。'};
+  const pathname=new URL(source.url,origin).pathname;
+  const name=pathname.startsWith('/rules/Surge/')?pathname.slice('/rules/Surge/'.length):'';
+  if(!/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}\/[a-zA-Z0-9_-]{1,80}\.list$/i.test(name))return {error:'不支持此源文件路径。'};
   const u=new URL('https://yanyu.rule/list');
   u.searchParams.set('s',name);u.searchParams.set('c',String(types.reduce((n,t)=>n|config.type_bits[t],0)));u.searchParams.set('o',output.id);
   if(applicable)u.searchParams.set('n','1');if(pattern)u.searchParams.set('x',pattern);

@@ -13,10 +13,18 @@ test('successful snapshot commits atomically; failed successor leaves it intact'
   const args=['--import',pathToFileURL(path.join(root,'tests/mock-network.mjs')).href,path.join(root,'scripts/sync.mjs'),'--no-icons'];
   const env={...process.env,NODE_ENV:'test',YANYURULE_TEST_ROOT:dir};
   const first=await exec(process.execPath,args,{env});assert.match(first.stdout,/"file_count"/);
-  const before=await readFile(path.join(dir,'dist/status.json'),'utf8');const artifact=await readFile(path.join(dir,'dist/data/_shared/artifacts/Test_rules_123456789abcdef0.list'),'utf8');assert.equal(artifact,'DOMAIN,example.test\n');
-  await assert.rejects(exec(process.execPath,args,{env:{...env,YANYURULE_MOCK_FAIL:'1'}}),e=>/SHA256_MISMATCH/.test(e.stderr));
+  const publicPath=path.join(dir,'dist/rules/Surge/11111111-1111-4111-8111-111111111111/rules.list');
+  assert.equal(await readFile(publicPath,'utf8'),'DOMAIN,example.test\n');
+  const oldIndex=JSON.parse(await readFile(path.join(dir,'dist/data/index/Surge.json'),'utf8'));
+  await exec(process.execPath,args,{env:{...env,YANYURULE_MOCK_UPDATED:'1'}});
+  const newIndex=JSON.parse(await readFile(path.join(dir,'dist/data/index/Surge.json'),'utf8'));
+  assert.equal(oldIndex.rules[0].manifest,newIndex.rules[0].manifest,'manifest URL stays stable across upstream hash changes');
+  const before=await readFile(path.join(dir,'dist/status.json'),'utf8'),artifact=await readFile(publicPath,'utf8');assert.equal(artifact,'DOMAIN,new.example.test\n');
+  await assert.rejects(exec(process.execPath,args,{env:{...env,YANYURULE_MOCK_UPDATED:'1',YANYURULE_MOCK_FAIL:'1'}}),e=>/SHA256_MISMATCH/.test(e.stderr));
   assert.equal(await readFile(path.join(dir,'dist/status.json'),'utf8'),before);
-  assert.equal(await readFile(path.join(dir,'dist/data/_shared/artifacts/Test_rules_123456789abcdef0.list'),'utf8'),artifact);
+  assert.equal(await readFile(publicPath,'utf8'),artifact);
+  await assert.rejects(exec(process.execPath,[...args,'--production'],{env:{...env,YANYURULE_BASELINE_URL:'https://yanyurule.pages.dev/status.json',YANYURULE_INITIAL_BUILD:'0'}}),e=>/Cannot verify last published baseline/.test(e.stderr));
+  assert.equal(await readFile(path.join(dir,'dist/status.json'),'utf8'),before,'unavailable production baseline cannot replace the live snapshot');
   await assert.rejects(stat(path.join(dir,'.sync.lock')),e=>e.code==='ENOENT');
  }finally{await rm(dir,{recursive:true,force:true});}
 });
