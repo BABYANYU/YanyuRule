@@ -92,3 +92,4 @@ AcFun、All4 等图标虽然返回 200，但图片为透明底白色图案，浅
 脚本与样式原响应允许缓存 14400 秒，现对 app.js、style.css、core.mjs、rule-icons.mjs 和 brand-icons/map.mjs 设置 Cache-Control: no-cache；首页资源版本 contrast3，使已缓存旧入口的浏览器加载新 URL。带内容哈希的图标仍长期缓存。33 项测试通过，新增白色透明图案检测及实际加载事件回归。
 
 缓存核验补充：Pages 备用域名能返回 no-cache，但正式域名的 JS/CSS 仍被其 CDN 层改写为 max-age=14400。因此不能仅依赖 _headers。构建新增 scripts/frontend-assets.mjs，生成 /assets/app.{内容SHA前16位}.js 与 style.{内容SHA前16位}.css，首页自动引用；只有内容改变才换文件名，规则订阅链接不变。模块仍从本站根目录加载，已实测 mjs 返回 no-cache。check.mjs 校验版本文件名与完整性哈希一致。35 项测试通过。README 已按用户要求改为部署、维护、卸载和重新部署手册，说明源码私有、原样恢复需另存数据快照。
+最终核验：部署 2a78e813-7ef9-4ecd-a199-fce5df86443a（adc9c5b）于北京时间 2026-10-31 15:15 成功；正式首页引用 app.93044f44a0390679.js 和 style.cebc76434aed45c9.css，内容哈希与完整性清单一致，内容版本资源返回一年 immutable 缓存，mjs 模块返回 no-cache。无需依赖旧 app.js 的 4 小时缓存过期。35 项测试、全量图标引用与规则文件校验通过。GitHub API 再次确认仓库 private，线上 README 已包含部署、维护、注意事项、卸载和重新部署章节。内置浏览器自动控制不可用，未声称截图验收。
