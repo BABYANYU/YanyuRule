@@ -73,7 +73,6 @@ async function showDetail(r){
   let total=0;for(const a of m.artifacts){if(a.empty)continue;const url=resourceURL(a.url),row=el('div','artifact'),info=el('div');info.append(el('div','artifact-name',a.label||a.key||'规则文件'),el('div','artifact-meta',[String(a.ext||'').toUpperCase(),a.binary?'二进制':'文本',a.recommended?'推荐':null,a.byte_size!=null?formatBytes(a.byte_size):null].filter(Boolean).join(' · ')));const actions=el('div','artifact-actions'),dl=button('下载文件','download');dl.addEventListener('click',()=>download(a,dl));actions.append(button('复制链接','copy',()=>copy(url)),dl,link('打开',url,'download'));row.append(info,actions);subscriptions.append(row);total++;}
   if(!total)subscriptions.append(el('p','muted','该规则暂未发布可用文件。'));host.append(subscriptions);
   customControls(r,m,host,capabilities[client]);
-  const providers=section('来源与致谢');for(const p of m.providers||r.providers||[])providers.append(link(p,p,'provider'));providers.append(el('p','field-help','原始规则的署名、来源与版权声明保留在文件中。'));host.append(providers);
  }catch(e){if(id!==state.dialogId||signal.aborted)return;loading.replaceChildren(el('span','error','详情读取失败。'),button('重新加载','text-button',()=>showDetail(r)));}
 }
 async function showIcons(){
