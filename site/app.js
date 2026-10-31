@@ -1,4 +1,4 @@
-import {CLIENTS,PAGE_SIZE,selectRules,safeURL,customSubscription,syncHealth,iconForRule,catalogIconMap,fallbackRuleIcon} from './core.mjs';
+import {CLIENTS,PAGE_SIZE,selectRules,safeURL,customSubscription,syncHealth,iconForRule,catalogIconMap,fallbackRuleIcon,needsDarkInk} from './core.mjs';
 const $=s=>document.querySelector(s);
 const state={client:'Surge',query:'',filter:'all',sort:'name',page:1,dialogId:0};
 const data={},nf=new Intl.NumberFormat('zh-CN');let capabilities={},status={},abortDetail=null,toastTimer;
@@ -8,8 +8,10 @@ function dialogHeading(text){const n=el('h2','detail-title',text);n.id='dialog-t
 function button(text,cls,fn){const n=el('button',cls,text);n.type='button';if(fn)n.addEventListener('click',fn);return n;}
 function navigation(view='rules'){$('#detail').classList.toggle('about-dialog',view==='about');for(const [id,target]of [['rules-home','rules'],['icons-open','icons'],['about','about']]){const n=$('#'+id);n.classList.toggle('active',target===view);n.setAttribute('aria-pressed',String(target===view));}}
 let ruleIconCatalog=new Map();
+const iconContrastCache=new Map();
+function fixIconContrast(img,url){try{if(!iconContrastCache.has(url)){const canvas=document.createElement('canvas');canvas.width=32;canvas.height=32;const context=canvas.getContext('2d',{willReadFrequently:true});if(!context)return;context.drawImage(img,0,0,32,32);iconContrastCache.set(url,needsDarkInk(context.getImageData(0,0,32,32).data));}img.classList.toggle('light-ink',iconContrastCache.get(url));}catch{/* A failed contrast probe must not hide an otherwise usable image. */}}
 const briefDescriptions={Apple:'苹果服务',GitHub:'代码托管',Microsoft:'微软服务',Netflix:'流媒体',OpenAI:'人工智能',Spotify:'音乐',Telegram:'即时通信',YouTube:'视频'};
-function ruleIcon(r){const icon=el('span','rule-icon'),plan=iconForRule(r,ruleIconCatalog),img=el('img');icon.setAttribute('aria-hidden','true');img.src=plan.url;img.alt='';img.width=46;img.height=46;img.loading='lazy';img.decoding='async';img.addEventListener('error',()=>{img.src=fallbackRuleIcon;},{once:true});icon.append(img);return icon;}
+function ruleIcon(r){const icon=el('span','rule-icon'),plan=iconForRule(r,ruleIconCatalog),img=el('img');icon.setAttribute('aria-hidden','true');if(plan.kind==='catalog')img.addEventListener('load',()=>fixIconContrast(img,plan.url),{once:true});img.addEventListener('error',()=>{img.classList.remove('light-ink');img.src=fallbackRuleIcon;},{once:true});img.src=plan.url;img.alt='';img.width=46;img.height=46;img.loading='lazy';img.decoding='async';icon.append(img);return icon;}
 function date(value,time=false){const d=new Date(value);if(!value||!Number.isFinite(+d))return '时间未知';return new Intl.DateTimeFormat('zh-CN',{year:'numeric',month:'2-digit',day:'2-digit',...(time?{hour:'2-digit',minute:'2-digit'}:{}),timeZone:'Asia/Shanghai'}).format(d).replaceAll('/','.');}
 function formatBytes(n){return n>=1048576?(n/1048576).toFixed(1)+' MiB':n>=1024?Math.round(n/1024)+' KiB':n+' B';}
 async function json(url,signal){const timeout=AbortSignal.timeout(15000);const r=await fetch(url,{cache:'no-cache',signal:signal?AbortSignal.any([signal,timeout]):timeout});if(!r.ok)throw Error('HTTP '+r.status);return r.json();}

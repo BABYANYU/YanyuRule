@@ -25,3 +25,18 @@
 
 /icons/assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+/app.js
+  Cache-Control: no-cache
+
+/style.css
+  Cache-Control: no-cache
+
+/core.mjs
+  Cache-Control: no-cache
+
+/rule-icons.mjs
+  Cache-Control: no-cache
+
+/brand-icons/map.mjs
+  Cache-Control: no-cache
