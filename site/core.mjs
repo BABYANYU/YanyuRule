@@ -1,5 +1,5 @@
 export const CLIENTS=['Surge','Mihomo'];
-export const PAGE_SIZE=18;
+export const PAGE_SIZE=8;
 export function category(type){if(/DOMAIN|HOST/i.test(type))return 'domain';if(/IP|CIDR|ASN|GEOIP/i.test(type))return 'ip';return 'other';}
 export function selectRules(rules,{query='',filter='all',sort='name'}={}){
  const q=query.trim().toLocaleLowerCase();

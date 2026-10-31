@@ -65,3 +65,7 @@ Surge 虚拟过滤域名为 yanyu.rule，模块从正式站点的 /rules/Surge/ 
 - 回滚：CF Pages → yanyurule → Deployments，选择上一份成功部署回滚；同步失败本身不会覆盖旧的成功站点。
 - 本地预览：Node 22 以上执行 node scripts/sync.mjs、node scripts/check.mjs、node scripts/serve.mjs。缓存、dist 和生产凭据不提交仓库。
 - 规则正文哈希不一致、超出 25 MiB / 20,000 文件、上游新增分发域名或记录骤减时先调查，不关闭验证来强行上线。
+
+## 2026-10-31 UI 更新
+
+采用用户选定的 C 方案：浅色留白、双列开放列表、清晰字重、移动端单列。新增列表直接复制完整规则链接，保留筛选、详情、下载、自定义过滤和图标库。关于页署名 YANYU 并提供用户指定的 Telegram 联系入口；第三方资源权利归属保留。8 个常用品牌标识为本地静态 Simple Icons（CC0），无新增运行依赖。27 项测试通过，包含直接复制与关于页联系地址验证。
