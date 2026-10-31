@@ -1,0 +1,13 @@
+#!name=YanyuRule Rule Filter
+#!desc=YanyuRule 自定义规则过滤。仅处理虚拟域名 yanyu.rule，需启用该域名的 HTTPS 解密。
+#!author=YanyuRule
+#!homepage=https://rule.yanyubaby.eu.org/
+
+[Host]
+yanyu.rule = 127.0.0.1
+
+[Script]
+YanyuRule Filter = type=http-request, pattern=^https:\/\/yanyu\.rule\/list\?, script-path=https://rule.yanyubaby.eu.org/modules/surge-rule-filter.js, timeout=30
+
+[MITM]
+hostname = %APPEND% yanyu.rule

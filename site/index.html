@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f7f7f5"><title>YanyuRule · 规则，自有秩序</title><link rel="stylesheet" href="style.css?v=5"></head>
+<body>
+<header class="topbar"><a class="brand" href="#"><span class="brand-icon">Y<span>r</span></span><span>Yanyu<span class="accent">Rule</span></span></a><div class="top-right"><button id="icons-open" class="preview">图标库</button><span class="preview" id="deployment-label">功能验证</span><button id="about" class="icon-button" aria-label="关于本站">i</button></div></header>
+<main>
+<section class="hero"><div class="eyebrow"><span class="dot"></span> YOUR RULES. YOUR SPACE.</div><h1>规则，自有秩序<span class="accent">。</span></h1><p>为 Surge 与 Mihomo 整理的规则库。轻松查找，按需订阅。</p><div class="sync"><span class="sync-symbol">↻</span><span id="sync-mode">正在读取同步状态…</span><span class="separator">/</span><span id="sync-time"></span></div></section>
+<section class="library" aria-label="规则库">
+<div class="toolbar"><div class="tabs" role="tablist"><button role="tab" aria-selected="true" class="tab active" data-client="Surge"><span class="client-symbol surge">S</span>Surge<span class="client-count" id="count-Surge"></span></button><button role="tab" aria-selected="false" class="tab" data-client="Mihomo"><span class="client-symbol mihomo">M</span>Mihomo<span class="client-count" id="count-Mihomo"></span></button></div><label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索规则名称、中文名称…" aria-label="搜索规则"><kbd>/</kbd></label></div>
+<div class="filter-row"><div id="filters" class="filters"><button class="filter active" data-filter="all">全部规则</button><button class="filter" data-filter="domain">域名规则</button><button class="filter" data-filter="ip">IP 规则</button><button class="filter" data-filter="other">其他类型</button></div><label class="sort"><span>排序</span><select id="sort" aria-label="规则排序"><option value="name">名称 A–Z</option><option value="updated">最近更新</option><option value="size">规则数量</option></select></label></div>
+<div class="results-heading"><span><strong id="result-count">—</strong> 项规则<span class="muted"> · </span><span id="client-label">Surge</span></span><span class="muted small">选择规则，查看订阅格式 <span aria-hidden="true">↗</span></span></div>
+<div id="grid" class="grid" aria-live="polite"></div><div id="empty" class="empty" hidden>没有找到匹配的规则。换个关键词试试。</div><div class="pagination"><span id="page-info" class="muted small"></span><div><button id="prev" class="page-button" aria-label="上一页">←</button><span id="page-number"></span><button id="next" class="page-button" aria-label="下一页">→</button></div></div>
+</section><footer><span class="footer-brand">YanyuRule</span><span>规则来自 MagicRule 及其列出的上游作者</span><span class="footer-end">简约 · 透明 · 持续更新</span></footer>
+</main>
+<dialog id="detail"><div class="detail-header"><span class="eyebrow" id="detail-client"></span><button id="close" class="icon-button" aria-label="关闭详情">×</button></div><div id="detail-body"></div></dialog><div id="toast" role="status"></div>
+<script type="module" src="app.js"></script></body></html>
+
+
+
+
