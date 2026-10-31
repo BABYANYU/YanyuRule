@@ -6,7 +6,7 @@ const manifestCache=new Map();
 function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;}
 function dialogHeading(text){const n=el('h2','detail-title',text);n.id='dialog-title';return n;}
 function button(text,cls,fn){const n=el('button',cls,text);n.type='button';if(fn)n.addEventListener('click',fn);return n;}
-function navigation(view='rules'){for(const [id,target]of [['rules-home','rules'],['icons-open','icons'],['about','about']]){const n=$('#'+id);n.classList.toggle('active',target===view);n.setAttribute('aria-pressed',String(target===view));}}
+function navigation(view='rules'){$('#detail').classList.toggle('about-dialog',view==='about');for(const [id,target]of [['rules-home','rules'],['icons-open','icons'],['about','about']]){const n=$('#'+id);n.classList.toggle('active',target===view);n.setAttribute('aria-pressed',String(target===view));}}
 let ruleIconCatalog=new Map();
 const briefDescriptions={Apple:'苹果服务',GitHub:'代码托管',Microsoft:'微软服务',Netflix:'流媒体',OpenAI:'人工智能',Spotify:'音乐',Telegram:'即时通信',YouTube:'视频'};
 function ruleIcon(r){const icon=el('span','rule-icon'),plan=iconForRule(r,ruleIconCatalog),img=el('img');icon.setAttribute('aria-hidden','true');img.src=plan.url;img.alt='';img.width=46;img.height=46;img.loading='lazy';img.decoding='async';img.addEventListener('error',()=>{img.src=fallbackRuleIcon;},{once:true});icon.append(img);return icon;}
@@ -82,10 +82,10 @@ async function showIcons(){
  }catch{if(id===state.dialogId&&!signal.aborted)loading.replaceChildren(el('span','error','图标目录暂时无法读取。'),button('重试','text-button',showIcons));}
 }
 function about(){
- navigation('about');state.dialogId++;abortDetail?.abort();setRoute(null,'about');$('#detail-client').textContent='ABOUT / 关于';const body=$('#detail-body');body.replaceChildren(dialogHeading('YanyuRule'),el('p','about-copy','为 Surge 与 Mihomo 整理的规则库。'));
- const identity=el('div','about-identity'),name=el('div');name.append(el('div','about-name','YANYU'),el('div','about-role','网站设计与维护'));const contact=link('Telegram ↗','https://t.me/+88807915423','contact-link');contact.setAttribute('aria-label','通过 Telegram 联系 YANYU');identity.append(name,contact);body.append(identity);
+ navigation('about');state.dialogId++;abortDetail?.abort();setRoute(null,'about');$('#detail-client').textContent='关于';const body=$('#detail-body');body.replaceChildren(dialogHeading('YanyuRule'),el('p','about-copy','Surge · Mihomo 规则库'));
+ const credit=el('p','about-credit');credit.append(el('span','','由 '),el('strong','','YANYU'),el('span','',' 设计与维护'));const contact=link('Telegram ↗','https://t.me/+88807915423','contact-link');contact.setAttribute('aria-label','通过 Telegram 联系 YANYU');body.append(credit,contact);
  body.append(el('p','about-copyright','© '+new Date().getFullYear()+' YANYU · YanyuRule'),el('p','about-rights','所有版权归 YANYU 所有'));
- const sync=section('更新状态');sync.append(el('p','field-help',(status.scheduler_enabled?'每日自动更新 · ':'自动更新未启用 · ')+date(status.last_success,true)+'（北京时间）'),link('查看同步记录','/status.json','provider'),link('查看文件校验清单','/integrity.json','provider'));body.append(sync);if(!$('#detail').open)$('#detail').showModal();
+ if(!$('#detail').open)$('#detail').showModal();
 }
 document.querySelectorAll('.tab').forEach(n=>n.addEventListener('click',()=>{state.client=n.dataset.client;state.page=1;render();}));
 document.querySelectorAll('.filter').forEach(n=>n.addEventListener('click',()=>{state.filter=n.dataset.filter;state.page=1;render();}));
