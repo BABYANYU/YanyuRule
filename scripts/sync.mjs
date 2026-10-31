@@ -72,7 +72,7 @@ async function main(){
    const index=await json('/data/index/'+client+'.json');
    if(!Array.isArray(index.rules)||index.rules.length<1)throw Error('Empty rule index '+client);
    if(previous?.counts?.[client]&&index.rules.length<previous.counts[client]*.8&&!args.has('--allow-large-removal'))throw Error('Rule count fell over 20%; manual review needed '+client);
-   const seen=new Set();for(const r of index.rules){if(!r.id||!r.name||!r.manifest||seen.has(r.id))throw Error('Invalid/duplicate rule in '+client);seen.add(r.id);const p=localPath(r.manifest);if(!new RegExp('^/data/rules/'+client+'/[a-f0-9]{24}/manifest\\.json$').test(p))throw Error('Unexpected manifest path');jobs.push({client,rule:r,manifest:r.manifest,path:p});r.manifest=p;delete r.icon_url;}
+   const seen=new Set();for(const r of index.rules){if(!/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(r.id)||!r.name||!r.manifest||seen.has(r.id))throw Error('Invalid/duplicate rule in '+client);seen.add(r.id);const p=localPath(r.manifest);if(!new RegExp('^/data/rules/'+client+'/[a-f0-9]{24}/manifest\\.json$').test(p))throw Error('Unexpected manifest path');const outputPath='/data/rules/'+client+'/'+r.id+'/manifest.json';jobs.push({client,rule:r,manifest:r.manifest,path:p,outputPath});r.manifest=outputPath;delete r.icon_url;}
    indexes[client]=index;
   }
   log('Index entries: '+jobs.length);
@@ -80,13 +80,14 @@ async function main(){
   await parallel(jobs,async j=>{
    const m=await json(j.manifest);
    if(m.client!==j.client||m.rule!==j.rule.name||!Array.isArray(m.artifacts))throw Error('Manifest identity mismatch '+j.path);
-   for(const a of m.artifacts){const upstream=a.url;const p=localPath(upstream);if(!p.startsWith('/data/_shared/artifacts/')&&!p.startsWith('/data/rules/'))throw Error('Unexpected artifact path '+p);const expected=a.dedupe||null;const existing=artifacts.get(p);if(existing?.expected&&expected&&existing.expected.semantic_sha256!==expected.semantic_sha256)throw Error('Conflicting artifact hash '+p);artifacts.set(p,{upstream,path:p,expected:expected||existing?.expected});a.url=p;}
+   const keys=new Set();
+   for(const a of m.artifacts){const upstream=a.url;const p=localPath(upstream);if(!p.startsWith('/data/_shared/artifacts/')&&!p.startsWith('/data/rules/'))throw Error('Unexpected artifact path '+p);if(!/^[A-Za-z0-9_-]{1,80}$/.test(a.key)||!(/^[A-Za-z0-9]{1,8}$/).test(a.ext)||keys.has(a.key+'.'+a.ext))throw Error('Invalid or duplicate artifact key');keys.add(a.key+'.'+a.ext);const expected=a.dedupe||null;const existing=artifacts.get(p);if(existing?.expected&&expected&&(existing.expected.semantic_sha256||existing.expected.bytes_sha256)!==(expected.semantic_sha256||expected.bytes_sha256))throw Error('Conflicting artifact hash '+p);const destinations=existing?.destinations||new Set();const stable='/rules/'+j.client+'/'+j.rule.id+'/'+a.key+'.'+a.ext;destinations.add(stable);artifacts.set(p,{upstream,path:p,destinations,expected:expected||existing?.expected});a.url=stable;}
    j.outputManifest=m;
-   await saveJSON(j.path,m);
+   await saveJSON(j.outputPath,m);
   },'Manifests');
   log('Unique artifacts: '+artifacts.size);
-  await parallel([...artifacts.values()],async a=>{const bytes=await request(a.upstream,{immutable:/_[a-f0-9]{16,}\./i.test(a.path),expected:a.expected});await put(a.path,bytes);},'Artifacts');
-  for(const j of jobs){for(const a of j.outputManifest.artifacts)a.byte_size=(await stat(path.join(OUT,a.url.slice(1)))).size;await saveJSON(j.path,j.outputManifest);}
+  await parallel([...artifacts.values()],async a=>{const bytes=await request(a.upstream,{immutable:/_[a-f0-9]{16,}\./i.test(a.path),expected:a.expected});for(const destination of a.destinations)await put(destination,bytes);},'Artifacts');
+  for(const j of jobs){for(const a of j.outputManifest.artifacts)a.byte_size=(await stat(path.join(OUT,a.url.slice(1)))).size;await saveJSON(j.outputPath,j.outputManifest);}
   let iconCount=0;
   if(withIcons){
    const config=await json('/data/meta/config.json');const catalog=await json(config.icon_catalog_url);
