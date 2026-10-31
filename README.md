@@ -1,66 +1,101 @@
-# YanyuRule
+# YanyuRule 部署与维护手册
 
-面向 Surge、Mihomo 的独立规则站。目标域名：`https://rule.yanyubaby.eu.org/`。网页采用无框架 HTML/CSS/JavaScript，生成后全部为静态资源；VPS 无需安装或运行组件。
+更新日期：2026-10-31。本文只记录部署、注意事项、维护、卸载和重新部署的方法。历史操作及验证结果见 [维护记录](documentation/DEPLOYMENT.md)。
 
-## 当前状态
+## 当前部署位置
 
-已上线 `https://rule.yanyubaby.eu.org/`，固定订阅路径、HTTPS、文件下载、线上过滤脚本及每日同步链路均已验证。每天北京时间 11:17 自动触发；首次端到端工作流成功记录见 `documentation/DEPLOYMENT.md`。Surge / Mihomo 设备端完整导入仍需实测；最终 UI 调整留在功能验证之后。
+| 项目 | 配置 |
+|---|---|
+| 源码仓库 | BABYANYU/YanyuRule，私有，生产分支 main |
+| Cloudflare Pages | 项目 yanyurule |
+| 正式网站 | https://rule.yanyubaby.eu.org/ |
+| Pages 备用地址 | https://yanyurule.pages.dev/ |
+| 数据范围 | Surge、Mihomo；其他客户端尚未迁移 |
+| 每日同步 | 北京时间 11:17，GitHub 定时任务可能延迟 |
+| VPS | 无安装、无常驻服务、无数据库 |
 
-## 功能
+网站公开与仓库私有分别管理。创建新项目或仓库前必须先与用户确认可见性及发布范围；不得擅自公开源码。
 
-- Surge / Mihomo 切换；中英文名称、描述搜索；类型筛选；名称、更新时间、数量排序；分页。
-- 详情查看类型数量、文件格式、推荐/二进制标记、来源及更新时间。
-- 本站文件的订阅链接复制、下载、打开；名称复制、详情深链接、客户端选择记忆。
-- 订阅使用 `/rules/客户端/规则ID/格式.扩展名` 固定路径，详情清单也使用稳定规则 ID；上游文件哈希改变不会使用户已保存的链接过期。规则被删除或上游变更规则 ID 时需另行处理。
-- Surge 自定义类型选择、no-resolve 选项、单条通配符排除；按现成产物优先，必要时生成本地重写转换链接。
-- 自行实现的 Surge 过滤模块：只请求本站固定 artifacts 目录，不接受任意源 URL，不执行远程代码。只解密模块虚拟域名 `yanyu.rule`；源文件上限 1 MiB；失败返回错误，不能用空规则伪装成功。
-- Surge 图标搜索、分页、图标链接复制、来源清单。Mihomo 保持原站实际能力，不虚构其不存在的过滤模块。
-- 最后成功同步时间、超过 26 小时未更新提示、页面打开期间每 5 分钟检查新版本。
+## 部署流程
 
-## 本地使用
+1. 保留本私有仓库源码、.github/workflows/daily-sync.yml 和 documentation/。不要上传凭据或其他项目的私人资料。
+2. Cloudflare Pages 连接此仓库，只授权需要的仓库，生产分支 main。维护现有项目时不重复新建。
+3. 框架选“无”，根目录 /，输出目录 dist，Node.js 22。构建命令：
 
-Node.js 22 或以上，无需安装 npm 包。命令在本目录执行：
+   ```sh
+   node --test tests/*.test.mjs && node scripts/sync.mjs --production && node scripts/check.mjs
+   ```
 
-```text
-node scripts/sync.mjs
+4. 设置 CF 生产构建环境：
+
+   | 变量 | 正常运行值 |
+   |---|---|
+   | NODE_VERSION | 22 |
+   | YANYURULE_BASELINE_URL | https://yanyurule.pages.dev/status.json |
+   | YANYURULE_INITIAL_BUILD | 0 |
+   | YANYURULE_SCHEDULER_ENABLED | 已验证定时链路后设为 true |
+
+   真正首次部署或删除旧站后重新部署时，上次线上基线不存在，可仅在初始化构建临时设 YANYURULE_INITIAL_BUILD=1；成功后立即改回 0 并重新构建验证。正常更新的基线失败不能借此绕过。
+5. 添加自定义域名 rule.yanyubaby.eu.org。DNS 使用 CNAME：名称 rule，目标 yanyurule.pages.dev。确认 HTTPS 正常，不修改其他 DNS 记录。
+6. GitHub → Settings → Secrets and variables → Actions → Variables：
+   - YANYURULE_PUBLIC_BASE_URL=https://rule.yanyubaby.eu.org
+   - YANYURULE_ENABLED=true：首次部署成功后才启用。
+
+   工作流使用 GitHub 自动提供的 GITHUB_TOKEN。不要把 CF OAuth、账号级 Token 或 SSH 凭据存入仓库。
+7. Actions → YanyuRule daily sync → Run workflow。确认整次运行 success，线上 /status.json 的 request_id 与运行一致且 scheduler_enabled=true，不能只看提交成功。
+8. 保留 CF 构建排除路径 README.md、documentation/**，纯文档更新不必全量重建。
+
+## 日常维护
+
+| 目的 | 操作与成功标准 |
+|---|---|
+| 手动同步 | Actions → YanyuRule daily sync → Run workflow，核对成功状态及线上 request_id |
+| 暂停同步 | 仓库变量 YANYURULE_ENABLED=false；网站仍提供最后成功版本 |
+| 恢复同步 | 确认 CF 与域名正常后设为 true，手动同步并验证一次 |
+| 修改页面 | 修改 site/，测试、构建和校验通过后推送 main，确认 CF 对应提交发布成功 |
+| 同步失败 | 查看 Actions、CF 构建日志；保留旧站，修复原因，不关闭完整性检查 |
+| 回滚 | CF Pages → yanyurule → Deployments → 回滚到上一成功生产部署，并修正源码 |
+| 图标不可见 | 检查映射、像素对比度、加载事件和缓存；HTTP 200 不等于图标可见 |
+
+上游文件地址变化但规则 ID、格式标识不变时，本站固定订阅地址保持不变。上游删除规则或变更规则 ID 时仍需处理；当前没有自动保留被删规则、兼容映射或逐条异常通知。
+
+## 本地检查
+
+Node.js 22 或以上，无需安装 npm 运行依赖。在仓库目录执行：
+
+```sh
 node --test tests/*.test.mjs
+node scripts/sync.mjs
 node scripts/check.mjs
 node scripts/serve.mjs
 ```
 
-预览：`http://127.0.0.1:18761/`。正式域名尚未上线时，可以验证界面、本站下载和生成链接；安装到 Surge 的模块仍使用正式域名，因此完整客户端链路待上线后验证。
+预览：http://127.0.0.1:18761/。dist/、.staging/、.cache/、dist.previous/ 为本地产物，不提交仓库。本地测试不代表 Surge/Mihomo 客户端实际导入验证。
 
-## 同步与校验
+## 注意事项
 
-1. 从原站主域名及已核实分站 `rule-26r.pages.dev` 获取两栏索引及逐项清单。
-2. 保留所有现有格式，包括 Surge DOMAIN-SET、RULE-SET、MITM 文件，以及 Mihomo YAML、TEXT、MRS 实际产物。
-3. 对内容寻址文件使用缓存；元数据使用 ETag / Last-Modified 条件请求，四并发、超时和有限重试。
-4. 校验原清单字节 SHA-256；原站部分文件仅头部元数据变化，按它提供的规范化正文 SHA-256 验证。只有规定的 NAME/AUTHOR/REPO/UPDATED/DESC 头部行可规范化，规则正文变动仍失败。最终副本另外生成本地逐文件 SHA-256。
-5. 把索引、清单、图标的运行链接改为本站相对路径，保留原作者署名及第三方来源。页面不再依赖实时原站请求。
-6. 空索引、身份不匹配、哈希失败、文件超过 25 MiB、超过 20,000 个文件均停止发布。记录相较上一成功版本减少 20% 以上需人工复核（确认为正常删除可用 `--allow-large-removal`）。
-7. 全部成功后替换 dist，并保留 dist.previous。下载失败不覆盖当前 dist；CI 失败不执行 CF 部署，因此线上保持最后成功版本。
+- 保留 /rules/{client}/{rule-id}/{artifact-key}.{ext} 固定路径，不改回内容哈希订阅地址。
+- 保留根目录 404.html，防止缺失规则被返回成首页 HTML 200。
+- 保留字节/正文哈希验证、空索引保护及超过 20% 规则减少时的人工复核；失败不覆盖旧站。
+- CF Pages 免费单项目上限 20,000 个文件、单文件 25 MiB，每月 500 次构建。本站约 1.2 万文件；扩展其他客户端前重新核算。
+- 保留脚本、样式的版本刷新与缓存处理；内容哈希图标继续长期缓存。透明白色图库图片自动按深色显示，原始下载图片不修改。
+- 保留第三方规则、图标的原始署名、来源和许可文件；网页署名不改变第三方权利。
+- 不擅自引入 Workers/Functions、数据库或 VPS 服务。
+- 源码仓库不含历史规则快照；上游不可用时，不能仅凭源码保证重建原数据。
 
-`--no-icons` 只用于测试/明确排除图标的构建；正常构建包含 Surge 图标库。缓存、产物、私人配置、凭据不进入源码仓库。
+## 卸载步骤（仅记录，当前不执行）
 
-## Cloudflare / GitHub 每日更新准备
+1. 设置 YANYURULE_ENABLED=false，等待或取消已启动的 Actions、CF 构建，防止卸载时继续发布。
+2. 如需保留卸载时原样数据，先另行导出并验证静态快照。私有源码仓库本身不是规则数据快照备份。
+3. CF Pages 项目移除本站自定义域名绑定，再删除 yanyurule 项目。
+4. DNS 是否保留由用户决定。清理时仅处理本站 rule 的 CNAME；保留解析但删除 Pages 后，网址仍会不可访问。
+5. 保留本私有源码仓库及文档供恢复使用。不要删除其他项目、账号或取消其他项目仍需使用的授权。VPS 无本站组件需要清理。
 
-部署方案：独立 Cloudflare Pages 项目 `yanyurule`，自定义域名 `rule.yanyubaby.eu.org`，连接独立私有 GitHub 仓库 `BABYANYU/YanyuRule`；不启用 Functions、KV、D1 或 R2。
+## 重新部署步骤
 
-工作流 `.github/workflows/daily-sync.yml` 用仓库变量 `YANYURULE_ENABLED` 作为开关。**没有设置为 true 时不会触发每日更新。** 每天 UTC 03:17（北京时间 11:17）提交新的 `.sync-request.json`，由 CF 的 GitHub 连接触发构建、抓取与校验。工作流会等待线上 status.json 出现同一请求 ID，不能把“提交成功”当作“同步上线成功”。GitHub 定时任务可能延迟，不承诺严格 24 小时 SLA。
-
-该方案不把本机范围较广的 Wrangler OAuth 凭据传入 GitHub，也不要求保存 CF 账号级 API Token。私有仓库已创建，用户已在提供方授权 Pages 连接该仓库。仓库变量和定时流程已启用并完成真实演练。
-
-上线前需要：
-
-- 本项目源码放入独立私有 GitHub 仓库。不能使用仅保存文档的 Sub2API 仓库，也不能上传 VPS 项目的私人交接资料。
-- 在用户现有 CF 账号创建 Pages 项目并绑定目标子域名，检查现有 DNS 不冲突。
-- CF 构建命令：`node --test tests/*.test.mjs && node scripts/sync.mjs --production && node scripts/check.mjs`，输出目录 dist，Node 22 以上。设置 `YANYURULE_BASELINE_URL` 为本站 /status.json，后续构建读取上次线上数量作为骤减保护基线；首建可临时设置 `YANYURULE_INITIAL_BUILD=1`，首建完成后移除。
-- 本站与定时链路实测通过后，CF 构建环境设 `YANYURULE_SCHEDULER_ENABLED=true`，仓库变量设 `YANYURULE_ENABLED=true`、`YANYURULE_PUBLIC_BASE_URL=https://rule.yanyubaby.eu.org`。私有仓库数据更新仅由 GitHub 内置 GITHUB_TOKEN 提交，无需额外长期令牌。
-- 首次构建、全量检查通过，正式域名及 HTTPS、实际规则下载、Surge 模块、Mihomo 二进制文件实测通过后，再开启仓库变量。
-- 未成功完成以上步骤不能宣称上线或每日同步已生效。回滚使用 CF 上一成功部署；本地可从 dist.previous 恢复，随后重新检查。
-
-## 来源
-
-数据来自 MagicRule 公开分发站点及其所列上游，保留原文件署名与来源。原项目仓库 `https://github.com/magical404/MagicRule` 的说明及各第三方资源条件分别适用，不能把仓库标注的 MIT 自动扩展到所有第三方图标、规则和未公开引擎。
-
-本项目网页及过滤逻辑为独立实现，没有复制原站打包前端或未公开生成引擎。原站暂停后仍可使用最后成功副本，但持续生成同样的新规则仍依赖上游可用性。
+1. 先读取本手册与维护记录，确认用户授权重新创建 Pages 项目及网站发布范围，源码仓库保持私有。
+2. 检查仓库、CF GitHub 连接授权和域名控制权仍可用。若原 Pages 名称不可用，记录新地址并调整 CNAME、基线地址。
+3. 按部署流程恢复构建设置、环境变量及域名。旧站不存在时仅初始化使用 YANYURULE_INITIAL_BUILD=1，成功后恢复 0。
+4. 默认重新获取上游当前数据。要恢复卸载前原样内容，必须使用事先保存且验证过的独立快照；当前没有一键恢复历史数据的脚本。
+5. 确认 HTTPS、规则下载、缺失文件 404 和全量校验通过后，再启用 YANYURULE_ENABLED，运行一次同步并核对线上请求 ID。
+6. 更新维护记录，写清日期、提交、部署结果及验证限制，不记录生产凭据。

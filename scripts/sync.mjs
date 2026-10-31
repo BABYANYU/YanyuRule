@@ -3,6 +3,7 @@ import {mkdir,readFile,writeFile,stat,rm,rename,cp,open,readdir} from 'node:fs/p
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {artifactVerification} from './integrity.mjs';
+import {versionFrontend} from './frontend-assets.mjs';
 const ROOT=process.env.NODE_ENV==='test'&&process.env.YANYURULE_TEST_ROOT?path.resolve(process.env.YANYURULE_TEST_ROOT):fileURLToPath(new URL('../',import.meta.url));
 const SOURCE='https://magicrule.pages.dev';
 const ALLOWED_ORIGINS=new Set([SOURCE,'https://rule-26r.pages.dev']);
@@ -100,6 +101,7 @@ async function main(){
   await saveJSON('/data/meta/capabilities.json',{generated_at:capabilities.generated_at,capabilities:caps});
   for(const client of CLIENTS)await saveJSON('/data/index/'+client+'.json',indexes[client]);
   await cp(path.join(ROOT,'site'),OUT,{recursive:true});
+  await versionFrontend(OUT);
   const publicFiles=await files(OUT);if(publicFiles.length>20000)throw Error('PAGES_FILE_LIMIT '+publicFiles.length);
   let totalBytes=0,maxFileBytes=0;const integrity=[];
   for(const f of publicFiles){const bytes=await readFile(f);if(bytes.length>MAX)throw Error('PAGES_SIZE_LIMIT '+path.relative(OUT,f));totalBytes+=bytes.length;maxFileBytes=Math.max(maxFileBytes,bytes.length);integrity.push({path:'/'+path.relative(OUT,f).split(path.sep).join('/'),bytes:bytes.length,sha256:hash(bytes)});}
