@@ -18,6 +18,7 @@ async function main(){
  if(sha(JSON.stringify(integrity))!==status.content_sha256)throw Error('Integrity manifest differs from status');
  if(max!==status.max_file_bytes||bytes!==status.total_bytes)throw Error('Size totals differ');
  const html=await readFile(path.join(root,'index.html'),'utf8');if(!html.includes('YanyuRule')||html.includes('data.js'))throw Error('Stale frontend');
+ for(const name of ['app','style']){const match=html.match(new RegExp('/assets/'+name+'\\.([a-f0-9]{16})\\.(?:js|css)'));if(!match)throw Error('Missing content-versioned frontend '+name);await exists(match[0]);const item=integrity.find(i=>i.path===match[0]);if(!item?.sha256.startsWith(match[1]))throw Error('Frontend filename hash mismatch '+name);}
  console.log(JSON.stringify({ok:true,counts,manifests:manifestCount,artifact_references:artifactRefs,unique_artifacts:status.artifact_count,icons:status.icon_count,rule_icon_coverage:iconCoverage,files:status.file_count,total_mib:Math.round(bytes/1048576*10)/10,max_file_mib:Math.round(max/1048576*100)/100}));
 }
 main().catch(e=>{console.error('CHECK_FAILED:',e.message);process.exitCode=1;});

@@ -1,4 +1,4 @@
-import {CLIENTS,PAGE_SIZE,selectRules,safeURL,customSubscription,syncHealth,iconForRule,catalogIconMap,fallbackRuleIcon,needsDarkInk} from './core.mjs';
+import {CLIENTS,PAGE_SIZE,selectRules,safeURL,customSubscription,syncHealth,iconForRule,catalogIconMap,fallbackRuleIcon,needsDarkInk} from '/core.mjs';
 const $=s=>document.querySelector(s);
 const state={client:'Surge',query:'',filter:'all',sort:'name',page:1,dialogId:0};
 const data={},nf=new Intl.NumberFormat('zh-CN');let capabilities={},status={},abortDetail=null,toastTimer;
