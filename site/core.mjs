@@ -1,4 +1,4 @@
-export {iconForRule,catalogIconMap,fallbackRuleIcon} from './rule-icons.mjs';
+export {iconForRule,catalogIconMap,fallbackRuleIcon,needsDarkInk} from './rule-icons.mjs';
 export const CLIENTS=['Surge','Mihomo'];
 export const PAGE_SIZE=8;
 export function category(type){if(/DOMAIN|HOST/i.test(type))return 'domain';if(/IP|CIDR|ASN|GEOIP/i.test(type))return 'ip';return 'other';}

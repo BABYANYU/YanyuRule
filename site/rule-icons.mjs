@@ -1,6 +1,11 @@
 import {brandIcons} from './brand-icons/map.mjs';
 
 export const normalizeIconName=name=>String(name||'').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\.(png|svg|webp|jpe?g)$/,'').replace(/[^a-z0-9]/g,'');
+export function needsDarkInk(pixels){
+ let visible=0,light=0,dark=0,clear=0;
+ for(let i=0;i+3<pixels.length;i+=4){if(pixels[i+3]<20){clear++;continue;}visible++;const l=(pixels[i]+pixels[i+1]+pixels[i+2])/3;if(l>220)light++;if(l<100)dark++;}
+ return visible>0&&clear/(visible+clear)>.1&&light/visible>.85&&dark/visible<.05;
+}
 export function catalogIconMap(catalog){
  const map=new Map();
  for(const icon of catalog?.icons||[]){
