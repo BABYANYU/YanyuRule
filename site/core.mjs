@@ -44,5 +44,5 @@ export function syncHealth(status,now=Date.now()){
  const age=(now-Date.parse(status?.last_success))/3600000;
  if(!Number.isFinite(age)||age<-.1)return {stale:true,text:'同步时间无效'};
  if(age>26)return {stale:true,text:'数据超过 26 小时未成功同步'};
- return {stale:false,text:status.scheduler_enabled?'每日自动同步':status.deployment==='production'?'网站已部署 · 自动同步未启用':'本地功能验证 · 自动同步未启用'};
+ return {stale:false,text:status.scheduler_enabled?'每日同步':status.deployment==='production'?'网站已部署 · 自动同步未启用':'本地功能验证 · 自动同步未启用'};
 }
