@@ -1,0 +1,2564 @@
+{
+  "package": "simple-icons@11.0.0",
+  "source": "https://github.com/simple-icons/simple-icons/tree/11.0.0",
+  "icons": [
+    {
+      "slug": "1password",
+      "title": "1Password",
+      "hex": "1A285F",
+      "source": "https://1password.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "acer",
+      "title": "Acer",
+      "hex": "83B81A",
+      "source": "https://www.acer.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "adguard",
+      "title": "AdGuard",
+      "hex": "68BC71",
+      "source": "https://adguard.com/en/media-materials.html",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "adidas",
+      "title": "Adidas",
+      "hex": "000000",
+      "source": "https://www.adidas.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "adobe",
+      "title": "Adobe",
+      "hex": "FF0000",
+      "source": "https://www.adobe.com",
+      "guidelines": "https://developer.adobe.com/developer-distribution/creative-cloud/docs/guides/branding_guidelines",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "agora",
+      "title": "Agora",
+      "hex": "099DFD",
+      "source": "https://github.com/AgoraIO/Docs-Source/blob/849872dd0496bada0a2dceecb3f79663e3b2d323/assets/images/others/agora-logo.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "airbnb",
+      "title": "Airbnb",
+      "hex": "FF5A5F",
+      "source": "https://www.airbnb.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "airchina",
+      "title": "Air China",
+      "hex": "E30E17",
+      "source": "https://www.airchina.com.cn/en/investor_relations",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "akamai",
+      "title": "Akamai",
+      "hex": "0096D6",
+      "source": "https://www.akamai.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "alibabadotcom",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "alipay",
+      "title": "Alipay",
+      "hex": "1677FF",
+      "source": "https://global.alipay.com/docs/ac/website_hk/design",
+      "guidelines": "https://global.alipay.com/docs/ac/website_hk/design",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "alibabacloud",
+      "title": "Alibaba Cloud",
+      "hex": "FF6A00",
+      "source": "https://www.alibabagroup.com/en/ir/reports",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "google",
+      "title": "Google",
+      "aliases": {
+        "loc": {
+          "ko-KR": "구글"
+        }
+      },
+      "hex": "4285F4",
+      "source": "https://partnermarketinghub.withgoogle.com",
+      "guidelines": "https://about.google/brand-resource-center/brand-elements/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "amazon",
+      "title": "Amazon",
+      "hex": "FF9900",
+      "source": "https://www.amazon.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "amazonaws",
+      "title": "Amazon AWS",
+      "hex": "232F3E",
+      "source": "https://commons.wikimedia.org/wiki/File:Amazon_Web_Services_Logo.svg",
+      "aliases": {
+        "aka": [
+          "AWS"
+        ]
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "amazonprime",
+      "title": "Amazon Prime",
+      "hex": "00A8E1",
+      "source": "https://www.amazon.com/b?node=17277626011",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "amd",
+      "title": "AMD",
+      "hex": "ED1C24",
+      "source": "https://www.amd.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "amp",
+      "title": "AMP",
+      "hex": "005AF0",
+      "source": "https://amp.dev",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "anaconda",
+      "title": "Anaconda",
+      "hex": "44A833",
+      "source": "https://www.anaconda.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "android",
+      "title": "Android",
+      "hex": "34A853",
+      "source": "https://partnermarketinghub.withgoogle.com/brands/android/visual-identity/visual-identity/logo-lock-ups",
+      "guidelines": "https://partnermarketinghub.withgoogle.com/brands/android",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "aol",
+      "title": "AOL",
+      "hex": "3399FF",
+      "source": "https://www.aol.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "apifox",
+      "title": "Apifox",
+      "hex": "F44A53",
+      "source": "https://apifox.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "apple",
+      "title": "Apple",
+      "hex": "000000",
+      "source": "https://www.apple.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "applemusic",
+      "title": "Apple Music",
+      "hex": "FA243C",
+      "source": "https://www.apple.com/itunes/marketing-on-music/identity-guidelines.html#apple-music-icon",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "applenews",
+      "title": "Apple News",
+      "hex": "FD415E",
+      "source": "https://www.apple.com/apple-news",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "applepodcasts",
+      "title": "Apple Podcasts",
+      "hex": "9933CC",
+      "source": "https://www.apple.com/itunes/marketing-on-podcasts/identity-guidelines.html#apple-podcasts-icon",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "appletv",
+      "title": "Apple TV",
+      "hex": "000000",
+      "source": "https://en.wikipedia.org/wiki/File:Apple_TV_(logo).svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "appstore",
+      "title": "App Store",
+      "hex": "0D96F6",
+      "source": "https://developer.apple.com/app-store",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "archiveofourown",
+      "title": "Archive of Our Own",
+      "hex": "990000",
+      "source": "https://archiveofourown.org",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "archlinux",
+      "title": "Arch Linux",
+      "hex": "1793D1",
+      "source": "https://www.archlinux.org/art",
+      "guidelines": "https://wiki.archlinux.org/index.php/DeveloperWiki:TrademarkPolicy#Logo_Usage_Guidelines",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "artstation",
+      "title": "ArtStation",
+      "hex": "13AFF0",
+      "source": "https://www.artstation.com/about/logo",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "asus",
+      "title": "ASUS",
+      "hex": "000000",
+      "source": "https://www.asus.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "atlassian",
+      "title": "Atlassian",
+      "hex": "0052CC",
+      "source": "https://atlassian.design/resources/logo-library",
+      "guidelines": "https://atlassian.design/foundations/logos",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "autodesk",
+      "title": "Autodesk",
+      "hex": "000000",
+      "source": "https://brand.autodesk.com/brand-system/logo",
+      "guidelines": "https://brand.autodesk.com/brand-system/logo",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "microsoftazure",
+      "title": "Microsoft Azure",
+      "hex": "0078D4",
+      "source": "https://github.com/microsoft/vscode-azureresourcegroups/blob/0a06362e82170fd7f8dc2496286825b1a69cc42b/resources/azure.svg",
+      "guidelines": "https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "baidu",
+      "title": "Baidu",
+      "hex": "2932E1",
+      "source": "https://www.baidu.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "bandcamp",
+      "title": "Bandcamp",
+      "hex": "408294",
+      "source": "https://bandcamp.com/buttons",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "beats",
+      "title": "Beats",
+      "hex": "005571",
+      "source": "https://www.elastic.co/beats",
+      "guidelines": "https://www.elastic.co/legal/trademarks",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "bilibili",
+      "title": "Bilibili",
+      "hex": "00A1D6",
+      "source": "https://www.bilibili.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "binance",
+      "title": "Binance",
+      "hex": "F0B90B",
+      "source": "https://binance.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "microsoftbing",
+      "title": "Microsoft Bing",
+      "hex": "258FFA",
+      "source": "https://www.bing.com/covid/",
+      "guidelines": "https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "bitwarden",
+      "title": "Bitwarden",
+      "hex": "175DDC",
+      "source": "https://github.com/bitwarden/brand/blob/6182cd64321d810c6f6255db08c2a17804d2b724/icons/icon.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "blender",
+      "title": "Blender",
+      "hex": "E87D0D",
+      "source": "https://www.blender.org/about/logo",
+      "guidelines": "https://www.blender.org/about/logo",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "battledotnet",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "blogger",
+      "title": "Blogger",
+      "hex": "FF5722",
+      "source": "https://www.blogger.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "bmw",
+      "title": "BMW",
+      "hex": "0066B1",
+      "source": "https://www.bmw.de",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "brave",
+      "title": "Brave",
+      "hex": "FB542B",
+      "source": "https://brave.com/brave-branding-assets",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "buymeacoffee",
+      "title": "Buy Me A Coffee",
+      "hex": "FFDD00",
+      "source": "https://www.buymeacoffee.com/brand",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "bytedance",
+      "title": "ByteDance",
+      "hex": "3C8CFF",
+      "source": "https://www.bytedance.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "canva",
+      "title": "Canva",
+      "hex": "00C4CC",
+      "source": "https://www.canva.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "cbs",
+      "title": "CBS",
+      "hex": "033963",
+      "source": "https://www.cbs.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "cisco",
+      "title": "Cisco",
+      "hex": "1BA0D7",
+      "source": "https://www.cisco.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "clarivate",
+      "title": "Clarivate",
+      "hex": "000000",
+      "source": "https://clarivate.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "cloudflare",
+      "title": "Cloudflare",
+      "hex": "F38020",
+      "source": "https://www.cloudflare.com/logo/",
+      "guidelines": "https://www.cloudflare.com/trademark/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "cloudinary",
+      "title": "Cloudinary",
+      "hex": "3448C5",
+      "source": "https://cloudinary.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "clubhouse",
+      "title": "Clubhouse",
+      "hex": "FFE450",
+      "source": "https://www.clubhouse.com/press",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "cnn",
+      "title": "CNN",
+      "hex": "CC0000",
+      "source": "https://edition.cnn.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "codeberg",
+      "title": "Codeberg",
+      "hex": "2185D0",
+      "source": "https://codeberg.org",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "codecademy",
+      "title": "Codecademy",
+      "hex": "1F4056",
+      "source": "https://www.codecademy.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "codeforces",
+      "title": "Codeforces",
+      "hex": "1F8ACB",
+      "source": "https://codeforces.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "contentful",
+      "title": "Contentful",
+      "hex": "2478CC",
+      "source": "https://press.contentful.com/media_kits",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "coursera",
+      "title": "Coursera",
+      "hex": "0056D2",
+      "source": "https://about.coursera.org/press",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "curseforge",
+      "title": "CurseForge",
+      "hex": "F16436",
+      "source": "https://www.curseforge.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "dailymotion",
+      "title": "Dailymotion",
+      "hex": "0D0D0D",
+      "source": "https://about.dailymotion.com/en/press/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "dart",
+      "title": "Dart",
+      "hex": "0175C2",
+      "source": "https://github.com/dart-lang/site-shared/tree/18458ff440afd3d06f04e5cb871c4c5eda29c9d5/src/_assets/image/dart/logo",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "dazn",
+      "title": "DAZN",
+      "hex": "F8F8F5",
+      "source": "https://media.dazn.com/en/assets/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "debian",
+      "title": "Debian",
+      "hex": "A81D33",
+      "source": "https://www.debian.org/logos",
+      "guidelines": "https://www.debian.org/logos/",
+      "license": {
+        "type": "CC-BY-SA-3.0"
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "deepin",
+      "title": "deepin",
+      "hex": "007CFF",
+      "source": "https://commons.wikimedia.org/wiki/File:Deepin_logo.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "dell",
+      "title": "Dell",
+      "hex": "007DB8",
+      "source": "https://www.dell.com",
+      "guidelines": "https://brand.delltechnologies.com/logos/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "deviantart",
+      "title": "DeviantArt",
+      "hex": "05CC47",
+      "source": "https://help.deviantart.com/21",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "digitalocean",
+      "title": "DigitalOcean",
+      "hex": "0080FF",
+      "source": "https://www.digitalocean.com/press/",
+      "guidelines": "https://www.digitalocean.com/press/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "discord",
+      "title": "Discord",
+      "hex": "5865F2",
+      "source": "https://discord.com/branding",
+      "guidelines": "https://discord.com/branding",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "discourse",
+      "title": "Discourse",
+      "hex": "000000",
+      "source": "https://www.discourse.org",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "disqus",
+      "title": "Disqus",
+      "hex": "2E9FFF",
+      "source": "https://disqus.com/brand",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "dji",
+      "title": "DJI",
+      "hex": "000000",
+      "source": "https://www.dji.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "docker",
+      "title": "Docker",
+      "hex": "2496ED",
+      "source": "https://www.docker.com/company/newsroom/media-resources",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "douban",
+      "title": "Douban",
+      "hex": "2D963D",
+      "source": "https://www.douban.com/about",
+      "license": {
+        "type": "custom",
+        "url": "https://www.douban.com/about/legal#info_data"
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "tiktok",
+      "title": "TikTok",
+      "hex": "000000",
+      "source": "https://tiktok.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "dribbble",
+      "title": "Dribbble",
+      "hex": "EA4C89",
+      "source": "https://dribbble.com/branding",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "dropbox",
+      "title": "Dropbox",
+      "hex": "0061FF",
+      "source": "https://www.dropbox.com/branding",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "duckduckgo",
+      "title": "DuckDuckGo",
+      "hex": "DE5833",
+      "source": "https://duckduckgo.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "duolingo",
+      "title": "Duolingo",
+      "hex": "58CC02",
+      "source": "https://www.duolingo.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "ea",
+      "title": "EA",
+      "hex": "000000",
+      "source": "https://www.ea.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "ebay",
+      "title": "eBay",
+      "hex": "E53238",
+      "source": "https://go.developer.ebay.com/logos",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "edx",
+      "title": "edX",
+      "hex": "02262B",
+      "source": "https://www.edx.org",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "egghead",
+      "title": "egghead",
+      "hex": "FCFBFA",
+      "source": "https://egghead.io",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "electron",
+      "title": "Electron",
+      "hex": "47848F",
+      "source": "https://www.electronjs.org",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "elsevier",
+      "title": "Elsevier",
+      "hex": "FF6C00",
+      "source": "https://www.elsevier.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "embark",
+      "title": "Embark",
+      "hex": "000000",
+      "source": "https://www.embark-studios.com/press",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "emby",
+      "title": "Emby",
+      "hex": "52B54B",
+      "source": "https://emby.media",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "envato",
+      "title": "Envato",
+      "hex": "81B441",
+      "source": "https://envato.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "epicgames",
+      "title": "Epic Games",
+      "hex": "313131",
+      "source": "https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/DesignGuidelines/index.html#epicgamesbrandguidelines",
+      "guidelines": "https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/DesignGuidelines/index.html#epicgamesbrandguidelines",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "evernote",
+      "title": "Evernote",
+      "hex": "00A82D",
+      "source": "https://evernote.com/about-us",
+      "guidelines": "https://evernote.com/about-us",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "facebook",
+      "title": "Facebook",
+      "hex": "0866FF",
+      "source": "https://about.meta.com/brand/resources/facebook/logo",
+      "guidelines": "https://about.meta.com/brand/resources/facebook/logo",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "faceit",
+      "title": "FACEIT",
+      "hex": "FF5500",
+      "source": "https://corporate.faceit.com/branding/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "fandom",
+      "title": "Fandom",
+      "hex": "FA005A",
+      "source": "https://fandomdesignsystem.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "fanfou",
+      "title": "Fanfou",
+      "hex": "00CCFF",
+      "source": "https://fanfou.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "farfetch",
+      "title": "FARFETCH",
+      "hex": "000000",
+      "source": "https://www.farfetch.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "fastlane",
+      "title": "Fastlane",
+      "hex": "00F200",
+      "source": "https://github.com/fastlane/fastlane.tools/blob/19ff41a6c0f27510a7a7879e6944809d40ab382e/assets/img/logo-mobile.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "fastly",
+      "title": "Fastly",
+      "hex": "FF282D",
+      "source": "https://assets.fastly.com/style-guide/docs/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "fedora",
+      "title": "Fedora",
+      "hex": "51A2DA",
+      "source": "https://docs.fedoraproject.org/en-US/project/brand/",
+      "guidelines": "https://fedoraproject.org/wiki/Legal:Trademark_guidelines",
+      "license": {
+        "type": "custom",
+        "url": "https://docs.fedoraproject.org/en-US/project/brand/"
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "feedly",
+      "title": "Feedly",
+      "hex": "2BB24C",
+      "source": "https://blog.feedly.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "figma",
+      "title": "Figma",
+      "hex": "F24E1E",
+      "source": "https://www.figma.com/using-the-figma-brand/",
+      "guidelines": "https://www.figma.com/using-the-figma-brand/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "flickr",
+      "title": "Flickr",
+      "hex": "0063DC",
+      "source": "https://www.flickr.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "flipboard",
+      "title": "Flipboard",
+      "hex": "E12828",
+      "source": "https://about.flipboard.com/brand-guidelines",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "flutter",
+      "title": "Flutter",
+      "hex": "02569B",
+      "source": "https://flutter.dev/brand",
+      "guidelines": "https://flutter.dev/brand",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "fontawesome",
+      "title": "Font Awesome",
+      "hex": "528DD7",
+      "source": "https://fontawesome.com/v5.15/icons/font-awesome-flag",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "fox",
+      "title": "FOX",
+      "hex": "000000",
+      "source": "https://www.fox.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "framer",
+      "title": "Framer",
+      "hex": "0055FF",
+      "source": "https://framer.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "freecodecamp",
+      "title": "freeCodeCamp",
+      "hex": "0A0A23",
+      "source": "https://design-style-guide.freecodecamp.org",
+      "guidelines": "https://design-style-guide.freecodecamp.org",
+      "license": {
+        "type": "CC-BY-SA-4.0"
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "gitbook",
+      "title": "GitBook",
+      "hex": "3884FF",
+      "source": "https://github.com/GitbookIO/styleguide/blob/c958388dab901defa3e22978ca01272295627e05/icons/Logo.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "gitee",
+      "title": "Gitee",
+      "hex": "C71D23",
+      "source": "https://gitee.com/about_us",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "github",
+      "title": "GitHub",
+      "hex": "181717",
+      "source": "https://github.com/logos",
+      "guidelines": "https://github.com/logos",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "gitlab",
+      "title": "GitLab",
+      "hex": "FC6D26",
+      "source": "https://about.gitlab.com/press/press-kit/",
+      "guidelines": "https://about.gitlab.com/handbook/marketing/corporate-marketing/brand-activation/trademark-guidelines/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "godaddy",
+      "title": "GoDaddy",
+      "hex": "1BDBDB",
+      "source": "https://godaddy.design/the-go/",
+      "guidelines": "https://godaddy.design/the-go/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "gogdotcom",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "go",
+      "title": "Go",
+      "hex": "00ADD8",
+      "source": "https://blog.golang.org/go-brand",
+      "guidelines": "https://blog.golang.org/go-brand",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "goodreads",
+      "title": "Goodreads",
+      "hex": "372213",
+      "source": "https://www.goodreads.com/about/press",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "googleearth",
+      "title": "Google Earth",
+      "hex": "4285F4",
+      "source": "https://earth.google.com/web/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "firebase",
+      "title": "Firebase",
+      "hex": "FFCA28",
+      "source": "https://firebase.google.com/brand-guidelines/",
+      "guidelines": "https://firebase.google.com/brand-guidelines/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "googleplay",
+      "title": "Google Play",
+      "hex": "414141",
+      "source": "https://partnermarketinghub.withgoogle.com/brands/google-play/visual-identity/primary-logos/",
+      "guidelines": "https://partnermarketinghub.withgoogle.com/brands/google-play/visual-identity/primary-logos/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "grapheneos",
+      "title": "GrapheneOS",
+      "hex": "0053A3",
+      "source": "https://github.com/GrapheneOS/branding-extra/blob/5cc2e4b781345b89457d8ef814bd1aae56af289f/simple.svg",
+      "guidelines": "https://github.com/GrapheneOS/branding-extra",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "hashicorp",
+      "title": "HashiCorp",
+      "hex": "000000",
+      "source": "https://www.hashicorp.com",
+      "guidelines": "https://www.hashicorp.com/brand",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "haskell",
+      "title": "Haskell",
+      "hex": "5D4F85",
+      "source": "https://wiki.haskell.org/Thompson-Wheeler_logo",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "hbo",
+      "title": "HBO",
+      "hex": "000000",
+      "source": "https://www.hbo.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "heroku",
+      "title": "Heroku",
+      "hex": "430098",
+      "source": "https://devcenter.heroku.com/articles/heroku-brand-guidelines#logos",
+      "guidelines": "https://devcenter.heroku.com/articles/heroku-brand-guidelines",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "hetzner",
+      "title": "Hetzner",
+      "hex": "D50C2D",
+      "source": "https://www.hetzner.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "homebrew",
+      "title": "Homebrew",
+      "hex": "FBB040",
+      "source": "https://github.com/Homebrew/brew.sh/blob/2e576aaca83e62dda41a188597bb4bd20e75e385/assets/img/homebrew.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "hp",
+      "title": "HP",
+      "hex": "0096D6",
+      "source": "https://brandcentral.hp.com/us/en/elements/hp-logo.html",
+      "guidelines": "https://brandcentral.hp.com/us/en/elements/hp-logo.html",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "hsbc",
+      "title": "HSBC",
+      "hex": "DB0011",
+      "source": "https://www.hsbc.com",
+      "guidelines": "https://www.hsbc.com/terms-and-conditions",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "huawei",
+      "title": "Huawei",
+      "hex": "FF0000",
+      "source": "https://e.huawei.com/ph/material/partner/0a72728b864949c48b22106454352483",
+      "guidelines": "https://e.huawei.com/ph/material/partner/0a72728b864949c48b22106454352483",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "humblebundle",
+      "title": "Humble Bundle",
+      "hex": "CC2929",
+      "source": "https://support.humblebundle.com/hc/en-us/articles/202742060-Bundle-Logos",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "ibm",
+      "title": "IBM",
+      "hex": "052FAD",
+      "source": "https://www.ibm.com/design/language/ibm-logos/8-bar/",
+      "guidelines": "https://www.ibm.com/design/language/ibm-logos/8-bar/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "icloud",
+      "title": "iCloud",
+      "hex": "3693F3",
+      "source": "https://commons.wikimedia.org/wiki/File:ICloud_logo.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "ieee",
+      "title": "IEEE",
+      "hex": "00629B",
+      "source": "https://brand-experience.ieee.org/templates-tools-resources/resources/master-brand-and-logos/",
+      "guidelines": "https://brand-experience.ieee.org/guidelines/brand-identity/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "ikea",
+      "title": "IKEA",
+      "hex": "0058A3",
+      "source": "https://www.ikea.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "imdb",
+      "title": "IMDb",
+      "hex": "F5C518",
+      "source": "https://brand.imdb.com/imdb",
+      "guidelines": "https://brand.imdb.com/imdb",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "imgur",
+      "title": "Imgur",
+      "hex": "1BB76E",
+      "source": "https://imgurinc.com/press",
+      "guidelines": "https://help.imgur.com/hc/en-us/articles/202062878-Trademark-Use-Policy",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "instagram",
+      "title": "Instagram",
+      "hex": "E4405F",
+      "source": "https://en.facebookbrand.com/instagram/",
+      "guidelines": "https://en.facebookbrand.com/instagram/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "intel",
+      "title": "Intel",
+      "hex": "0071C5",
+      "source": "https://www.intel.com/content/www/us/en/newsroom/resources/press-kits-intel-overview.html",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "intercom",
+      "title": "Intercom",
+      "hex": "6AFDEF",
+      "source": "https://www.intercom.com/press",
+      "guidelines": "https://www.intercom.com/press",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "intuit",
+      "title": "Intuit",
+      "hex": "236CFF",
+      "source": "https://www.intuit.com",
+      "guidelines": "https://www.intuit.com/company/press-room/logos",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "ipfs",
+      "title": "IPFS",
+      "hex": "65C2CB",
+      "source": "https://github.com/ipfs-inactive/logo/tree/73169b495332415b174ac2f37ec27c4b2ee8da83",
+      "license": {
+        "type": "CC-BY-SA-3.0"
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "itchdotio",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "itunes",
+      "title": "iTunes",
+      "hex": "FB5BC5",
+      "source": "https://commons.wikimedia.org/wiki/File:ITunes_logo.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "jetbrains",
+      "title": "JetBrains",
+      "hex": "000000",
+      "source": "https://www.jetbrains.com/company/brand/logos/",
+      "guidelines": "https://www.jetbrains.com/company/brand/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "jfrog",
+      "title": "JFrog",
+      "hex": "40BE46",
+      "source": "https://jfrog.com/brand-guidelines",
+      "guidelines": "https://jfrog.com/brand-guidelines",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "jquery",
+      "title": "jQuery",
+      "hex": "0769AD",
+      "source": "https://brand.jquery.org/logos/",
+      "guidelines": "https://brand.jquery.org/logos/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "jsdelivr",
+      "title": "jsDelivr",
+      "hex": "E84D3D",
+      "source": "https://github.com/jsdelivr/www.jsdelivr.com/blob/eff02f3a8879cf7c7296840584e1293fe04e3a76/src/public/img/logo_horizontal.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "juejin",
+      "title": "Juejin",
+      "hex": "007FFF",
+      "source": "https://juejin.cn",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "kaggle",
+      "title": "Kaggle",
+      "hex": "20BEFF",
+      "source": "https://www.kaggle.com/brand-guidelines",
+      "guidelines": "https://www.kaggle.com/brand-guidelines",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "kakaotalk",
+      "title": "KakaoTalk",
+      "aliases": {
+        "loc": {
+          "ko-KR": "카카오톡"
+        }
+      },
+      "hex": "FFCD00",
+      "source": "https://commons.wikimedia.org/wiki/File:KakaoTalk_logo.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "keybase",
+      "title": "Keybase",
+      "hex": "33A0FF",
+      "source": "https://github.com/keybase/client/tree/a144e0ce38ee9e495cc5acbcd4ef859f5534d820/media/logos",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "khanacademy",
+      "title": "Khan Academy",
+      "hex": "14BF96",
+      "source": "https://khanacademy.zendesk.com/hc/en-us/articles/202483630-Press-room",
+      "guidelines": "https://support.khanacademy.org/hc/en-us/articles/202263034-Trademark-and-Brand-Usage-Policy",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "kick",
+      "title": "Kick",
+      "hex": "53FC19",
+      "source": "https://kick.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "konami",
+      "title": "Konami",
+      "hex": "B60014",
+      "source": "https://commons.wikimedia.org/wiki/File:Konami_4th_logo_2.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "kuaishou",
+      "title": "Kuaishou",
+      "hex": "FF4906",
+      "source": "https://www.kuaishou.com/official/material-lib",
+      "guidelines": "https://www.kuaishou.com/official/material-lib",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "kubernetes",
+      "title": "Kubernetes",
+      "hex": "326CE5",
+      "source": "https://github.com/kubernetes/kubernetes/tree/cac53883f4714452f3084a22e4be20d042a9df33/logo",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "lastdotfm",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "lastpass",
+      "title": "LastPass",
+      "hex": "D32D27",
+      "source": "https://lastpass.com/press-room/",
+      "guidelines": "https://lastpass.com/press-room/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "launchpad",
+      "title": "Launchpad",
+      "hex": "F8C300",
+      "source": "https://help.launchpad.net/logo/submissions",
+      "guidelines": "https://help.launchpad.net/Legal",
+      "license": {
+        "type": "CC-BY-ND-2.0"
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "lenovo",
+      "title": "Lenovo",
+      "hex": "E2231A",
+      "source": "https://news.lenovo.com/press-kits/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "letsencrypt",
+      "title": "Let's Encrypt",
+      "hex": "003A70",
+      "source": "https://letsencrypt.org/trademarks/",
+      "guidelines": "https://letsencrypt.org/trademarks/",
+      "license": {
+        "type": "CC-BY-NC-4.0"
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "lg",
+      "title": "LG",
+      "hex": "A50034",
+      "source": "https://www.lg.com/global/our-brand/brand-expression/elements/logo/index.jsp",
+      "guidelines": "https://www.lg.com/global/our-brand/brand-expression/elements/logo/index.jsp",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "liberapay",
+      "title": "Liberapay",
+      "hex": "F6C915",
+      "source": "https://en.liberapay.com/about/logos",
+      "guidelines": "https://en.liberapay.com/about/logos",
+      "license": {
+        "type": "CC0-1.0"
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "line",
+      "title": "LINE",
+      "aliases": {
+        "loc": {
+          "ko-KR": "라인",
+          "ja-JP": "ライン"
+        }
+      },
+      "hex": "00C300",
+      "source": "https://line.me/en/logo",
+      "guidelines": "https://line.me/en/logo",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "linkedin",
+      "title": "LinkedIn",
+      "hex": "0A66C2",
+      "source": "https://brand.linkedin.com",
+      "guidelines": "https://brand.linkedin.com/policies",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "linux",
+      "title": "Linux",
+      "hex": "FCC624",
+      "source": "https://www.linuxfoundation.org/the-linux-mark/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "logitech",
+      "title": "Logitech",
+      "hex": "00B8FC",
+      "source": "https://www.logitech.com/en-us/pr/library",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "maildotru",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "mapbox",
+      "title": "Mapbox",
+      "hex": "000000",
+      "source": "https://www.mapbox.com/about/press/brand-guidelines",
+      "guidelines": "https://www.mapbox.com/about/press/brand-guidelines",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "mastercard",
+      "title": "MasterCard",
+      "hex": "EB001B",
+      "source": "https://brand.mastercard.com/brandcenter/mastercard-brand-mark/downloads.html",
+      "guidelines": "https://brand.mastercard.com/brandcenter/mastercard-brand-mark.html",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "matrix",
+      "title": "Matrix",
+      "hex": "000000",
+      "source": "https://matrix.org",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "mcdonalds",
+      "title": "McDonald's",
+      "hex": "FBC817",
+      "source": "https://www.mcdonalds.com/gb/en-gb/newsroom.html",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "mdnwebdocs",
+      "title": "MDN Web Docs",
+      "hex": "000000",
+      "source": "https://github.com/mdn/yari/blob/77e6cda02f7013219e9da27a00b9424085e60fdb/client/src/assets/mdn-logo.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "medium",
+      "title": "Medium",
+      "hex": "000000",
+      "source": "https://medium.design/logos-and-brand-guidelines-f1a01a733592",
+      "guidelines": "https://medium.design/logos-and-brand-guidelines-f1a01a733592",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "mega",
+      "title": "MEGA",
+      "hex": "D9272E",
+      "source": "https://mega.io/corporate",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "meituan",
+      "title": "Meituan",
+      "hex": "FFD100",
+      "source": "https://www.meituan.com/media",
+      "aliases": {
+        "loc": {
+          "zh-CN": "美团"
+        }
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "metacritic",
+      "title": "Metacritic",
+      "hex": "000000",
+      "source": "https://www.metacritic.com",
+      "guidelines": "https://developer.iva-api.com/docs/v2/metacritic-brand-guidelines",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "microsoft",
+      "title": "Microsoft",
+      "hex": "5E5E5E",
+      "source": "https://developer.microsoft.com",
+      "guidelines": "https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "microsoftedge",
+      "title": "Microsoft Edge",
+      "hex": "0078D7",
+      "source": "https://support.microsoft.com/en-us/help/17171/microsoft-edge-get-to-know",
+      "guidelines": "https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "mikrotik",
+      "title": "Mikrotik",
+      "hex": "293239",
+      "source": "https://mikrotik.com/aboutus",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "mini",
+      "title": "Mini",
+      "hex": "000000",
+      "source": "https://mini.co.uk",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "misskey",
+      "title": "Misskey",
+      "hex": "A1CA03",
+      "source": "https://misskey-hub.net/appendix/assets.html",
+      "license": {
+        "type": "CC-BY-NC-SA-4.0"
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "mocha",
+      "title": "Mocha",
+      "hex": "8D6748",
+      "source": "https://mochajs.org",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "modrinth",
+      "title": "Modrinth",
+      "hex": "00AF5C",
+      "source": "https://github.com/modrinth/art/blob/d5ab4f965b0b4cea7201967483885ecd8d04a562/Branding/Favicon/favicon.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "mongodb",
+      "title": "MongoDB",
+      "hex": "47A248",
+      "source": "https://www.mongodb.com/pressroom",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "motorola",
+      "title": "Motorola",
+      "hex": "E1140A",
+      "source": "https://motorola-global-portal-de.custhelp.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "mozilla",
+      "title": "Mozilla",
+      "hex": "000000",
+      "source": "https://mozilla.design/mozilla/",
+      "guidelines": "https://mozilla.design/mozilla/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "n26",
+      "title": "N26",
+      "hex": "48AC98",
+      "source": "https://n26.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "naver",
+      "title": "Naver",
+      "hex": "03C75A",
+      "source": "https://developers.naver.com/docs/login/bi/bi.md",
+      "guidelines": "https://developers.naver.com/docs/login/bi/bi.md",
+      "aliases": {
+        "loc": {
+          "ko-KR": "네이버",
+          "ja-JP": "ネイバー"
+        }
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "nbc",
+      "title": "NBC",
+      "hex": "222222",
+      "source": "https://www.nbcnews.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "netcup",
+      "title": "netcup",
+      "hex": "056473",
+      "source": "https://www.netcup.de/static/assets/images/favicons/favicon.svg",
+      "guidelines": "https://www.netcup.eu/ueber-netcup/werbemittel",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "neteasecloudmusic",
+      "title": "NetEase Cloud Music",
+      "hex": "D43C33",
+      "source": "https://y.music.163.com/m",
+      "aliases": {
+        "loc": {
+          "zh-CN": "网易云音乐"
+        }
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "netflix",
+      "title": "Netflix",
+      "hex": "E50914",
+      "source": "https://brand.netflix.com/en/assets/brand-symbol",
+      "guidelines": "https://brand.netflix.com/en/assets/brand-symbol",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "netlify",
+      "title": "Netlify",
+      "hex": "00C7B7",
+      "source": "https://www.netlify.com/press/",
+      "guidelines": "https://www.netlify.com/press/",
+      "aliases": {
+        "dup": [
+          {
+            "title": "Netlify CMS",
+            "hex": "C9FA4B",
+            "source": "https://www.netlifycms.org"
+          }
+        ]
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "newegg",
+      "title": "Newegg",
+      "hex": "E05E00",
+      "source": "https://www.newegg.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "nginx",
+      "title": "NGINX",
+      "hex": "009639",
+      "source": "https://www.nginx.com/press/",
+      "guidelines": "https://www.nginx.com/press/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "niconico",
+      "title": "niconico",
+      "hex": "231815",
+      "source": "https://www.nicovideo.jp",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "nike",
+      "title": "Nike",
+      "hex": "111111",
+      "source": "https://www.nike.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "nintendo",
+      "title": "Nintendo",
+      "hex": "8F8F8F",
+      "source": "https://en.wikipedia.org/wiki/Nintendo#/media/File:Nintendo.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "notion",
+      "title": "Notion",
+      "hex": "000000",
+      "source": "https://www.notion.so",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "npm",
+      "title": "npm",
+      "hex": "CB3837",
+      "source": "https://www.npmjs.com",
+      "guidelines": "https://docs.npmjs.com/policies/logos-and-usage",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "nvidia",
+      "title": "NVIDIA",
+      "hex": "76B900",
+      "source": "https://www.nvidia.com/en-us",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "newyorktimes",
+      "title": "New York Times",
+      "hex": "000000",
+      "source": "https://www.nytimes.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "oculus",
+      "title": "Oculus",
+      "hex": "1C1E20",
+      "source": "https://en.facebookbrand.com/oculus/assets/oculus?audience=oculus-landing",
+      "guidelines": "https://en.facebookbrand.com/oculus/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "microsoftonedrive",
+      "title": "Microsoft OneDrive",
+      "hex": "0078D4",
+      "source": "https://developer.microsoft.com/en-us/fluentui#/styles/web/colors/products",
+      "guidelines": "https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks",
+      "license": {
+        "type": "custom",
+        "url": "https://aka.ms/fluentui-assets-license"
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "oneplus",
+      "title": "OnePlus",
+      "hex": "F5010C",
+      "source": "https://www.oneplus.com/ca_en/brand/asset",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "openai",
+      "title": "OpenAI",
+      "hex": "412991",
+      "source": "https://openai.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "opencollective",
+      "title": "Open Collective",
+      "hex": "7FADF2",
+      "source": "https://docs.opencollective.com/help/about#media-logo",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "openstreetmap",
+      "title": "OpenStreetMap",
+      "hex": "7EBC6F",
+      "source": "https://www.openstreetmap.org",
+      "guidelines": "https://wiki.osmfoundation.org/wiki/Trademark_Policy",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "openwrt",
+      "title": "OpenWrt",
+      "hex": "00B5E2",
+      "source": "https://openwrt.org/docs/guide-graphic-designer/openwrt-logo",
+      "guidelines": "https://openwrt.org/docs/guide-graphic-designer/openwrt-logo",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "opera",
+      "title": "Opera",
+      "hex": "FF1B2D",
+      "source": "https://brand.opera.com/1472-2/opera-logos/",
+      "guidelines": "https://brand.opera.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "oppo",
+      "title": "OPPO",
+      "hex": "2D683D",
+      "source": "https://www.figma.com/community/file/832815970641696814/OPPO-Media-Kit",
+      "guidelines": "https://www.oppo.com/en/terms/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "oreilly",
+      "title": "O'Reilly",
+      "hex": "D3002D",
+      "source": "https://www.oreilly.com/about/logos/",
+      "guidelines": "https://www.oreilly.com/about/logos/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "origin",
+      "title": "Origin",
+      "hex": "F56C2D",
+      "source": "https://www.origin.com/gbr/en-us/store",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "osu",
+      "title": "osu!",
+      "hex": "FF66AA",
+      "source": "https://osu.ppy.sh/wiki/Brand_identity_guidelines",
+      "guidelines": "https://osu.ppy.sh/wiki/Brand_identity_guidelines",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "pandora",
+      "title": "Pandora",
+      "hex": "224099",
+      "source": "https://www.pandoraforbrands.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "pastebin",
+      "title": "Pastebin",
+      "hex": "02456C",
+      "source": "https://pastebin.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "patreon",
+      "title": "Patreon",
+      "hex": "000000",
+      "source": "https://www.patreon.com/brand",
+      "guidelines": "https://www.patreon.com/brand",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "paypal",
+      "title": "PayPal",
+      "hex": "003087",
+      "source": "https://www.paypal.com",
+      "guidelines": "https://newsroom.paypal-corp.com/media-resources",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "pearson",
+      "title": "Pearson",
+      "hex": "000000",
+      "source": "https://www.pearson.com",
+      "aliases": {
+        "dup": [
+          {
+            "title": "Pearson VUE",
+            "hex": "008FB4"
+          }
+        ]
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "perl",
+      "title": "Perl",
+      "hex": "39457E",
+      "source": "https://github.com/tpf/marketing-materials/blob/6765c6fd71bc5b123d6c1a77b86e08cdd6376078/images/onion-logo/tpf-logo-onion.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "pinterest",
+      "title": "Pinterest",
+      "hex": "BD081C",
+      "source": "https://business.pinterest.com/en/brand-guidelines",
+      "guidelines": "https://business.pinterest.com/en/brand-guidelines",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "pixiv",
+      "title": "pixiv",
+      "hex": "0096FA",
+      "source": "https://policies.pixiv.net/en.html#brand",
+      "guidelines": "https://policies.pixiv.net/en.html#brand",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "playstation",
+      "title": "PlayStation",
+      "hex": "003791",
+      "source": "https://www.playstation.com/en-us/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "plex",
+      "title": "Plex",
+      "hex": "EBAF00",
+      "source": "https://brand.plex.tv",
+      "guidelines": "https://brand.plex.tv",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "pocketcasts",
+      "title": "Pocket Casts",
+      "hex": "F43E37",
+      "source": "https://blog.pocketcasts.com/press/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "poe",
+      "title": "Poe",
+      "hex": "5D5CDE",
+      "source": "https://poe.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "primevideo",
+      "title": "Prime Video",
+      "hex": "1F2E3E",
+      "source": "https://videodirect.amazon.com/home/help?topicId=GT7W7GJBTDJW6Z8W#G8T2JFQZXPMHJLRZ",
+      "guidelines": "https://videodirect.amazon.com/home/help?topicId=GT7W7GJBTDJW6Z8W#G8T2JFQZXPMHJLRZ",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "progress",
+      "title": "Progress",
+      "hex": "5CE500",
+      "source": "https://www.progress.com",
+      "guidelines": "https://www.progress.com/legal/trademarks/trademarks-use-policy",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "protonmail",
+      "title": "Proton Mail",
+      "hex": "6D4AFF",
+      "source": "https://proton.me/media/kit",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "pubg",
+      "title": "PUBG",
+      "hex": "FEAB02",
+      "source": "https://www.pubgmobile.com/en/event/brandassets/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "python",
+      "title": "Python",
+      "hex": "3776AB",
+      "source": "https://www.python.org/community/logos/",
+      "guidelines": "https://www.python.org/community/logos/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "qt",
+      "title": "Qt",
+      "hex": "41CD52",
+      "source": "https://www.qt.io",
+      "guidelines": "https://www.qt.io/brand",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "qualcomm",
+      "title": "Qualcomm",
+      "hex": "3253DC",
+      "source": "https://www.qualcomm.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "quora",
+      "title": "Quora",
+      "hex": "B92B27",
+      "source": "https://www.quora.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "qwant",
+      "title": "Qwant",
+      "hex": "5C97FF",
+      "source": "https://about.qwant.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "rakuten",
+      "title": "Rakuten",
+      "hex": "BF0000",
+      "source": "https://global.rakuten.com/corp/news/media",
+      "guidelines": "https://global.rakuten.com/corp/news/media",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "razer",
+      "title": "Razer",
+      "hex": "00FF00",
+      "source": "https://press.razer.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "readthedocs",
+      "title": "Read the Docs",
+      "hex": "8CA1AF",
+      "source": "https://github.com/readthedocs/readthedocs.org/blob/2dc9706c4fe7fa6d4410ed0e5aedca8d4796fe0f/media/readthedocsbranding.ai",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "reddit",
+      "title": "Reddit",
+      "hex": "FF4500",
+      "source": "https://www.redditinc.com/brand",
+      "guidelines": "https://www.redditinc.com/brand",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "redis",
+      "title": "Redis",
+      "hex": "DC382D",
+      "source": "https://www.redislabs.com/brand-guidelines/",
+      "guidelines": "https://www.redislabs.com/brand-guidelines/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "renren",
+      "title": "Renren",
+      "hex": "217DC6",
+      "source": "https://seeklogo.com/vector-logo/184137/renren-inc",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "riotgames",
+      "title": "Riot Games",
+      "hex": "EB0029",
+      "source": "https://www.riotgames.com/en/press",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "roblox",
+      "title": "Roblox",
+      "hex": "000000",
+      "source": "https://www.roblox.com",
+      "guidelines": "https://en.help.roblox.com/hc/en-us/articles/115001708126-Roblox-Name-and-Logo-Community-Usage-Guidelines",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "roku",
+      "title": "Roku",
+      "hex": "662D91",
+      "source": "https://www.roku.com",
+      "guidelines": "https://docs.roku.com/published/trademarkguidelines/en/ca",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "rss",
+      "title": "RSS",
+      "hex": "FFA500",
+      "source": "https://en.wikipedia.org/wiki/Feed_icon",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "ruby",
+      "title": "Ruby",
+      "hex": "CC342D",
+      "source": "https://www.ruby-lang.org/en/about/logo/",
+      "license": {
+        "type": "CC-BY-SA-2.5"
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "rumble",
+      "title": "Rumble",
+      "hex": "85C742",
+      "source": "https://rumble.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "rust",
+      "title": "Rust",
+      "hex": "000000",
+      "source": "https://www.rust-lang.org",
+      "guidelines": "https://www.rust-lang.org/policies/media-guide",
+      "license": {
+        "type": "CC-BY-SA-4.0"
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "salesforce",
+      "title": "Salesforce",
+      "hex": "00A1E0",
+      "source": "https://brand.salesforce.com/content/logo-guidelines",
+      "guidelines": "https://brand.salesforce.com/content/logo-guidelines",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "samsung",
+      "title": "Samsung",
+      "hex": "1428A0",
+      "source": "https://www.samsung.com/us/about-us/brand-identity/logo/",
+      "guidelines": "https://www.samsung.com/us/about-us/brand-identity/logo/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "scala",
+      "title": "Scala",
+      "hex": "DC322F",
+      "source": "https://www.scala-lang.org",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "sentry",
+      "title": "Sentry",
+      "hex": "362D59",
+      "source": "https://sentry.io/branding/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "shopee",
+      "title": "Shopee",
+      "hex": "EE4D2D",
+      "source": "https://shopee.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "shopify",
+      "title": "Shopify",
+      "hex": "7AB55C",
+      "source": "https://www.shopify.com/brand-assets",
+      "guidelines": "https://www.shopify.com/brand-assets",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "showtime",
+      "title": "Showtime",
+      "hex": "B10000",
+      "source": "https://commons.wikimedia.org/wiki/File:Showtime.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "signal",
+      "title": "Signal",
+      "hex": "3A76F0",
+      "source": "https://github.com/signalapp/Signal-Desktop/blob/9db8765b6cf270195e45a7f251374d4e53d54c95/images/signal-logo.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "sitepoint",
+      "title": "SitePoint",
+      "hex": "258AAF",
+      "source": "https://www.sitepoint.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "skillshare",
+      "title": "Skillshare",
+      "hex": "00FF84",
+      "source": "https://www.skillshare.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "sky",
+      "title": "Sky",
+      "hex": "0072C9",
+      "source": "https://www.skysports.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "slack",
+      "title": "Slack",
+      "hex": "4A154B",
+      "source": "https://slack.com/brand-guidelines",
+      "guidelines": "https://slack.com/brand-guidelines",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "snapchat",
+      "title": "Snapchat",
+      "hex": "FFFC00",
+      "source": "https://www.snapchat.com/brand-guidelines",
+      "guidelines": "https://www.snapchat.com/brand-guidelines",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "sogou",
+      "title": "Sogou",
+      "hex": "FB6022",
+      "source": "https://www.sogou.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "sony",
+      "title": "Sony",
+      "hex": "000000",
+      "source": "https://www.sony.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "soundcloud",
+      "title": "SoundCloud",
+      "hex": "FF3300",
+      "source": "https://soundcloud.com/press",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "sourceforge",
+      "title": "SourceForge",
+      "hex": "FF6600",
+      "source": "https://sourceforge.net",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "sourcehut",
+      "title": "SourceHut",
+      "hex": "000000",
+      "source": "https://sourcehut.org/logo/",
+      "guidelines": "https://sourcehut.org/logo/",
+      "license": {
+        "type": "CC0-1.0"
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "spacex",
+      "title": "SpaceX",
+      "hex": "000000",
+      "source": "https://www.spacex.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "speedtest",
+      "title": "Speedtest",
+      "hex": "141526",
+      "source": "https://www.speedtest.net",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "spotify",
+      "title": "Spotify",
+      "hex": "1DB954",
+      "source": "https://developer.spotify.com/documentation/general/design-and-branding/#using-our-logo",
+      "guidelines": "https://developer.spotify.com/documentation/general/design-and-branding/#using-our-logo",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "square",
+      "title": "Square",
+      "hex": "3E4348",
+      "source": "https://squareup.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "stackexchange",
+      "title": "Stack Exchange",
+      "hex": "1E5397",
+      "source": "https://stackoverflow.com/company/logos",
+      "guidelines": "https://stackoverflow.com/legal/trademark-guidance",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "stackpath",
+      "title": "StackPath",
+      "hex": "000000",
+      "source": "https://www.stackpath.com/company/logo-and-branding/",
+      "guidelines": "https://www.stackpath.com/company/logo-and-branding/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "starbucks",
+      "title": "Starbucks",
+      "hex": "006241",
+      "source": "https://starbucks.com",
+      "guidelines": "https://creative.starbucks.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "steam",
+      "title": "Steam",
+      "hex": "000000",
+      "source": "https://partner.steamgames.com/doc/marketing/branding",
+      "guidelines": "https://partner.steamgames.com/doc/marketing/branding",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "steemit",
+      "title": "Steemit",
+      "hex": "06D6A9",
+      "source": "https://steemit.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "stripe",
+      "title": "Stripe",
+      "hex": "008CDD",
+      "source": "https://stripe.com/about/resources",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "sublimetext",
+      "title": "Sublime Text",
+      "hex": "FF9800",
+      "source": "https://www.sublimetext.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "swift",
+      "title": "Swift",
+      "hex": "F05138",
+      "source": "https://developer.apple.com/swift/resources/",
+      "guidelines": "https://developer.apple.com/swift/resources/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "synology",
+      "title": "Synology",
+      "hex": "B5B5B6",
+      "source": "https://www.synology.com/en-global/company/branding",
+      "guidelines": "https://www.synology.com/en-global/company/branding",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "target",
+      "title": "Target",
+      "hex": "CC0000",
+      "source": "https://www.target.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "teamspeak",
+      "title": "TeamSpeak",
+      "hex": "4B69B6",
+      "source": "https://teamspeak.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "teamviewer",
+      "title": "TeamViewer",
+      "hex": "004680",
+      "source": "https://www.teamviewer.com/en-us",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "telegram",
+      "title": "Telegram",
+      "hex": "26A5E4",
+      "source": "https://telegram.org/tour/screenshots",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "tesla",
+      "title": "Tesla",
+      "hex": "CC0000",
+      "source": "https://www.tesla.com/tesla-gallery",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "linuxfoundation",
+      "title": "Linux Foundation",
+      "hex": "003366",
+      "source": "https://www.linuxfoundation.org/en/about/brand/",
+      "guidelines": "https://www.linuxfoundation.org/en/about/brand/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "threads",
+      "title": "Threads",
+      "hex": "000000",
+      "source": "https://about.meta.com/brand/resources/instagram/threads",
+      "guidelines": "https://about.meta.com/brand/resources/instagram/threads",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "tidal",
+      "title": "Tidal",
+      "hex": "000000",
+      "source": "https://tidal.com/press",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "themoviedatabase",
+      "title": "The Movie Database",
+      "aliases": {
+        "aka": [
+          "TMDB"
+        ]
+      },
+      "hex": "01B4E4",
+      "source": "https://www.themoviedb.org/about/logos-attribution",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "trello",
+      "title": "Trello",
+      "hex": "0052CC",
+      "source": "https://atlassian.design/resources/logo-library",
+      "guidelines": "https://atlassian.design/foundations/logos",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "tubi",
+      "title": "Tubi",
+      "hex": "000000",
+      "source": "https://corporate.tubitv.com/press-releases/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "tumblr",
+      "title": "Tumblr",
+      "hex": "36465D",
+      "source": "https://www.tumblr.com/logo",
+      "guidelines": "https://www.tumblr.com/logo",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "tutanota",
+      "title": "Tutanota",
+      "hex": "840010",
+      "source": "https://github.com/tutao/tutanota/blob/8ff5f0e7d78834ac8fcb0f2357c394b757ea4793/resources/images/logo-solo-red.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "twilio",
+      "title": "Twilio",
+      "hex": "F22F46",
+      "source": "https://www.twilio.com/company/brand",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "twitch",
+      "title": "Twitch",
+      "hex": "9146FF",
+      "source": "https://brand.twitch.tv",
+      "guidelines": "https://brand.twitch.tv",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "twitter",
+      "title": "Twitter",
+      "hex": "1D9BF0",
+      "source": "https://brand.twitter.com",
+      "guidelines": "https://about.twitter.com/en/who-we-are/brand-toolkit",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "uber",
+      "title": "Uber",
+      "hex": "000000",
+      "source": "https://assets.uber.com/d/k4nuxdZ8MC7E/logos/collection/151",
+      "guidelines": "https://assets.uber.com/d/k4nuxdZ8MC7E/user-guide#/user-guide/terms-of-use",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "ubisoft",
+      "title": "Ubisoft",
+      "hex": "000000",
+      "source": "https://www.ubisoft.com/en-US/company/overview.aspx",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "ubuntu",
+      "title": "Ubuntu",
+      "hex": "E95420",
+      "source": "https://design.ubuntu.com/resources",
+      "guidelines": "https://design.ubuntu.com/brand",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "udacity",
+      "title": "Udacity",
+      "hex": "02B3E4",
+      "source": "https://www.udacity.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "udemy",
+      "title": "Udemy",
+      "hex": "A435F0",
+      "source": "https://www.udemy.com/ourbrand/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "unity",
+      "title": "Unity",
+      "hex": "000000",
+      "source": "https://brand.unity.com",
+      "guidelines": "https://brand.unity.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "v8",
+      "title": "V8",
+      "hex": "4B8BF5",
+      "source": "https://v8.dev/logo",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "vercel",
+      "title": "Vercel",
+      "hex": "000000",
+      "source": "https://vercel.com/design/brands",
+      "guidelines": "https://vercel.com/design/brands",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "verizon",
+      "title": "Verizon",
+      "hex": "CD040B",
+      "source": "https://www.verizondigitalmedia.com/about/logo-usage/",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "vimeo",
+      "title": "Vimeo",
+      "hex": "1AB7EA",
+      "source": "https://press.vimeo.com/brand-guidelines",
+      "guidelines": "https://press.vimeo.com/brand-guidelines",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "visa",
+      "title": "Visa",
+      "hex": "1A1F71",
+      "source": "https://merchantsignageeu.visa.com/product.asp?dptID=696",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "vk",
+      "title": "VK",
+      "hex": "0077FF",
+      "source": "https://vk.com/brand",
+      "guidelines": "https://vk.com/brand",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "vmware",
+      "title": "VMware",
+      "hex": "607078",
+      "source": "https://myvmware.workspaceair.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "vultr",
+      "title": "Vultr",
+      "hex": "007BFC",
+      "source": "https://www.vultr.com/company/brand-assets",
+      "guidelines": "https://www.vultr.com/company/brand-assets",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "walmart",
+      "title": "Walmart",
+      "hex": "0071CE",
+      "source": "https://corporate.walmart.com",
+      "guidelines": "https://one.walmart.com/content/people-experience/associate-brand-center.html",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "webex",
+      "title": "Webex",
+      "hex": "000000",
+      "source": "https://github.com/momentum-design/momentum-ui/blob/970c5bec962a3f72e17e0b7ed69f2c38d298c405/icons-rebrand/svg/webex-helix-filled.svg",
+      "guidelines": "https://resources.webex.com/webex/brand-exchange-collection",
+      "license": {
+        "type": "custom",
+        "url": "https://www.cisco.com/c/en/us/about/legal/trademarks.html"
+      },
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "wechat",
+      "title": "WeChat",
+      "hex": "07C160",
+      "source": "https://wechat.design/tool/brand",
+      "guidelines": "https://wechat.design/brand/main-brand",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "sinaweibo",
+      "title": "Sina Weibo",
+      "hex": "E6162D",
+      "source": "https://en.wikipedia.org/wiki/Sina_Weibo",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "westerndigital",
+      "title": "Western Digital",
+      "aliases": {
+        "aka": [
+          "WD"
+        ]
+      },
+      "hex": "000000",
+      "source": "https://www.westerndigital.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "whatsapp",
+      "title": "WhatsApp",
+      "hex": "25D366",
+      "source": "https://about.meta.com/brand/resources/whatsapp/whatsapp-brand",
+      "guidelines": "https://about.meta.com/brand/resources/whatsapp/whatsapp-brand",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "wikipedia",
+      "title": "Wikipedia",
+      "hex": "000000",
+      "source": "https://commons.wikimedia.org/wiki/File:Wikipedia-logo-v2.svg",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "wise",
+      "title": "Wise",
+      "hex": "9FE870",
+      "source": "https://wise.design/foundations/logo",
+      "guidelines": "https://wise.design/foundations/logo",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "wish",
+      "title": "Wish",
+      "hex": "32E476",
+      "source": "https://wish.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "wistia",
+      "title": "Wistia",
+      "hex": "58B7FE",
+      "source": "https://wistia.com/about/assets",
+      "guidelines": "https://wistia.com/about/assets",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "wix",
+      "title": "Wix",
+      "hex": "0C6EFC",
+      "source": "https://www.wix.com/about/design-assets",
+      "guidelines": "https://www.wix.com/about/design-assets",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "wordpress",
+      "title": "WordPress",
+      "hex": "21759B",
+      "source": "https://wordpress.org/about/logos",
+      "guidelines": "https://wordpressfoundation.org/trademark-policy",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "xbox",
+      "title": "Xbox",
+      "hex": "107C10",
+      "source": "https://www.xbox.com/en-US/consoles",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "xiaomi",
+      "title": "Xiaomi",
+      "hex": "FF6900",
+      "source": "https://www.mi.com/global",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "ycombinator",
+      "title": "Y Combinator",
+      "hex": "F0652F",
+      "source": "https://www.ycombinator.com/press",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "youtube",
+      "title": "YouTube",
+      "hex": "FF0000",
+      "source": "https://www.youtube.com/howyoutubeworks/resources/brand-resources/#logos-icons-and-colors",
+      "guidelines": "https://www.youtube.com/howyoutubeworks/resources/brand-resources/#logos-icons-and-colors",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "youtubemusic",
+      "title": "YouTube Music",
+      "hex": "FF0000",
+      "source": "https://partnermarketinghub.withgoogle.com/#/brands",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "zendesk",
+      "title": "Zendesk",
+      "hex": "03363D",
+      "source": "https://brandland.zendesk.com",
+      "guidelines": "https://brandland.zendesk.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "zhihu",
+      "title": "Zhihu",
+      "hex": "0084FF",
+      "source": "https://www.zhihu.com",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "zoho",
+      "title": "Zoho",
+      "hex": "E42527",
+      "source": "https://www.zoho.com/branding",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "zoom",
+      "title": "Zoom",
+      "hex": "0B5CFF",
+      "source": "https://brand.zoom.us/media-library.html",
+      "guidelines": "https://brand.zoom.us",
+      "package": "simple-icons@11.0.0"
+    },
+    {
+      "slug": "zotero",
+      "title": "Zotero",
+      "hex": "CC2936",
+      "source": "https://www.zotero.org/support/brand",
+      "package": "simple-icons@11.0.0"
+    }
+  ]
+}
