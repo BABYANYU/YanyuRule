@@ -84,8 +84,7 @@ async function showIcons(){
 function about(){
  navigation('about');state.dialogId++;abortDetail?.abort();setRoute(null,'about');$('#detail-client').textContent='ABOUT / 关于';const body=$('#detail-body');body.replaceChildren(dialogHeading('YanyuRule'),el('p','about-copy','为 Surge 与 Mihomo 整理的规则库。'));
  const identity=el('div','about-identity'),name=el('div');name.append(el('div','about-name','YANYU'),el('div','about-role','网站设计与维护'));const contact=link('Telegram ↗','https://t.me/+88807915423','contact-link');contact.setAttribute('aria-label','通过 Telegram 联系 YANYU');identity.append(name,contact);body.append(identity);
- body.append(el('p','about-copyright','© '+new Date().getFullYear()+' YANYU · YanyuRule'),el('p','field-help','网站设计与维护署名：YANYU。第三方规则、图标及品牌标识的权利归原作者或权利人所有。'));
- const sources=section('数据来源');sources.append(link('MagicRule 与上游规则作者','https://github.com/magical404/MagicRule','provider'),link('品牌图标 · Simple Icons（CC0）','/brand-icons/LICENSE.txt','provider'),el('p','field-help','具体规则来源及致谢保留在各条规则详情中。'));body.append(sources);
+ body.append(el('p','about-copyright','© '+new Date().getFullYear()+' YANYU · YanyuRule'),el('p','about-rights','所有版权归 YANYU 所有'));
  const sync=section('更新状态');sync.append(el('p','field-help',(status.scheduler_enabled?'每日自动更新 · ':'自动更新未启用 · ')+date(status.last_success,true)+'（北京时间）'),link('查看同步记录','/status.json','provider'),link('查看文件校验清单','/integrity.json','provider'));body.append(sync);if(!$('#detail').open)$('#detail').showModal();
 }
 document.querySelectorAll('.tab').forEach(n=>n.addEventListener('click',()=>{state.client=n.dataset.client;state.page=1;render();}));
