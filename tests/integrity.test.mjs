@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {artifactVerification,sha256} from '../scripts/integrity.mjs';
+const text='# NAME: A\n# AUTHOR: MagicRule\n# REPO: https://magicrule.pages.dev\n# UPDATED: old\n# DOMAIN: 1\n# DESC: info\n\nDOMAIN,a.example\n';
+const expected={mode:'standard_header_normalized',bytes_sha256:sha256(text),semantic_sha256:sha256('# DOMAIN: 1\n\nDOMAIN,a.example\n'),normalized_header_lines:5};
+test('exact-byte verification',()=>assert.equal(artifactVerification(Buffer.from(text),expected),'bytes'));
+test('upstream date/header-only differences pass semantic verification',()=>assert.equal(artifactVerification(Buffer.from(text.replace('UPDATED: old','UPDATED: new')),expected),'semantic'));
+test('changed actual rule content fails verification',()=>assert.equal(artifactVerification(Buffer.from(text.replace('a.example','b.example')),expected),null));
+test('binary exact mode never falls back to normalized text',()=>assert.equal(artifactVerification(Buffer.from(text.replace('UPDATED: old','UPDATED: new')),{...expected,mode:'exact'}),null));
+test('header count mismatch is rejected',()=>assert.equal(artifactVerification(Buffer.from(text.replace('UPDATED: old','UPDATED: new')),{...expected,normalized_header_lines:4}),null));

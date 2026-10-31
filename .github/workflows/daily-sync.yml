@@ -1,0 +1,36 @@
+name: YanyuRule daily sync
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: yanyurule-production
+  cancel-in-progress: false
+jobs:
+  request-and-verify:
+    if: vars.YANYURULE_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test
+      - name: Request a Cloudflare build through the connected repository
+        env:
+          SYNC_REQUEST_ID: daily-${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          node --input-type=module -e 'import fs from "node:fs"; fs.writeFileSync(".sync-request.json", JSON.stringify({id:process.env.SYNC_REQUEST_ID,requested_at:new Date().toISOString()})+"\n");'
+          git config user.name "YanyuRule sync"
+          git config user.email "253015402+BABYANYU@users.noreply.github.com"
+          git add .sync-request.json
+          git commit -m "chore: request verified daily rule synchronization"
+          git push origin HEAD:main
+      - name: Verify the requested data reached the public site
+        env:
+          SYNC_REQUEST_ID: daily-${{ github.run_id }}-${{ github.run_attempt }}
+          YANYURULE_PUBLIC_BASE_URL: ${{ vars.YANYURULE_PUBLIC_BASE_URL }}
+        run: node scripts/wait-for-deployment.mjs
