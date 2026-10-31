@@ -4,7 +4,7 @@
 
 ## 当前状态
 
-已完成 Cloudflare 初始部署并通过正式域名 HTTPS 检查；固定订阅路径修订和每日同步链路正在验证。实际自动更新状态以线上 status.json 及部署记录为准。Surge / Mihomo 设备端完整订阅仍需实测；最终 UI 调整留在功能验证之后。
+已上线 `https://rule.yanyubaby.eu.org/`，固定订阅路径、HTTPS、文件下载、线上过滤脚本及每日同步链路均已验证。每天北京时间 11:17 自动触发；首次端到端工作流成功记录见 `documentation/DEPLOYMENT.md`。Surge / Mihomo 设备端完整导入仍需实测；最终 UI 调整留在功能验证之后。
 
 ## 功能
 
@@ -48,7 +48,7 @@ node scripts/serve.mjs
 
 工作流 `.github/workflows/daily-sync.yml` 用仓库变量 `YANYURULE_ENABLED` 作为开关。**没有设置为 true 时不会触发每日更新。** 每天 UTC 03:17（北京时间 11:17）提交新的 `.sync-request.json`，由 CF 的 GitHub 连接触发构建、抓取与校验。工作流会等待线上 status.json 出现同一请求 ID，不能把“提交成功”当作“同步上线成功”。GitHub 定时任务可能延迟，不承诺严格 24 小时 SLA。
 
-该方案不把本机范围较广的 Wrangler OAuth 凭据传入 GitHub，也不要求保存 CF 账号级 API Token。私有仓库已创建，用户已在提供方授权 Pages 连接该仓库。
+该方案不把本机范围较广的 Wrangler OAuth 凭据传入 GitHub，也不要求保存 CF 账号级 API Token。私有仓库已创建，用户已在提供方授权 Pages 连接该仓库。仓库变量和定时流程已启用并完成真实演练。
 
 上线前需要：
 
