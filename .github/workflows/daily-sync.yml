@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   request-and-verify:
-    if: vars.YANYURULE_ENABLED == 'true'
+    if: vars.YANYURULE_ENABLED == 'true' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:

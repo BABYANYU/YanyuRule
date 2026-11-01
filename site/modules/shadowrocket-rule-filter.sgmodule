@@ -1,0 +1,10 @@
+#!name=YanyuRule Shadowrocket Filter
+#!desc=本地过滤规则类型，仅处理 yanyu.rule 虚拟域名。
+#!author=YANYU
+#!homepage=https://rule.yanyubaby.eu.org/
+
+[Script]
+YanyuRule Filter = type=http-request,pattern=^https:\/\/yanyu\.rule\/Shadowrocket\/list\?,script-path=https://rule.yanyubaby.eu.org/modules/client-rule-filter.js,timeout=30,engine=webview
+
+[MITM]
+hostname = %APPEND% yanyu.rule

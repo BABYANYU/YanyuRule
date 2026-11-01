@@ -8,3 +8,9 @@ node_modules/
 .env*
 .wrangler/
 .test-work/
+
+.staging-*/
+dist-*/
+dist-*.previous/
+.sync-*.lock
+sync-report-*.json
