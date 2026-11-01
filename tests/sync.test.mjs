@@ -6,6 +6,14 @@ import {promisify} from 'node:util';
 import path from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 const exec=promisify(execFile),root=fileURLToPath(new URL('../',import.meta.url));
+test('static data groups build separately with CORS and preserve previous group after failure',async()=>{
+ const parent=path.join(root,'.test-work');await mkdir(parent,{recursive:true});const dir=await mkdtemp(path.join(parent,'groups-'));
+ try{await mkdir(path.join(dir,'site'));await writeFile(path.join(dir,'site/index.html'),'YanyuRule fixture');await writeFile(path.join(dir,'site/404.html'),'Not found');const args=['--import',pathToFileURL(path.join(root,'tests/mock-network.mjs')).href,path.join(root,'scripts/sync.mjs')];
+  const env={...process.env,NODE_ENV:'test',YANYURULE_TEST_ROOT:dir};await exec(process.execPath,args,{env:{...env,YANYURULE_GROUP:'a'}});await exec(process.execPath,args,{env:{...env,YANYURULE_GROUP:'b'}});
+  const before=await readFile(path.join(dir,'dist-a/status.json'),'utf8');assert.deepEqual(Object.keys(JSON.parse(before).counts),['Loon','QuantumultX','Shadowrocket']);assert.ok((await readFile(path.join(dir,'dist-b/_headers'),'utf8')).includes('Access-Control-Allow-Origin: *'));
+  await assert.rejects(exec(process.execPath,args,{env:{...env,YANYURULE_GROUP:'b',YANYURULE_MOCK_UPDATED:'1',YANYURULE_MOCK_FAIL:'1'}}),e=>/SHA256_MISMATCH/.test(e.stderr));assert.equal(await readFile(path.join(dir,'dist-a/status.json'),'utf8'),before);await assert.rejects(stat(path.join(dir,'dist')),e=>e.code==='ENOENT');
+ }finally{await rm(dir,{recursive:true,force:true});}
+});
 test('successful snapshot commits atomically; failed successor leaves it intact',async()=>{
  const parent=path.join(root,'.test-work');await mkdir(parent,{recursive:true});const dir=await mkdtemp(path.join(parent,'sync-'));
  try{

@@ -1,0 +1,14 @@
+name: YanyuRule Egern Filter
+description: 本地过滤规则类型，仅处理 yanyu.rule 虚拟域名。
+author: YANYU
+homepage: https://rule.yanyubaby.eu.org/
+scriptings:
+  - http_request:
+      name: YanyuRule Filter
+      match: ^https://yanyu\.rule/Egern/list\?
+      script_url: https://rule.yanyubaby.eu.org/modules/egern-rule-filter.mjs
+      timeout: 30
+      body_required: false
+mitm:
+  hostnames:
+    - yanyu.rule

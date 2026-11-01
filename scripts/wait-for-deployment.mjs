@@ -1,16 +1,15 @@
+import {SITE_GROUPS} from '../site/clients.mjs';
 const base=new URL(process.env.YANYURULE_PUBLIC_BASE_URL||'https://rule.yanyubaby.eu.org');
-if(base.protocol!=='https:'||!(base.hostname==='rule.yanyubaby.eu.org'||base.hostname.endsWith('.pages.dev')))throw Error('Unexpected public site URL');
+if(base.protocol!=='https:'||base.hostname!=='rule.yanyubaby.eu.org'&&base.origin!==SITE_GROUPS.main.origin)throw Error('Unexpected public site URL');
 const expected=process.env.SYNC_REQUEST_ID;
 if(!/^[A-Za-z0-9_-]{1,100}$/.test(expected||''))throw Error('Missing sync request ID');
-const until=Date.now()+20*60000;
-let success=false;
+const until=Date.now()+20*60000;let success=false;
 while(Date.now()<until){
- try{
-  const url=new URL('/status.json',base);url.searchParams.set('verify',String(Date.now()));
-  const r=await fetch(url,{cache:'no-store',signal:AbortSignal.timeout(15000)});
-  if(r.ok){const status=await r.json();if(status.brand==='YanyuRule'&&status.request_id===expected&&status.scheduler_enabled&&status.counts?.Surge>0&&status.counts?.Mihomo>0){console.log(JSON.stringify({published:true,request_id:expected,last_success:status.last_success,counts:status.counts}));success=true;break;}}
- }catch{/* A failed request cannot count as a successful deployment. */}
- console.log('Waiting for verified Cloudflare deployment: '+expected);
+ const results=await Promise.all(Object.entries(SITE_GROUPS).map(async([group,config])=>{
+  try{const url=new URL('/status.json',group==='main'?base:config.origin);url.searchParams.set('verify',String(Date.now()));const r=await fetch(url,{cache:'no-store',signal:AbortSignal.timeout(15000)});if(!r.ok)return {group,ok:false};const status=await r.json();return {group,ok:status.brand==='YanyuRule'&&(status.group||'main')===group&&status.request_id===expected&&status.scheduler_enabled&&config.clients.every(c=>status.counts?.[c]>0),last_success:status.last_success,counts:status.counts};}catch{return {group,ok:false};}
+ }));
+ if(results.every(r=>r.ok)){console.log(JSON.stringify({published:true,request_id:expected,groups:results}));success=true;break;}
+ console.log('Waiting for verified groups: '+results.filter(r=>!r.ok).map(r=>r.group).join(', ')+'; '+expected);
  await new Promise(r=>setTimeout(r,30000));
 }
-if(!success)throw Error('Requested synchronization did not reach the public site within 20 minutes. The last successful site remains available.');
+if(!success)throw Error('Requested synchronization did not reach all three static projects within 20 minutes. Each group keeps its last successful deployment.');

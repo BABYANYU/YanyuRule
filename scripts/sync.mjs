@@ -4,14 +4,17 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {artifactVerification} from './integrity.mjs';
 import {versionFrontend} from './frontend-assets.mjs';
+import {SITE_GROUPS,adaptCapability} from '../site/clients.mjs';
 const ROOT=process.env.NODE_ENV==='test'&&process.env.YANYURULE_TEST_ROOT?path.resolve(process.env.YANYURULE_TEST_ROOT):fileURLToPath(new URL('../',import.meta.url));
 const SOURCE='https://magicrule.pages.dev';
 const ALLOWED_ORIGINS=new Set([SOURCE,'https://rule-26r.pages.dev']);
-const CLIENTS=['Surge','Mihomo'];
+const GROUP=process.env.YANYURULE_GROUP||'main';
+if(!SITE_GROUPS[GROUP])throw Error('Unknown deployment group');
+const CLIENTS=SITE_GROUPS[GROUP].clients;
 const MAX=25*1024*1024;
 const args=new Set(process.argv.slice(2));
-const withIcons=!args.has('--no-icons');
-const OUT=path.join(ROOT,'.staging'),CACHE=path.join(ROOT,'.cache');
+const withIcons=GROUP==='main'&&!args.has('--no-icons');
+const OUT=path.join(ROOT,GROUP==='main'?'.staging':'.staging-'+GROUP),DIST=path.join(ROOT,GROUP==='main'?'dist':'dist-'+GROUP),CACHE=path.join(ROOT,'.cache');
 const hash=x=>createHash('sha256').update(x).digest('hex');
 const usedCache=new Set();
 const log=x=>console.log(new Date().toISOString(),x);
@@ -53,19 +56,18 @@ async function parallel(items,fn,label){let pos=0,done=0;let failed=null;const s
 async function files(root){const out=[];for(const ent of await readdir(root,{withFileTypes:true})){const full=path.join(root,ent.name);if(ent.isDirectory())out.push(...await files(full));else out.push(full);}return out;}
 async function saveJSON(p,value){await put(p,JSON.stringify(value));}
 async function main(){
- const lock=await open(path.join(ROOT,'.sync.lock'),'wx');
+ const lockPath=path.join(ROOT,GROUP==='main'?'.sync.lock':'.sync-'+GROUP+'.lock');const lock=await open(lockPath,'wx');
  try{
   await mkdir(CACHE,{recursive:true});await rm(OUT,{recursive:true,force:true});await mkdir(OUT,{recursive:true});
-  await cp(path.join(ROOT,'site'),OUT,{recursive:true});
   const capabilities=await json('/data/meta/capabilities.json');
   const indexes={};const jobs=[];
-  let previous=null;try{previous=JSON.parse(await readFile(path.join(ROOT,'dist/status.json'),'utf8'));}catch{try{previous=JSON.parse(await readFile(path.join(CACHE,'last-success.json'),'utf8'));}catch{}}
+  let previous=null;try{previous=JSON.parse(await readFile(path.join(DIST,'status.json'),'utf8'));}catch{try{previous=JSON.parse(await readFile(path.join(CACHE,'last-success-'+GROUP+'.json'),'utf8'));}catch{}}
   if(args.has('--production')&&process.env.YANYURULE_BASELINE_URL){
    const baseline=new URL(process.env.YANYURULE_BASELINE_URL);
-   if(baseline.protocol!=='https:'||baseline.pathname!=='/status.json'||!(baseline.hostname==='rule.yanyubaby.eu.org'||baseline.hostname.endsWith('.pages.dev')))throw Error('Invalid production baseline URL');
+   if(baseline.protocol!=='https:'||baseline.pathname!=='/status.json'||!(baseline.origin===SITE_GROUPS[GROUP].origin||GROUP==='main'&&baseline.hostname==='rule.yanyubaby.eu.org'))throw Error('Invalid production baseline URL');
    try{
     const r=await fetch(baseline,{cache:'no-store',signal:AbortSignal.timeout(30000)});if(!r.ok)throw Error('HTTP '+r.status);
-    const value=await r.json();if(value.brand!=='YanyuRule'||!CLIENTS.every(c=>Number.isSafeInteger(value.counts?.[c])&&value.counts[c]>0))throw Error('Invalid published baseline');
+    const value=await r.json();if(value.brand!=='YanyuRule'||(value.group||'main')!==GROUP||!CLIENTS.every(c=>Number.isSafeInteger(value.counts?.[c])&&value.counts[c]>0))throw Error('Invalid published baseline');
     previous=value;
    }catch(e){if(process.env.YANYURULE_INITIAL_BUILD!=='1')throw Error('Cannot verify last published baseline: '+e.message);}
   }
@@ -97,25 +99,25 @@ async function main(){
    await parallel([...iconJobs.values()],async a=>{await put(a.path,await request(a.upstream,{immutable:true}));},'Icons');
    await saveJSON('/icons/catalog.json',catalog);await saveJSON('/icons/sources.json',await json(config.icon_sources_url));iconCount=catalog.icons.length;
   }
-  const caps={};for(const client of CLIENTS){caps[client]=capabilities.capabilities[client];if(!caps[client])throw Error('Missing capabilities '+client);if(caps[client].subscription_filter){caps[client].subscription_filter.script_path='/modules/surge-rule-filter.js';caps[client].subscription_filter.install_path='/modules/surge-rule-filter.sgmodule';caps[client].subscription_filter.request_url='https://yanyu.rule/list';}}
+  const caps={};for(const client of CLIENTS){if(!capabilities.capabilities[client])throw Error('Missing capabilities '+client);caps[client]=adaptCapability(client,capabilities.capabilities[client]);}
   await saveJSON('/data/meta/capabilities.json',{generated_at:capabilities.generated_at,capabilities:caps});
   for(const client of CLIENTS)await saveJSON('/data/index/'+client+'.json',indexes[client]);
-  await cp(path.join(ROOT,'site'),OUT,{recursive:true});
-  await versionFrontend(OUT);
+  if(GROUP==='main'){await cp(path.join(ROOT,'site'),OUT,{recursive:true});await versionFrontend(OUT);}
+  else{await put('/index.html','<!doctype html><meta charset="utf-8"><title>YanyuRule data</title><a href="https://rule.yanyubaby.eu.org/">YanyuRule 规则库</a>');await cp(path.join(ROOT,'site/404.html'),path.join(OUT,'404.html'));await put('/_headers','/*\n  Access-Control-Allow-Origin: *\n  X-Content-Type-Options: nosniff\n  Cache-Control: public, max-age=300, must-revalidate\n\n/status.json\n  Cache-Control: no-cache\n');}
   const publicFiles=await files(OUT);if(publicFiles.length>20000)throw Error('PAGES_FILE_LIMIT '+publicFiles.length);
   let totalBytes=0,maxFileBytes=0;const integrity=[];
   for(const f of publicFiles){const bytes=await readFile(f);if(bytes.length>MAX)throw Error('PAGES_SIZE_LIMIT '+path.relative(OUT,f));totalBytes+=bytes.length;maxFileBytes=Math.max(maxFileBytes,bytes.length);integrity.push({path:'/'+path.relative(OUT,f).split(path.sep).join('/'),bytes:bytes.length,sha256:hash(bytes)});}
   const production=args.has('--production');
   let requestId=null;try{requestId=JSON.parse(await readFile(path.join(ROOT,'.sync-request.json'),'utf8')).id||null;}catch{}
-  const now=new Date().toISOString();const status={version:1,brand:'YanyuRule',source:SOURCE,last_success:now,interval_hours:24,scheduler_enabled:production&&process.env.YANYURULE_SCHEDULER_ENABLED==='true',request_id:requestId,counts:Object.fromEntries(CLIENTS.map(c=>[c,indexes[c].rules.length])),upstream_generated_at:Object.fromEntries(CLIENTS.map(c=>[c,indexes[c].generated_at])),artifact_count:artifacts.size,icon_count:iconCount,file_count:publicFiles.length+2,total_bytes:totalBytes,max_file_bytes:maxFileBytes,content_sha256:hash(JSON.stringify(integrity)),deployment:production?'production':'local'};
+  const now=new Date().toISOString();const status={version:1,brand:'YanyuRule',group:GROUP,source:SOURCE,last_success:now,interval_hours:24,scheduler_enabled:production&&process.env.YANYURULE_SCHEDULER_ENABLED==='true',request_id:requestId,counts:Object.fromEntries(CLIENTS.map(c=>[c,indexes[c].rules.length])),upstream_generated_at:Object.fromEntries(CLIENTS.map(c=>[c,indexes[c].generated_at])),artifact_count:artifacts.size,icon_count:iconCount,file_count:publicFiles.length+2,total_bytes:totalBytes,max_file_bytes:maxFileBytes,content_sha256:hash(JSON.stringify(integrity)),deployment:production?'production':'local'};
   if(status.file_count>20000)throw Error('PAGES_FILE_LIMIT '+status.file_count);
   await saveJSON('/integrity.json',integrity);await saveJSON('/status.json',status);
-  const previousDir=path.join(ROOT,'dist.previous');await rm(previousDir,{recursive:true,force:true});
-  let hadPrevious=false;try{await stat(path.join(ROOT,'dist'));await rename(path.join(ROOT,'dist'),previousDir);hadPrevious=true;}catch(e){if(e.code!=='ENOENT')throw e;}
-  try{await rename(OUT,path.join(ROOT,'dist'));}catch(e){if(hadPrevious)await rename(previousDir,path.join(ROOT,'dist'));throw e;}
-  await writeFile(path.join(CACHE,'last-success.json'),JSON.stringify(status));
-  for(const entry of await readdir(CACHE)){const match=/^([a-f0-9]{64})\.(bin|json)$/.exec(entry);if(match&&!usedCache.has(match[1]))await rm(path.join(CACHE,entry),{force:true});}
-  const report={...status,downloaded,cache_hits:cacheHits,network_bytes:networkBytes,normalized_headers:normalizedHeaders};await writeFile(path.join(ROOT,'sync-report.json'),JSON.stringify(report,null,2));log(JSON.stringify(report));
- }finally{await lock.close();await rm(path.join(ROOT,'.sync.lock'),{force:true});}
+  const previousDir=DIST+'.previous';await rm(previousDir,{recursive:true,force:true});
+  let hadPrevious=false;try{await stat(DIST);await rename(DIST,previousDir);hadPrevious=true;}catch(e){if(e.code!=='ENOENT')throw e;}
+  try{await rename(OUT,DIST);}catch(e){if(hadPrevious)await rename(previousDir,DIST);throw e;}
+  await writeFile(path.join(CACHE,'last-success-'+GROUP+'.json'),JSON.stringify(status));
+  // Cache is shared by independently built groups; never prune another group's cache.
+  const report={...status,downloaded,cache_hits:cacheHits,network_bytes:networkBytes,normalized_headers:normalizedHeaders};await writeFile(path.join(ROOT,GROUP==='main'?'sync-report.json':'sync-report-'+GROUP+'.json'),JSON.stringify(report,null,2));log(JSON.stringify(report));
+ }finally{await lock.close();await rm(lockPath,{force:true});}
 }
 main().catch(e=>{console.error('SYNC_FAILED:',e.message);process.exitCode=1;});

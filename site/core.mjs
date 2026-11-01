@@ -1,5 +1,6 @@
 export {iconForRule,catalogIconMap,fallbackRuleIcon,needsDarkInk} from './rule-icons.mjs';
-export const CLIENTS=['Surge','Mihomo'];
+import {clientBase,clientResource} from './clients.mjs';
+export {CLIENTS,SITE_GROUPS,groupForClient,clientBase,clientResource,moduleInstallURL} from './clients.mjs';
 export const PAGE_SIZE=8;
 export function category(type){if(/DOMAIN|HOST/i.test(type))return 'domain';if(/IP|CIDR|ASN|GEOIP/i.test(type))return 'ip';return 'other';}
 export function selectRules(rules,{query='',filter='all',sort='name'}={}){
@@ -22,19 +23,20 @@ export function customSubscription({capability,artifacts,selected,available,skip
  const exact=config.outputs.find(o=>o.match==='exact'&&o.types.length===types.length&&o.types.every(t=>types.includes(t)));
  const output=exact||config.outputs.find(o=>o.match==='fallback');
  if(!output)return {error:'当前选择没有可用的输出格式。'};
- const applicable=skipNoResolve&&types.some(t=>['IP-CIDR','IP-CIDR6','IP-ASN'].includes(t));
+ const applicable=skipNoResolve&&types.some(t=>['IP-CIDR','IP-CIDR6','IP-ASN','ip_cidr_set','ip_cidr6_set','asn_set','geoip_set'].includes(t));
  const allSelected=supported.every(t=>types.includes(t));
  for(const declaration of output.sources){
   if(declaration.when==='all-selected'&&!exact&&!allSelected)continue;
   if((pattern||applicable)&&declaration.action!=='filter')continue;
   const source=artifacts.find(a=>(a.role===declaration.role||a.key===declaration.role||(declaration.role==='full'&&!a.role&&a.key==='rules'))&&!a.binary&&!a.empty&&a.url);
   if(!source)continue;
-  if(declaration.action==='direct')return {url:safeURL(source.url,origin),label:source.label||output.label,action:'direct',source,output:output.id,types};
+  const client=config.profile||'Surge';let resource;try{resource=clientResource(source.url,client,origin);}catch{return {error:'规则文件来源无效。'};}
+  if(declaration.action==='direct')return {url:resource,label:source.label||output.label,action:'direct',source,output:output.id,types};
   if(source.byte_size>1048576)return {error:'完整源文件超过 1 MiB，无法使用客户端自定义过滤。请使用现成规则文件。'};
-  const pathname=new URL(source.url,origin).pathname;
-  const name=pathname.startsWith('/rules/Surge/')?pathname.slice('/rules/Surge/'.length):'';
-  if(!/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}\/[a-zA-Z0-9_-]{1,80}\.list$/i.test(name))return {error:'不支持此源文件路径。'};
-  const u=new URL('https://yanyu.rule/list');
+  const pathname=new URL(resource).pathname,prefix='/rules/'+client+'/';
+  const name=pathname.startsWith(prefix)?pathname.slice(prefix.length):'';
+  if(!/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}\/[a-zA-Z0-9_-]{1,80}\.(?:list|yaml)$/i.test(name))return {error:'不支持此源文件路径。'};
+  const u=new URL(config.request_url||'https://yanyu.rule/list');
   u.searchParams.set('s',name);u.searchParams.set('c',String(types.reduce((n,t)=>n|config.type_bits[t],0)));u.searchParams.set('o',output.id);
   if(applicable)u.searchParams.set('n','1');if(pattern)u.searchParams.set('x',pattern);
   return {url:u.href,label:output.label,action:'filter',source,output:output.id,types};

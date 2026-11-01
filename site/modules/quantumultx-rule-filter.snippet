@@ -1,0 +1,10 @@
+#!name=YanyuRule Quantumult X Filter
+#!desc=本地过滤规则类型，仅处理 yanyu.rule 虚拟域名。
+#!author=YANYU
+#!homepage=https://rule.yanyubaby.eu.org/
+
+[rewrite_local]
+^https:\/\/yanyu\.rule\/QuantumultX\/list\? url script-echo-response https://rule.yanyubaby.eu.org/modules/client-rule-filter.js
+
+[mitm]
+hostname = %APPEND% yanyu.rule
