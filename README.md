@@ -126,3 +126,5 @@ Remove-Item Env:YANYURULE_GROUP
 b 组同理。共用 .cache，输出、锁文件及失败回退按组隔离。主站复制链接、下载、筛选、图标和详情支持全部八个客户端。Loon、QuantumultX、Shadowrocket、Egern 提供本站本地过滤模块，源文件上限 1 MiB；SingBox、Surfboard 使用现成格式。模块已进行脚本环境测试，实际手机客户端导入仍需验证。
 
 卸载时先暂停工作流并结束在途构建，再清理这三个 Pages 项目；仅主站有 rule 的域名绑定。要保留原样数据，需导出三组静态快照，源码仓库不是数据备份。重建三组时应沿用原项目名；若名称变更，必须同步更新 site/clients.mjs、客户端过滤脚本中的固定数据域名、CF 基线和校验设置。仅改 DNS 不足以恢复新客户端链接。
+
+八客户端迁移及三项目维护记录：[2026-11-01 记录](documentation/MULTI-CLIENT-2026-11-01.md)。
