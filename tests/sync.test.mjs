@@ -9,7 +9,7 @@ const exec=promisify(execFile),root=fileURLToPath(new URL('../',import.meta.url)
 test('static data groups build separately with CORS and preserve previous group after failure',async()=>{
  const parent=path.join(root,'.test-work');await mkdir(parent,{recursive:true});const dir=await mkdtemp(path.join(parent,'groups-'));
  try{await mkdir(path.join(dir,'site'));await writeFile(path.join(dir,'site/index.html'),'YanyuRule fixture');await writeFile(path.join(dir,'site/404.html'),'Not found');const args=['--import',pathToFileURL(path.join(root,'tests/mock-network.mjs')).href,path.join(root,'scripts/sync.mjs')];
-  const env={...process.env,NODE_ENV:'test',YANYURULE_TEST_ROOT:dir};await exec(process.execPath,args,{env:{...env,YANYURULE_GROUP:'a'}});await exec(process.execPath,args,{env:{...env,YANYURULE_GROUP:'b'}});
+  const env={...process.env,NODE_ENV:'test',YANYURULE_GROUP:'main',YANYURULE_TEST_ROOT:dir};await exec(process.execPath,args,{env:{...env,YANYURULE_GROUP:'a'}});await exec(process.execPath,args,{env:{...env,YANYURULE_GROUP:'b'}});
   const before=await readFile(path.join(dir,'dist-a/status.json'),'utf8');assert.deepEqual(Object.keys(JSON.parse(before).counts),['Loon','QuantumultX','Shadowrocket']);assert.ok((await readFile(path.join(dir,'dist-b/_headers'),'utf8')).includes('Access-Control-Allow-Origin: *'));
   await assert.rejects(exec(process.execPath,args,{env:{...env,YANYURULE_GROUP:'b',YANYURULE_MOCK_UPDATED:'1',YANYURULE_MOCK_FAIL:'1'}}),e=>/SHA256_MISMATCH/.test(e.stderr));assert.equal(await readFile(path.join(dir,'dist-a/status.json'),'utf8'),before);await assert.rejects(stat(path.join(dir,'dist')),e=>e.code==='ENOENT');
  }finally{await rm(dir,{recursive:true,force:true});}
@@ -19,7 +19,7 @@ test('successful snapshot commits atomically; failed successor leaves it intact'
  try{
   await mkdir(path.join(dir,'site'));await writeFile(path.join(dir,'site/index.html'),'YanyuRule fixture');
   const args=['--import',pathToFileURL(path.join(root,'tests/mock-network.mjs')).href,path.join(root,'scripts/sync.mjs'),'--no-icons'];
-  const env={...process.env,NODE_ENV:'test',YANYURULE_TEST_ROOT:dir};
+  const env={...process.env,NODE_ENV:'test',YANYURULE_GROUP:'main',YANYURULE_TEST_ROOT:dir};
   const first=await exec(process.execPath,args,{env});assert.match(first.stdout,/"file_count"/);
   const publicPath=path.join(dir,'dist/rules/Surge/11111111-1111-4111-8111-111111111111/rules.list');
   assert.equal(await readFile(publicPath,'utf8'),'DOMAIN,example.test\n');
