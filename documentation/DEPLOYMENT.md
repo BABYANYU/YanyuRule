@@ -106,3 +106,5 @@ AcFun、All4 等图标虽然返回 200，但图片为透明底白色图案，浅
 2026-11-01 Telegram 预览排查：用户反馈 WebpageBot 刷新后，原网址及带新查询参数的网址均没有卡片。网页实际返回 HTTP 200，标题正确，robots.txt 未禁止 Telegram；Cloudflare 分析中有 TelegramBot User-Agent 的 200 记录，但 UA 本身不证明请求身份或解析成功。补齐 og:site_name、og:url、twitter:card=summary 及 canonical，保留三个 description 为空，不恢复旧说明、不新增图片，不调整 DNS、安全策略或规则路径。46 项测试通过。此项是分享元信息的兼容性修正，不代表 Telegram 缓存或预览已修复；用户已确认同一聊天中其他网站可以显示预览，本站效果仍需在 Telegram 实际验收。Bot 的“成功”提示不能当作验收结果。
 
 2026-11-01 后续验收：用户确认 e75a45e 上线后两个域名仍无预览，但原真实存档 https://d72d7d50.yanyurule.pages.dev/（653d3de，非空说明）能显示标题。新增临时 preview-check/{a,b,c}.html 三个静态对照页面，共用相同标题、正文和其他分享标签：A 不声明 description，B 三个 description 使用零宽字符实体 &#8203;，C 三个 description 使用原非空说明。无脚本、图片、canonical、重定向或访问限制；不修改正式首页。等待 Telegram 实测后选择可显示标题且无可见说明的方案，删除临时页面。不可见占位只是实验，尚不能宣称有效。
+
+2026-11-01 TG 对照实测结果：用户确认 A 无预览，B 有主标题且无副标题，C 有主标题和副标题。三张对照页仅说明标签不同，因此本次实验支持本站在当前 Telegram 预览后端需要非空描述才生成此类无图片卡片；不能扩大为所有网站/所有 Telegram 版本的通则。正式首页采用实测 B：三个 description 都写成零宽字符实体 &#8203;（U+200B），保留“YanyuRule · 规则库”，不增加可见说明或图片。删除 site/preview-check 三页，更新 README 维护约束。发布后正式网址仍需实际预览验收；其旧负缓存可能需要重新抓取，不将已验证的 B 实验等同于正式域名已恢复。
