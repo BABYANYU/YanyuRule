@@ -65,3 +65,17 @@ SingBox、Surfboard 提供现成文件，不虚构过滤模块。保留 SRS/JSON
 - 三组本地完整文件及图标引用校验通过；最大单文件分别约 9.28、10.76、8.28 MiB，均低于 25 MiB。
 - 两个数据项目首批线上共核对 7,110 条清单引用，24 个规则文件样本字节哈希通过，覆盖 LIST、YAML、JSON、SRS、插件和模块格式；CORS 和缺失规则 404 正常。
 - 统一主站上线、最终生产设置和三组实际工作流验收结果在操作完成后补记。
+
+## 最终生产验收
+
+2026-11-01 已完成上线及真实工作流验收。源码主提交 2ea2c72，实际每日同步标记提交 b0eaff5；工作流 https://github.com/BABYANYU/YanyuRule/actions/runs/41269131398 为 success。三组线上 request_id 均为 daily-41269131398-1，scheduler_enabled=true。
+
+| 项目 | 最终验证部署 |
+|---|---|
+| yanyurule | 3eddbe0d-d711-4c69-89b6-871fa8d84057 |
+| yanyurule-data-a | b82cd6ef-f405-4420-9900-33faa82afa5a |
+| yanyurule-data-b | bb559d5a-9384-4ee5-b785-0be0e376f702 |
+
+三个项目均为生产分支 main、INITIAL_BUILD=0；输出目录和基线各自对应。GitHub API 再次核实源码仓库 private，未创建新仓库或引入 CF 账号级凭据。
+
+45 项测试及三组云端全量文件校验通过；线上核对 9,481 个清单引用和 34 个规则文件样本 SHA-256，覆盖文本、YAML、JSON、MRS、SRS、插件及模块。跨域头、缺失规则 404、主站八个入口正常。四类新过滤模块读取线上真实 AcFun 数据并在相应脚本环境模拟中成功筛选，未调用动态后端函数。内置浏览器自动控制不可用，未声称完成自动截图或手机客户端导入验收。
