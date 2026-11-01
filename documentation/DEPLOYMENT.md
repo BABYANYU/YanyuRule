@@ -104,3 +104,5 @@ AcFun、All4 等图标虽然返回 200，但图片为透明底白色图案，浅
 侧栏版于北京时间 2026-11-01 14:38 发布成功，源码 edeccbe，部署 3ef77832-b0e9-4ea7-9517-97dacd5794d2。正式站以 TelegramBot User-Agent 获取返回 200，标题正确、三个 description 均为空，侧栏八个客户端及移动选择器存在；脚本 app.404a587eb5399f63.js 与样式 style.6c4ea3a0b9466344.css 哈希匹配完整性清单，原 All4 订阅仍 200。46 项测试通过。未操作 Telegram 账号，也未完成实际浏览器截图验收。
 
 2026-11-01 Telegram 预览排查：用户反馈 WebpageBot 刷新后，原网址及带新查询参数的网址均没有卡片。网页实际返回 HTTP 200，标题正确，robots.txt 未禁止 Telegram；Cloudflare 分析中有 TelegramBot User-Agent 的 200 记录，但 UA 本身不证明请求身份或解析成功。补齐 og:site_name、og:url、twitter:card=summary 及 canonical，保留三个 description 为空，不恢复旧说明、不新增图片，不调整 DNS、安全策略或规则路径。46 项测试通过。此项是分享元信息的兼容性修正，不代表 Telegram 缓存或预览已修复；用户已确认同一聊天中其他网站可以显示预览，本站效果仍需在 Telegram 实际验收。Bot 的“成功”提示不能当作验收结果。
+
+2026-11-01 后续验收：用户确认 e75a45e 上线后两个域名仍无预览，但原真实存档 https://d72d7d50.yanyurule.pages.dev/（653d3de，非空说明）能显示标题。新增临时 preview-check/{a,b,c}.html 三个静态对照页面，共用相同标题、正文和其他分享标签：A 不声明 description，B 三个 description 使用零宽字符实体 &#8203;，C 三个 description 使用原非空说明。无脚本、图片、canonical、重定向或访问限制；不修改正式首页。等待 Telegram 实测后选择可显示标题且无可见说明的方案，删除临时页面。不可见占位只是实验，尚不能宣称有效。
