@@ -112,3 +112,5 @@ AcFun、All4 等图标虽然返回 200，但图片为透明底白色图案，浅
 - 平台自带生产 pages.dev 地址不能删除当前部署来关闭，否则正式网站也会停止。统一跳转需要账户 Bulk Redirects 以及自定义域名的单独重定向权限；现有授权对账户规则接口返回 403，未修改 DNS、其他规则或新增服务。带参数的根网址不是独立静态文件，不能通过删除文件将其单独关闭。
 
 2026-11-01 最新指令覆盖此前仅标题方案：用户要求恢复到修改分享主标题、副标题之前的状态。已从提交 4f4a6dc 提取完整原始 head，并保持当前 body 不变。恢复 title 为“YanyuRule · 规则库”、description 为“YanyuRule，由 YANYU 设计与维护的 Surge 与 Mihomo 规则库。”；移除后加的 og:*、twitter:*、canonical 和 U+200B 占位。该原始文案虽仅提到 Surge/Mihomo，仍按用户要求逐字恢复，不擅自改成多客户端。保留当前侧栏 UI、八客户端、图标和每日同步；唯一对外网址不变。源码恢复及线上元信息确认不代表 Telegram 服务器中的旧预览已刷新，最终 TG 卡片效果仍需独立验收。
+
+2026-11-01 客户端排序：按用户确认的预览，将桌面侧栏及移动端下拉统一改为 Surge、Loon、Egern、Mihomo、sing-box、Surfboard、Quantumult X、Shadowrocket。Surge 固定第一，其余按显示名称字符数升序，同字数保持原顺序。内部 SITE_GROUPS、客户端资源路径及数据分组不变，分享原始主副标题不变。已有 UI 测试改为读取真实 HTML 的侧栏顺序，验证向下键从 Surge 到 Loon、End 到 Shadowrocket、循环回 Surge，46 项测试通过；桌面与移动端的静态顺序已核对一致。发布后以正式原网址检查线上顺序，不提供新的测试网址。
