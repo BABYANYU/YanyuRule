@@ -18,17 +18,17 @@ async function fixture({custom=false,icons=false,remote=false,failGroup=null,sav
  const tabs=sidebarClients.map(c=>{const b=new Element('button');b.dataset.client=c;return b;});const filters=['all','domain','ip','other'].map(f=>{const b=new Element('button');b.dataset.filter=f;return b;});
  const rule=(name,id,types)=>({id,name,chinese_name:name==='Apple'?'苹果':'',types,total_line_count:15,manifest:'/data/rules/Surge/'+id+'/manifest.json'});
  const rules=[rule('Apple','a'.repeat(24),['DOMAIN','DOMAIN-SUFFIX']),rule('China','b'.repeat(24),['IP-CIDR']),rule('<script>alert(1)</script>','c'.repeat(24),['DOMAIN'])];
- const location={origin:'https://rule.yanyubaby.eu.org',href:'https://rule.yanyubaby.eu.org/'+initialHash,hash:initialHash};const copied=[];
+ const location={origin:'https://rule.yanyubaby.eu.org',href:'https://rule.yanyubaby.eu.org/'+initialHash,hash:initialHash};const copied=[],scrolls=[];
  const capability=custom?{subscription_filter:{install_path:'/modules/surge-rule-filter.sgmodule',type_bits:{DOMAIN:1,'DOMAIN-SUFFIX':2},outputs:[{id:'rule-set',label:'RULE-SET',match:'fallback',types:['DOMAIN','DOMAIN-SUFFIX'],sources:[{role:'full',when:'all-selected',action:'direct'},{role:'full',when:'any-selected',action:'filter'}]}]}}:{};
  const responses={'/data/index/Surge.json':{rules},'/data/index/Mihomo.json':{rules:[{...rules[0],manifest:rules[0].manifest.replace('Surge','Mihomo')}]},'/data/meta/capabilities.json':{capabilities:{Surge:capability,Mihomo:{}}},'/status.json':{brand:'YanyuRule',last_success:new Date().toISOString(),counts:{Surge:3,Mihomo:1},icon_count:icons?2:0,scheduler_enabled:false},'/icons/catalog.json':{icons:[{name:'Apple',url:'/icons/assets/apple.png'},{name:'China',url:'/icons/assets/china.png'}]}};
  if(remote)for(const [group,config]of Object.entries(core.SITE_GROUPS)){if(group==='main'||group===failGroup)continue;const counts=Object.fromEntries(config.clients.map(c=>[c,1]));responses[config.origin+'/status.json']={brand:'YanyuRule',group,last_success:new Date().toISOString(),counts,content_sha256:'fixture-'+group,scheduler_enabled:true};responses[config.origin+'/data/meta/capabilities.json']={capabilities:Object.fromEntries(config.clients.map(c=>[c,{}]))};for(const client of config.clients){const r={...rules[0],manifest:'/data/rules/'+client+'/'+'d'.repeat(24)+'/manifest.json'};responses[config.origin+'/data/index/'+client+'.json']={rules:[r]};responses[config.origin+r.manifest]={client,rule:r.name,artifacts:[{url:'/rules/'+client+'/11111111-1111-4111-8111-111111111111/rules.list',role:'full',ext:'list'}]};}}
- const sandbox={...core,URL,URLSearchParams,Intl,Date,Number,Set,Map,AbortController,AbortSignal,console,setTimeout:()=>0,clearTimeout(){},setInterval(){},location,history:{replaceState:(a,b,url)=>{location.hash=url;location.href=location.origin+'/'+url;}},localStorage:{getItem(key){return key==='yanyurule-client'?savedClient:null;},setItem(){}},navigator:{clipboard:{writeText:async t=>copied.push(t)}},window:{addEventListener(){}},document:{body:new Element('body'),activeElement:new Element(),createElement:t=>new Element(t),querySelector:s=>elements.get(s),querySelectorAll:s=>s==='.tab'?tabs:filters,addEventListener(){}},fetch:async value=>{
+ const sandbox={...core,URL,URLSearchParams,Intl,Date,Number,Set,Map,AbortController,AbortSignal,console,setTimeout:()=>0,clearTimeout(){},setInterval(){},location,history:{replaceState:(a,b,url)=>{location.hash=url;location.href=location.origin+'/'+url;}},localStorage:{getItem(key){return key==='yanyurule-client'?savedClient:null;},setItem(){}},navigator:{clipboard:{writeText:async t=>copied.push(t)}},window:{addEventListener(){},scrollTo:(x,y)=>scrolls.push([x,y])},document:{body:new Element('body'),activeElement:new Element(),createElement:t=>new Element(t),querySelector:s=>elements.get(s),querySelectorAll:s=>s==='.tab'?tabs:filters,addEventListener(){}},fetch:async value=>{
   if(responses[value])return {ok:true,json:async()=>responses[value]};
   const r=rules.find(r=>r.manifest===value);if(r)return {ok:true,json:async()=>({client:'Surge',rule:r.name,total_line_count:15,type_counts:{DOMAIN:1},artifacts:[{url:'/rules/Surge/11111111-1111-4111-8111-111111111111/rules.list',role:'full',ext:'list',label:'完整规则',recommended:true,byte_size:20}],providers:['https://example.org/author']})};
   return {ok:false,status:404};
  }};
  vm.runInNewContext(source,sandbox,{timeout:2000});await new Promise(r=>setImmediate(r));
- return {elements,tabs,filters,copied,location};
+ return {elements,tabs,filters,copied,location,scrolls};
 }
 test('real frontend boots, switches client, searches Chinese, and shows empty state',async()=>{const f=await fixture(),e=s=>f.elements.get('#'+s);assert.equal(e('count-Surge').textContent,'3');assert.equal(e('grid').children.length,3);await f.tabs.find(t=>t.dataset.client==='Mihomo').emit('click');assert.equal(e('grid').children.length,1);await f.tabs[0].emit('click');e('search').value='苹果';await e('search').emit('input');assert.equal(e('grid').children.length,1);e('search').value='missing';await e('search').emit('input');assert.equal(e('grid').children.length,0);assert.equal(e('empty').hidden,false);});
 test('real detail action reads local manifest, copies own-domain URL and shares route',async()=>{const f=await fixture(),e=s=>f.elements.get('#'+s);const card=e('grid').children.find(card=>allNodes(card).some(n=>n.textContent==='Apple'));await allNodes(card).find(n=>n.className==='rule-main').emit('click');assert.equal(e('detail').open,true);assert.ok(f.location.hash.includes('rule='));const copy=allNodes(e('detail-body')).find(n=>n.textContent==='复制链接');assert.ok(copy);await copy.emit('click');assert.equal(f.copied[0],'https://rule.yanyubaby.eu.org/rules/Surge/11111111-1111-4111-8111-111111111111/rules.list');await e('close').emit('click');assert.equal(e('detail').open,false);assert.ok(!f.location.hash.includes('rule='));});
@@ -46,5 +46,27 @@ test('mobile selection, sidebar clicks and vertical keyboard navigation stay syn
 test('one unavailable data group does not break the other group or existing clients',async()=>{const f=await fixture({remote:true,failGroup:'a'}),e=s=>f.elements.get('#'+s);assert.equal(e('grid').children.length,3);await f.tabs.find(t=>t.dataset.client==='Loon').emit('click');assert.equal(e('grid').children.length,0);assert.ok(e('empty').textContent.includes('暂时不可用'));await f.tabs.find(t=>t.dataset.client==='Egern').emit('click');assert.equal(e('grid').children.length,1);await f.tabs[0].emit('click');assert.equal(e('grid').children.length,3);});
 
 test('about shows requested copyright and Telegram contact without a data sources section',async()=>{const f=await fixture(),e=s=>f.elements.get('#'+s);await e('about').emit('click');const nodes=allNodes(e('detail-body'));assert.equal(e('detail').open,true);assert.ok(nodes.some(n=>n.textContent==='YANYU'));assert.ok(nodes.some(n=>n.tagName==='A'&&n.href==='https://t.me/+88807915423'&&n.rel==='noopener noreferrer'));assert.ok(nodes.some(n=>n.textContent==='所有版权归 YANYU 所有'));assert.ok(!nodes.some(n=>['数据来源','更新状态','查看同步记录','查看文件校验清单'].includes(n.textContent)));assert.ok(e('detail').classes.has('about-dialog'));assert.equal(e('about').attributes['aria-pressed'],'true');await e('rules-home').emit('click');assert.equal(e('detail').open,false);assert.equal(e('rules-home').attributes['aria-current'],'page');assert.equal(e('detail').classes.has('about-dialog'),false);});
+
+test('brand returns desktop and mobile clients to the default Surge home state',async()=>{
+ for(const client of ['Mihomo','Egern']){
+  const f=await fixture({remote:true,icons:true,initialHash:'#client=Surge'}),e=s=>f.elements.get('#'+s);
+  e('client-select').value=client;await e('client-select').emit('change');
+  e('search').value='Apple';await e('search').emit('input');
+  await f.filters.find(n=>n.dataset.filter==='domain').emit('click');
+  e('sort').value='size';await e('sort').emit('change');
+  await e('icons-open').emit('click');assert.equal(e('detail').open,true);
+  await e('rules-home').emit('click');
+  assert.equal(e('detail').open,false);
+  assert.equal(e('client-select').value,'Surge');
+  assert.equal(e('client-label').textContent,'Surge');
+  assert.equal(e('search').value,'');assert.equal(e('sort').value,'name');
+  assert.equal(f.filters.find(n=>n.dataset.filter==='all').classes.has('active'),true);
+  assert.equal(e('grid').children.length,3);
+  assert.equal(e('rules-home').attributes['aria-current'],'page');
+  assert.deepEqual(f.scrolls.at(-1),[0,0]);
+  assert.match(f.location.hash,/client=Surge/);
+  assert.ok(!f.location.hash.includes('q=')&&!f.location.hash.includes('sort=')&&!f.location.hash.includes('filter=')&&!f.location.hash.includes('view='));
+ }
+});
 
 test('home defaults to Surge despite legacy saved clients and preserves explicit client links',async()=>{for(const initialHash of ['', '#client=invalid']){const f=await fixture({remote:true,savedClient:'Loon',initialHash});assert.equal(f.elements.get('#client-select').value,'Surge');assert.equal(f.elements.get('#client-label').textContent,'Surge');assert.equal(f.elements.get('#grid').children.length,3);}const linked=await fixture({remote:true,savedClient:'Mihomo',initialHash:'#client=Loon'});assert.equal(linked.elements.get('#client-select').value,'Loon');assert.equal(linked.elements.get('#grid').children.length,1);});

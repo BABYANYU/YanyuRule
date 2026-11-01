@@ -99,7 +99,14 @@ for(const [id,delta]of [['prev',-1],['next',1]])$('#'+id).addEventListener('clic
 $('#close').addEventListener('click',()=>$('#detail').close());$('#detail').addEventListener('close',()=>{state.dialogId++;abortDetail?.abort();navigation('rules');setRoute();});
 $('#detail').addEventListener('click',e=>{if(e.target===$('#detail')){const r=$('#detail').getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)$('#detail').close();}});
 $('#about').addEventListener('click',about);$('#icons-open').addEventListener('click',showIcons);
-$('#rules-home').addEventListener('click',e=>{e.preventDefault();if($('#detail').open)$('#detail').close();navigation('rules');render();$('#library').scrollIntoView({block:'start',behavior:'instant'});});
+$('#rules-home').addEventListener('click',e=>{
+ e.preventDefault();
+ if($('#detail').open)$('#detail').close();
+ state.client='Surge';state.query='';state.filter='all';state.sort='name';state.page=1;
+ $('#search').value='';$('#sort').value='name';
+ navigation('rules');render();
+ window.scrollTo(0,0);
+});
 document.addEventListener('keydown',e=>{if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)&&!$('#detail').open){e.preventDefault();$('#search').focus();}});
 async function applyRoute(){const p=readRoute();render(false);if(p.get('view')==='about'){about();return;}if(p.get('view')==='icons'&&status.icon_count){await showIcons();return;}const rule=p.get('rule');if(rule){const r=data[state.client].rules.find(r=>r.id===rule);if(r)await showDetail(r);else{toast('该规则已不存在或已更名');setRoute();}}else if($('#detail').open)$('#detail').close();else navigation('rules');}
 async function refreshIconCatalog(){try{ruleIconCatalog=catalogIconMap(await json('/icons/catalog.json'));}catch{/* Keep brand/category icons available if the optional catalog cannot load. */}}
