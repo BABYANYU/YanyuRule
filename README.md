@@ -1,6 +1,6 @@
 # YanyuRule 部署与维护手册
 
-更新日期：2026-10-31。本文只记录部署、注意事项、维护、卸载和重新部署的方法。历史操作及验证结果见 [维护记录](documentation/DEPLOYMENT.md)。
+更新日期：2026-11-01。本文只记录部署、注意事项、维护、卸载和重新部署的方法。历史操作及验证结果见 [维护记录](documentation/DEPLOYMENT.md)。
 
 ## 当前部署位置
 
@@ -10,7 +10,7 @@
 | Cloudflare Pages | 项目 yanyurule |
 | 正式网站 | https://rule.yanyubaby.eu.org/ |
 | Pages 备用地址 | https://yanyurule.pages.dev/ |
-| 数据范围 | Surge、Mihomo；其他客户端尚未迁移 |
+| 数据范围 | Surge、Mihomo、Loon、QuantumultX、Shadowrocket、Egern、SingBox、Surfboard |
 | 每日同步 | 北京时间 11:17，GitHub 定时任务可能延迟 |
 | VPS | 无安装、无常驻服务、无数据库 |
 
@@ -99,3 +99,30 @@ node scripts/serve.mjs
 4. 默认重新获取上游当前数据。要恢复卸载前原样内容，必须使用事先保存且验证过的独立快照；当前没有一键恢复历史数据的脚本。
 5. 确认 HTTPS、规则下载、缺失文件 404 和全量校验通过后，再启用 YANYURULE_ENABLED，运行一次同步并核对线上请求 ID。
 6. 更新维护记录，写清日期、提交、部署结果及验证限制，不记录生产凭据。
+
+### 多项目分组配置
+
+| CF 项目 | YANYURULE_GROUP | 输出目录 | 数据范围 | 生产基线 |
+|---|---|---|---|---|
+| yanyurule | main（默认） | dist | 主界面、图标、Surge、Mihomo | https://yanyurule.pages.dev/status.json |
+| yanyurule-data-a | a | dist-a | Loon、QuantumultX、Shadowrocket | https://yanyurule-data-a.pages.dev/status.json |
+| yanyurule-data-b | b | dist-b | Egern、SingBox、Surfboard | https://yanyurule-data-b.pages.dev/status.json |
+
+三个项目使用同一私有仓库、同一生产分支 main、相同构建命令，但环境分组、输出目录和基线地址不同；不能互换。两个数据项目不绑定额外自定义域名。首次部署各自临时使用 INITIAL_BUILD=1，分别成功后改回 0。
+
+网站从可信的固定分组域名读取各客户端数据。每组独立校验和保留上次成功版本，页脚显示所选客户端所在分组的更新时间。数据项目故障不使其他组不可用。新增客户端的固定订阅地址位于其数据项目域名，原 Surge/Mihomo 地址不变。
+
+每日工作流仍在北京时间 11:17 提交一次同步标记，触发三个 CF 项目，并等待三组线上 request_id 全部一致、scheduler_enabled=true 后才报告成功。常规约 3 次构建/日，未包含人工修改和排错构建；额度以 CF 账号计划为准。不要把所有文件塞入一个项目。当前各组约 1.2 万、0.97 万、0.96 万文件。
+
+本地默认构建主站。PowerShell 检查数据组示例：
+
+```powershell
+$env:YANYURULE_GROUP='a'
+node scripts/sync.mjs
+node scripts/check.mjs
+Remove-Item Env:YANYURULE_GROUP
+```
+
+b 组同理。共用 .cache，输出、锁文件及失败回退按组隔离。主站复制链接、下载、筛选、图标和详情支持全部八个客户端。Loon、QuantumultX、Shadowrocket、Egern 提供本站本地过滤模块，源文件上限 1 MiB；SingBox、Surfboard 使用现成格式。模块已进行脚本环境测试，实际手机客户端导入仍需验证。
+
+卸载时先暂停工作流并结束在途构建，再清理这三个 Pages 项目；仅主站有 rule 的域名绑定。要保留原样数据，需导出三组静态快照，源码仓库不是数据备份。重建三组时应沿用原项目名；若名称变更，必须同步更新 site/clients.mjs、客户端过滤脚本中的固定数据域名、CF 基线和校验设置。仅改 DNS 不足以恢复新客户端链接。
