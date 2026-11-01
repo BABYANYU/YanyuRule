@@ -129,7 +129,7 @@ b 组同理。共用 .cache，输出、锁文件及失败回退按组隔离。�
 
 八客户端迁移及三项目维护记录：[2026-11-01 记录](documentation/MULTI-CLIENT-2026-11-01.md)。
 
-UI 维护：site/index.html 定义桌面左侧导航、移动端 client-select 与分享标题；site/style.css 定义侧栏及响应式布局，site/app.js 的 selectClient 统一处理导航、下拉选择和键盘切换。分享标题为“YanyuRule · 规则库”，三个 description 使用零宽字符实体 `&#8203;`（U+200B），视觉上无说明；不要清空或删除这些标签。2026-11-01 用户在 TG 对照实测：无说明无预览、零宽占位仅标题、普通说明同时显示副标题。旧消息的预览缓存不会由部署自动改写；应在发布后核对实际卡片，不能仅凭 WebpageBot 成功提示验收。
+UI 维护：site/index.html 定义客户端导航和分享元信息，site/style.css 定义侧栏及响应式布局，site/app.js 统一处理导航与选择。2026-11-01 按用户最新要求，将分享元信息完整恢复至 4f4a6dc 的原始 head：主标题“YanyuRule · 规则库”，副标题“YanyuRule，由 YANYU 设计与维护的 Surge 与 Mihomo 规则库。”。撤销零宽占位及后来新增的 Open Graph/Twitter/canonical 标签，保留现有 UI、八客户端功能及同步。原文仍提到两客户端是用户要求原样恢复的结果，不要擅自更换文案。网页内容恢复不能替代 Telegram 原网址实际预览验收。
 
 Telegram 分享只使用 https://rule.yanyubaby.eu.org 。用户已撤销参数分享地址、独立部署地址和测试页面，不再将这些作为替代入口。当前原网址的 Telegram 预览尚未恢复，不能因其他地址曾成功而标为完成。主站历史部署已按用户要求删除，只有当前生产部署保留；Pages 平台自带域名及任意查询参数不能作为独立资源删除，统一跳转需具备 Cloudflare 规则权限，目前现有授权对该接口返回 403。数据分片域名属于八客户端功能依赖，不作为独立网站推广，也不能随测试地址一起删除。
 
