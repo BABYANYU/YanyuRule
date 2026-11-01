@@ -7,7 +7,7 @@ const manifestCache=new Map();
 function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;}
 function dialogHeading(text){const n=el('h2','detail-title',text);n.id='dialog-title';return n;}
 function button(text,cls,fn){const n=el('button',cls,text);n.type='button';if(fn)n.addEventListener('click',fn);return n;}
-function navigation(view='rules'){$('#detail').classList.toggle('about-dialog',view==='about');for(const [id,target]of [['rules-home','rules'],['icons-open','icons'],['about','about']]){const n=$('#'+id);n.classList.toggle('active',target===view);n.setAttribute('aria-pressed',String(target===view));}}
+function navigation(view='rules'){$('#detail').classList.toggle('about-dialog',view==='about');for(const [id,target]of [['rules-home','rules'],['icons-open','icons'],['about','about']]){const n=$('#'+id);n.classList.toggle('active',target===view);n.setAttribute(id==='rules-home'?'aria-current':'aria-pressed',id==='rules-home'?(target===view?'page':'false'):String(target===view));}}
 let ruleIconCatalog=new Map();
 const iconContrastCache=new Map();
 function fixIconContrast(img,url){try{if(!iconContrastCache.has(url)){const canvas=document.createElement('canvas');canvas.width=32;canvas.height=32;const context=canvas.getContext('2d',{willReadFrequently:true});if(!context)return;context.drawImage(img,0,0,32,32);iconContrastCache.set(url,needsDarkInk(context.getImageData(0,0,32,32).data));}img.classList.toggle('light-ink',iconContrastCache.get(url));}catch{/* A failed contrast probe must not hide an otherwise usable image. */}}
@@ -25,6 +25,7 @@ function persist(){try{localStorage.setItem('yanyurule-client',state.client);}ca
 function setRoute(rule=null,view=false){const params=new URLSearchParams({client:state.client});if(state.query)params.set('q',state.query);if(state.filter!=='all')params.set('filter',state.filter);if(state.sort!=='name')params.set('sort',state.sort);if(state.page>1)params.set('page',String(state.page));if(rule)params.set('rule',rule.id);if(view)params.set('view',view===true?'icons':view);history.replaceState(null,'','#'+params);}
 function readRoute(){const p=new URLSearchParams(location.hash.slice(1));let last=null;try{last=localStorage.getItem('yanyurule-client');}catch{}state.client=CLIENTS.includes(p.get('client'))?p.get('client'):CLIENTS.includes(last)?last:'Surge';state.query=(p.get('q')||'').slice(0,200);state.filter=['all','domain','ip','other'].includes(p.get('filter'))?p.get('filter'):'all';state.sort=['name','updated','size'].includes(p.get('sort'))?p.get('sort'):'name';const page=Number(p.get('page'));state.page=Number.isSafeInteger(page)&&page>0?page:1;$('#search').value=state.query;$('#sort').value=state.sort;return p;}
 function render(updateRoute=true){
+ $('#client-select').value=state.client;$('#library').setAttribute('aria-label',state.client+' 规则库');
  const all=selectRules(data[state.client].rules,state),pages=Math.max(1,Math.ceil(all.length/PAGE_SIZE));state.page=Math.min(state.page,pages);
  $('#result-count').textContent=nf.format(all.length);$('#client-label').textContent=state.client;$('#empty').hidden=all.length!==0;$('#grid').replaceChildren();
  $('#empty').textContent=data[state.client].unavailable?'该客户端数据暂时不可用，请稍后刷新重试。':'没有找到匹配的规则。换个关键词试试。';if(data[state.client].unavailable)$('#result-count').textContent='—';
@@ -39,7 +40,7 @@ function render(updateRoute=true){
  }
  $('#prev').disabled=state.page===1;$('#next').disabled=state.page===pages;$('#page-number').textContent=state.page+' / '+pages;
  $('#page-info').textContent=all.length?`显示 ${(state.page-1)*PAGE_SIZE+1}–${Math.min(state.page*PAGE_SIZE,all.length)}，共 ${nf.format(all.length)} 项`:'0 项规则';
- document.querySelectorAll('.tab').forEach(n=>{const active=n.dataset.client===state.client;n.classList.toggle('active',active);n.setAttribute('aria-selected',String(active));});
+ document.querySelectorAll('.tab').forEach(n=>{const active=n.dataset.client===state.client;n.classList.toggle('active',active);n.setAttribute('aria-selected',String(active));n.tabIndex=active?0:-1;});
  document.querySelectorAll('.filter').forEach(n=>n.classList.toggle('active',n.dataset.filter===state.filter));
  $('#icons-open').hidden=!status.icon_count;syncStatus();persist();if(updateRoute)setRoute();
 }
@@ -90,14 +91,16 @@ function about(){
  body.append(el('p','about-copyright','© '+new Date().getFullYear()+' YANYU · YanyuRule'),el('p','about-rights','所有版权归 YANYU 所有'));
  if(!$('#detail').open)$('#detail').showModal();
 }
-document.querySelectorAll('.tab').forEach(n=>n.addEventListener('click',()=>{state.client=n.dataset.client;state.page=1;render();}));
+function selectClient(client){if(!CLIENTS.includes(client))return;state.client=client;state.page=1;render();}
+document.querySelectorAll('.tab').forEach(n=>{n.addEventListener('click',()=>selectClient(n.dataset.client));n.addEventListener('keydown',e=>{if(!['ArrowDown','ArrowUp','Home','End'].includes(e.key))return;e.preventDefault();const tabs=[...document.querySelectorAll('.tab')],index=tabs.indexOf(n),next=e.key==='Home'?0:e.key==='End'?tabs.length-1:(index+(e.key==='ArrowDown'?1:-1)+tabs.length)%tabs.length;tabs[next].focus();selectClient(tabs[next].dataset.client);});});
+$('#client-select').addEventListener('change',e=>selectClient(e.target.value));
 document.querySelectorAll('.filter').forEach(n=>n.addEventListener('click',()=>{state.filter=n.dataset.filter;state.page=1;render();}));
 $('#search').addEventListener('input',e=>{state.query=e.target.value;state.page=1;render();});$('#sort').addEventListener('change',e=>{state.sort=e.target.value;state.page=1;render();});
 for(const [id,delta]of [['prev',-1],['next',1]])$('#'+id).addEventListener('click',()=>{state.page+=delta;render();$('#grid').scrollIntoView({block:'start',behavior:'instant'});});
 $('#close').addEventListener('click',()=>$('#detail').close());$('#detail').addEventListener('close',()=>{state.dialogId++;abortDetail?.abort();navigation('rules');setRoute();});
 $('#detail').addEventListener('click',e=>{if(e.target===$('#detail')){const r=$('#detail').getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)$('#detail').close();}});
 $('#about').addEventListener('click',about);$('#icons-open').addEventListener('click',showIcons);
-$('#rules-home').addEventListener('click',()=>{if($('#detail').open)$('#detail').close();navigation('rules');render();$('#library').scrollIntoView({block:'start',behavior:'instant'});});
+$('#rules-home').addEventListener('click',e=>{e.preventDefault();if($('#detail').open)$('#detail').close();navigation('rules');render();$('#library').scrollIntoView({block:'start',behavior:'instant'});});
 document.addEventListener('keydown',e=>{if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)&&!$('#detail').open){e.preventDefault();$('#search').focus();}});
 async function applyRoute(){const p=readRoute();render(false);if(p.get('view')==='about'){about();return;}if(p.get('view')==='icons'&&status.icon_count){await showIcons();return;}const rule=p.get('rule');if(rule){const r=data[state.client].rules.find(r=>r.id===rule);if(r)await showDetail(r);else{toast('该规则已不存在或已更名');setRoute();}}else if($('#detail').open)$('#detail').close();else navigation('rules');}
 async function refreshIconCatalog(){try{ruleIconCatalog=catalogIconMap(await json('/icons/catalog.json'));}catch{/* Keep brand/category icons available if the optional catalog cannot load. */}}

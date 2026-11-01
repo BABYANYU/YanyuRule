@@ -5,7 +5,12 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#fafaf8">
-  <meta name="description" content="YanyuRule，由 YANYU 设计与维护的多客户端规则库。">
+  <meta name="description" content="">
+  <meta property="og:title" content="YanyuRule · 规则库">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="">
+  <meta name="twitter:title" content="YanyuRule · 规则库">
+  <meta name="twitter:description" content="">
   <title>YanyuRule · 规则库</title>
   <link rel="stylesheet" href="/style.css?v=contrast3">
 </head>
@@ -13,21 +18,20 @@
   <a class="skip-link" href="#library">跳到规则库</a>
   <header class="topbar">
     <div class="header-inner">
-      <a class="brand" href="/" aria-label="YanyuRule 首页">YanyuRule</a>
+      <a id="rules-home" class="brand" href="/" aria-label="YanyuRule 首页" aria-current="page">YanyuRule</a>
       <nav class="top-nav" aria-label="主导航">
-        <button id="rules-home" class="nav-link active" aria-pressed="true">规则库</button>
         <button id="icons-open" class="nav-link" aria-pressed="false">图标库</button>
         <button id="about" class="nav-link" aria-pressed="false">关于</button>
       </nav>
     </div>
   </header>
-  <main>
-    <section class="hero">
-      <h1>规则库</h1>
-      <p>支持 8 种客户端</p>
-    </section>
-    <section id="library" class="library" aria-label="规则库">
-      <div class="tabs" role="tablist" aria-label="客户端">
+  <main class="page-shell">
+    <h1 class="sr-only">规则库</h1>
+    <div class="workspace">
+      <aside class="client-sidebar" aria-label="客户端导航">
+        <div class="sidebar-inner">
+          <p class="sidebar-label">客户端</p>
+      <div class="tabs" role="tablist" aria-label="客户端" aria-orientation="vertical">
         <button role="tab" aria-selected="true" class="tab active" data-client="Surge">Surge <span class="client-count" id="count-Surge">—</span></button>
         <button role="tab" aria-selected="false" class="tab" data-client="Mihomo">Mihomo <span class="client-count" id="count-Mihomo">—</span></button>
         <button role="tab" aria-selected="false" class="tab" data-client="Loon">Loon <span class="client-count" id="count-Loon">—</span></button>
@@ -37,6 +41,18 @@
         <button role="tab" aria-selected="false" class="tab" data-client="SingBox">sing-box <span class="client-count" id="count-SingBox">—</span></button>
         <button role="tab" aria-selected="false" class="tab" data-client="Surfboard">Surfboard <span class="client-count" id="count-Surfboard">—</span></button>
       </div>
+        </div>
+      </aside>
+    <section id="library" class="library" aria-label="规则库">
+      <label class="mobile-client-picker">
+        <span>客户端</span>
+        <select id="client-select" aria-label="选择客户端">
+          <option value="Surge">Surge</option><option value="Mihomo">Mihomo</option>
+          <option value="Loon">Loon</option><option value="QuantumultX">Quantumult X</option>
+          <option value="Shadowrocket">Shadowrocket</option><option value="Egern">Egern</option>
+          <option value="SingBox">sing-box</option><option value="Surfboard">Surfboard</option>
+        </select>
+      </label>
       <div class="toolbar">
         <label class="search">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.75"/><path d="m16 16 4.5 4.5"/></svg>
@@ -61,6 +77,7 @@
         <div><button id="prev" class="page-button" aria-label="上一页">←</button><span id="page-number"></span><button id="next" class="page-button" aria-label="下一页">→</button></div>
       </div>
     </section>
+    </div>
     <footer>
       <div class="sync"><span id="sync-mode">正在读取同步状态…</span><span class="separator">·</span><span id="sync-time"></span></div>
       <span class="copyright">© <span id="copyright-year">2026</span> YANYU</span>
