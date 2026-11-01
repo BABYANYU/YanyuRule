@@ -9,7 +9,7 @@
 | 源码仓库 | BABYANYU/YanyuRule，私有，生产分支 main |
 | Cloudflare Pages | 项目 yanyurule |
 | 正式网站 | https://rule.yanyubaby.eu.org/ |
-| Pages 备用地址 | https://yanyurule.pages.dev/ |
+| 唯一对外入口 | https://rule.yanyubaby.eu.org |
 | 数据范围 | Surge、Mihomo、Loon、QuantumultX、Shadowrocket、Egern、SingBox、Surfboard |
 | 每日同步 | 北京时间 11:17，GitHub 定时任务可能延迟 |
 | VPS | 无安装、无常驻服务、无数据库 |
@@ -131,4 +131,6 @@ b 组同理。共用 .cache，输出、锁文件及失败回退按组隔离。�
 
 UI 维护：site/index.html 定义桌面左侧导航、移动端 client-select 与分享标题；site/style.css 定义侧栏及响应式布局，site/app.js 的 selectClient 统一处理导航、下拉选择和键盘切换。分享标题为“YanyuRule · 规则库”，三个 description 使用零宽字符实体 `&#8203;`（U+200B），视觉上无说明；不要清空或删除这些标签。2026-11-01 用户在 TG 对照实测：无说明无预览、零宽占位仅标题、普通说明同时显示副标题。旧消息的预览缓存不会由部署自动改写；应在发布后核对实际卡片，不能仅凭 WebpageBot 成功提示验收。
 
-Telegram 分享：2026-11-01 用户已确认 [正式域名分享地址](https://rule.yanyubaby.eu.org/?share=85e168f) 仅显示主标题，完整首页独立部署也成功；无参数根网址当时仍无预览。带参数地址与原首页 HTML 完全一致，可持续使用，不影响每日同步或规则订阅路径。参数用于区分 Telegram 预览网址，不需要随每次数据同步更换。根网址恢复时间由 Telegram 重新抓取及缓存状态决定，不能承诺期限；不要为了旧预览状态反复改正常元信息或清除 CF 缓存。
+Telegram 分享只使用 https://rule.yanyubaby.eu.org 。用户已撤销参数分享地址、独立部署地址和测试页面，不再将这些作为替代入口。当前原网址的 Telegram 预览尚未恢复，不能因其他地址曾成功而标为完成。主站历史部署已按用户要求删除，只有当前生产部署保留；Pages 平台自带域名及任意查询参数不能作为独立资源删除，统一跳转需具备 Cloudflare 规则权限，目前现有授权对该接口返回 403。数据分片域名属于八客户端功能依赖，不作为独立网站推广，也不能随测试地址一起删除。
+
+文档维护提交可使用 `[CF-Pages-Skip]` 前缀跳过 Pages 构建，避免仅写维护记录就生成新部署；功能更新和每日同步提交不能加此标记。
