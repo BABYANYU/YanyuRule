@@ -53,7 +53,7 @@ SingBox、Surfboard 提供现成文件，不虚构过滤模块。保留 SRS/JSON
 
 ## 每日同步与卸载恢复
 
-现有 daily-sync.yml 每天北京时间 11:17（GitHub 可能延迟）在 main 提交一个请求标记，三个 CF 项目分别构建。`scripts/wait-for-deployment.mjs` 等待三组 request_id 全部对应本次请求且 scheduler_enabled=true 才报告成功。手动运行也只允许 main，避免从开发分支覆盖生产分支。
+现有 daily-sync.yml 每天北京时间 00:00（GitHub 可能延迟）在 main 提交一个请求标记，三个 CF 项目分别构建。`scripts/wait-for-deployment.mjs` 等待三组 request_id 全部对应本次请求且 scheduler_enabled=true 才报告成功。手动运行也只允许 main，避免从开发分支覆盖生产分支。
 
 一组失败时先检查对应项目日志和 env/output 配置，不关闭校验，不重建其他组。三组使用同一源码，构建缓存、暂存目录、输出、锁和失败回退按组处理；不清理其他组仍需要的共享下载缓存。
 

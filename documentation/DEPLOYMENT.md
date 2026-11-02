@@ -23,7 +23,7 @@
 
 ## 每日更新
 
-1. GitHub Actions 的 daily-sync.yml 每天 UTC 03:17（北京时间 11:17）运行，也可手动 Run workflow。
+1. GitHub Actions 的 daily-sync.yml 每天 UTC 16:00（前一日）（北京时间 00:00）运行，也可手动 Run workflow。
 2. 工作流测试通过后，用仓库自身 GITHUB_TOKEN 提交 .sync-request.json。
 3. CF 的仓库连接自动启动构建：测试、抓取、完整性检查全部通过后才发布。
 4. 工作流轮询正式站点 status.json，确认相同 request_id 已上线且 scheduler_enabled=true；超时或失败不会被视为成功。
