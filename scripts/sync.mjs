@@ -3,6 +3,7 @@ import {mkdir,readFile,writeFile,stat,rm,rename,cp,open,readdir} from 'node:fs/p
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {artifactVerification} from './integrity.mjs';
+import {verifiedDownload} from './verified-download.mjs';
 import {versionFrontend} from './frontend-assets.mjs';
 import {SITE_GROUPS,adaptCapability} from '../site/clients.mjs';
 const ROOT=process.env.NODE_ENV==='test'&&process.env.YANYURULE_TEST_ROOT?path.resolve(process.env.YANYURULE_TEST_ROOT):fileURLToPath(new URL('../',import.meta.url));
@@ -32,24 +33,15 @@ async function request(value,{immutable=false,expected=null}={}){
  let meta=null,cached=null;
  try{meta=JSON.parse(await readFile(metaFile,'utf8'));cached=await readFile(bodyFile);if(hash(cached)!==meta.sha256)throw Error('Cache integrity');}catch{meta=null;cached=null;}
  if(immutable&&cached&&verified(cached,expected)){cacheHits++;return cached;}
- for(let attempt=0;attempt<4;attempt++){
-  try{
-   const headers={'User-Agent':'YanyuRule-Sync/1.0 (daily static mirror)'};
-   if(meta?.etag&&cached)headers['If-None-Match']=meta.etag;
-   else if(meta?.lastModified&&cached)headers['If-Modified-Since']=meta.lastModified;
-   const response=await fetch(u,{headers,redirect:'error',signal:AbortSignal.timeout(60000)});
-   if(response.status===304&&cached){if(!verified(cached,expected))throw Error('SHA256_MISMATCH '+u.pathname);cacheHits++;return cached;}
-   if(!response.ok)throw Error('HTTP '+response.status+' '+u.pathname);
-   if(Number(response.headers.get('content-length'))>MAX)throw Error('PAGES_SIZE_LIMIT '+u.pathname);
-   const chunks=[];let size=0;
-   for await(const chunk of response.body){size+=chunk.byteLength;if(size>MAX)throw Error('PAGES_SIZE_LIMIT '+u.pathname);chunks.push(chunk);}
-   const bytes=Buffer.concat(chunks);
-   if(!verified(bytes,expected))throw Error('SHA256_MISMATCH '+u.pathname);
-   if(/<!doctype html|<html[\s>]/i.test(bytes.subarray(0,200).toString()))throw Error('Unexpected HTML '+u.pathname);
-   const cacheMeta={sha256:hash(bytes),etag:response.headers.get('etag'),lastModified:response.headers.get('last-modified')};
-   await writeFile(bodyFile,bytes);await writeFile(metaFile,JSON.stringify(cacheMeta));downloaded++;networkBytes+=size;return bytes;
-  }catch(e){if(attempt===3||/PAGES_SIZE_LIMIT|SHA256_MISMATCH/.test(e.message))throw e;await new Promise(r=>setTimeout(r,1000*2**attempt));}
- }
+ const headers={'User-Agent':'YanyuRule-Sync/1.0 (daily static mirror)'};
+ if(meta?.etag&&cached)headers['If-None-Match']=meta.etag;
+ else if(meta?.lastModified&&cached)headers['If-Modified-Since']=meta.lastModified;
+ const result=await verifiedDownload(u,{headers,expected,cached,maxBytes:MAX,onRetry:({attempt,error})=>log(`Retry ${attempt}/3 with fresh upstream cache: ${error}`)});
+ if(result.verification==='semantic')normalizedHeaders++;
+ if(result.notModified){cacheHits++;return result.bytes;}
+ const {bytes,etag,lastModified}=result;
+ await writeFile(bodyFile,bytes);await writeFile(metaFile,JSON.stringify({sha256:hash(bytes),etag,lastModified}));
+ downloaded++;networkBytes+=bytes.length;return bytes;
 }
 async function json(value){const bytes=await request(value);try{return JSON.parse(bytes.toString('utf8'));}catch{throw Error('Invalid JSON '+value);}}
 async function parallel(items,fn,label){let pos=0,done=0;let failed=null;const start=Date.now();await Promise.all(Array.from({length:4},async()=>{while(pos<items.length&&!failed){const item=items[pos++];try{await fn(item);done++;completed++;if(done%100===0||done===items.length)log(`${label}: ${done}/${items.length}, ${Math.round((Date.now()-start)/1000)}s`);}catch(e){failed=e;}}}));if(failed)throw failed;}
