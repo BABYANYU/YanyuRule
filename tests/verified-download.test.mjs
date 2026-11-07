@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {verifiedDownload} from '../scripts/verified-download.mjs';
 import {sha256} from '../scripts/integrity.mjs';
+import {retrySnapshot} from '../scripts/retry-snapshot.mjs';
 const url='https://magicrule.pages.dev/data/_shared/artifacts/ChinaIPs_ipcidr_123456789abcdef0.yaml';
 const good=Buffer.from("payload:\n- '1.0.1.0/24'\n"),stale=Buffer.from("payload:\n- '1.0.2.0/24'\n");
 const expected={mode:'exact',bytes_sha256:sha256(good)},sleep=async()=>{};
@@ -38,4 +39,12 @@ test('valid 304 and header-normalized content keep the existing verification rul
  const semantic={mode:'standard_header_normalized',bytes_sha256:sha256(text),semantic_sha256:sha256('IP-CIDR,1.0.1.0/24\n'),normalized_header_lines:1};
  const check=await verifiedDownload(url,{expected:semantic,sleep,fetchImpl:async()=>new Response(text.replace('old','new'))});assert.equal(check.verification,'semantic');
  await assert.rejects(verifiedDownload(url,{expected:semantic,sleep,fetchImpl:async()=>new Response(text.replace('1.0.1.0','1.0.2.0'))}),/SHA256_MISMATCH/);
+});
+
+test('snapshot transition retries the entire build once and persistent corruption still fails',async()=>{
+ let calls=0;
+ const result=await retrySnapshot(async()=>{if(++calls===1)throw Error('SHA256_MISMATCH /old.yaml');return 'fresh verified snapshot';},{sleep,log:()=>{}});
+ assert.equal(calls,2);assert.equal(result,'fresh verified snapshot');
+ calls=0;await assert.rejects(retrySnapshot(async()=>{calls++;throw Error('SHA256_MISMATCH /bad.yaml');},{sleep,log:()=>{}}),/SHA256_MISMATCH/);assert.equal(calls,2);
+ calls=0;await assert.rejects(retrySnapshot(async()=>{calls++;throw Error('PAGES_SIZE_LIMIT');},{sleep,log:()=>{}}),/PAGES_SIZE_LIMIT/);assert.equal(calls,1);
 });

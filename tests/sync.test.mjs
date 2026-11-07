@@ -24,7 +24,7 @@ test('successful snapshot commits atomically; failed successor leaves it intact'
   const publicPath=path.join(dir,'dist/rules/Surge/11111111-1111-4111-8111-111111111111/rules.list');
   assert.equal(await readFile(publicPath,'utf8'),'DOMAIN,example.test\n');
   const oldIndex=JSON.parse(await readFile(path.join(dir,'dist/data/index/Surge.json'),'utf8'));
-  await exec(process.execPath,args,{env:{...env,YANYURULE_MOCK_UPDATED:'1'}});
+  const transitioned=await exec(process.execPath,args,{env:{...env,YANYURULE_MOCK_UPDATED:'1',YANYURULE_MOCK_TRANSITION:'1'}});assert.match(transitioned.stdout,/retrying the complete snapshot with fresh metadata/);
   const newIndex=JSON.parse(await readFile(path.join(dir,'dist/data/index/Surge.json'),'utf8'));
   assert.equal(oldIndex.rules[0].manifest,newIndex.rules[0].manifest,'manifest URL stays stable across upstream hash changes');
   const before=await readFile(path.join(dir,'dist/status.json'),'utf8'),artifact=await readFile(publicPath,'utf8');assert.equal(artifact,'DOMAIN,new.example.test\n');

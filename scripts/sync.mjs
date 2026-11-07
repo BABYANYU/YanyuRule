@@ -1,9 +1,10 @@
-import {createHash} from 'node:crypto';
+import {createHash,randomUUID} from 'node:crypto';
 import {mkdir,readFile,writeFile,stat,rm,rename,cp,open,readdir} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {artifactVerification} from './integrity.mjs';
 import {verifiedDownload} from './verified-download.mjs';
+import {retrySnapshot} from './retry-snapshot.mjs';
 import {versionFrontend} from './frontend-assets.mjs';
 import {SITE_GROUPS,adaptCapability} from '../site/clients.mjs';
 const ROOT=process.env.NODE_ENV==='test'&&process.env.YANYURULE_TEST_ROOT?path.resolve(process.env.YANYURULE_TEST_ROOT):fileURLToPath(new URL('../',import.meta.url));
@@ -21,6 +22,7 @@ const usedCache=new Set();
 const log=x=>console.log(new Date().toISOString(),x);
 let completed=0,downloaded=0,cacheHits=0,networkBytes=0;
 let normalizedHeaders=0;
+let snapshotId=randomUUID();
 function verified(bytes,expected){
  const mode=artifactVerification(bytes,expected);if(mode==='semantic')normalizedHeaders++;return Boolean(mode);
 }
@@ -34,9 +36,11 @@ async function request(value,{immutable=false,expected=null}={}){
  try{meta=JSON.parse(await readFile(metaFile,'utf8'));cached=await readFile(bodyFile);if(hash(cached)!==meta.sha256)throw Error('Cache integrity');}catch{meta=null;cached=null;}
  if(immutable&&cached&&verified(cached,expected)){cacheHits++;return cached;}
  const headers={'User-Agent':'YanyuRule-Sync/1.0 (daily static mirror)'};
- if(meta?.etag&&cached)headers['If-None-Match']=meta.etag;
+ const target=new URL(u);
+ if(!immutable&&!expected){target.searchParams.set('_yanyurule_snapshot',snapshotId);headers['Cache-Control']='no-cache';}
+ else if(meta?.etag&&cached)headers['If-None-Match']=meta.etag;
  else if(meta?.lastModified&&cached)headers['If-Modified-Since']=meta.lastModified;
- const result=await verifiedDownload(u,{headers,expected,cached,maxBytes:MAX,onRetry:({attempt,error})=>log(`Retry ${attempt}/3 with fresh upstream cache: ${error}`)});
+ const result=await verifiedDownload(target,{headers,expected,cached,maxBytes:MAX,onRetry:({attempt,error})=>log(`Retry ${attempt}/3 with fresh upstream cache: ${error}`)});
  if(result.verification==='semantic')normalizedHeaders++;
  if(result.notModified){cacheHits++;return result.bytes;}
  const {bytes,etag,lastModified}=result;
@@ -112,4 +116,7 @@ async function main(){
   const report={...status,downloaded,cache_hits:cacheHits,network_bytes:networkBytes,normalized_headers:normalizedHeaders};await writeFile(path.join(ROOT,GROUP==='main'?'sync-report.json':'sync-report-'+GROUP+'.json'),JSON.stringify(report,null,2));log(JSON.stringify(report));
  }finally{await lock.close();await rm(lockPath,{force:true});}
 }
-main().catch(e=>{console.error('SYNC_FAILED:',e.message);process.exitCode=1;});
+retrySnapshot(async()=>{
+ snapshotId=randomUUID();completed=0;downloaded=0;cacheHits=0;networkBytes=0;normalizedHeaders=0;usedCache.clear();
+ await main();
+},{log}).catch(e=>{console.error('SYNC_FAILED:',e.message);process.exitCode=1;});
