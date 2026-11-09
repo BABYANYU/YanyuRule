@@ -5,7 +5,7 @@ import {readFile} from 'node:fs/promises';
 import {SITE_GROUPS,CLIENTS,clientResource,adaptCapability,moduleInstallURL} from '../site/clients.mjs';
 import {customSubscription} from '../site/core.mjs';
 import egern,{filterYaml} from '../site/modules/egern-rule-filter.mjs';
-const id='11111111-1111-4111-8111-111111111111',own='https://rule.yanyubaby.eu.org';
+const id='11111111-1111-4111-8111-111111111111',own='https://rule.fakeyou.eu.org';
 const script=await readFile(new URL('../site/modules/client-rule-filter.js',import.meta.url),'utf8');
 test('eight clients have fixed owners and resources cannot escape their group or client',()=>{
  assert.equal(CLIENTS.length,8);assert.deepEqual(SITE_GROUPS.main.clients,['Surge','Mihomo']);

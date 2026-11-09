@@ -12,7 +12,7 @@ Actions 42295202679 的测试已通过，数据组 a/b 已发布，但主站 CF 
 
 ## 已部署状态
 
-- 正式站点： https://rule.yanyubaby.eu.org/
+- 正式站点： https://rule.fakeyou.eu.org/
 - CF Pages 项目：yanyurule；备用地址： https://yanyurule.pages.dev/
 - 私有源码仓库：BABYANYU/YanyuRule，生产分支 main。
 - 用户已完成 Cloudflare Workers and Pages GitHub App 的仓库授权及 CNAME 配置；本次没有修改其他 DNS 记录或 VPS。
@@ -38,7 +38,7 @@ Actions 42295202679 的测试已通过，数据组 a/b 已发布，但主站 CF 
 
 实测工作流： https://github.com/BABYANYU/YanyuRule/actions/runs/41162724189 ，结果 success。请求 ID daily-41162724189-1 已在正式站点确认。
 
-仓库变量：YANYURULE_ENABLED=true、YANYURULE_PUBLIC_BASE_URL=https://rule.yanyubaby.eu.org。
+仓库变量：YANYURULE_ENABLED=true、YANYURULE_PUBLIC_BASE_URL=https://rule.fakeyou.eu.org。
 
 CF 生产构建设置：
 

@@ -1,7 +1,7 @@
 /* YanyuRule client-side rule filter. No remote script evaluation or arbitrary source URLs. */
 (function () {
  'use strict';
- var ORIGIN='https://rule.yanyubaby.eu.org';
+ var ORIGIN='https://rule.fakeyou.eu.org';
  var BITS={'DOMAIN':1,'DOMAIN-SUFFIX':2,'DOMAIN-KEYWORD':4,'USER-AGENT':8,'URL-REGEX':16,'IP-CIDR':32,'IP-CIDR6':64,'GEOIP':128,'IP-ASN':256,'DEST-PORT':512,'PROTOCOL':1024,'PROCESS-NAME':2048,'IN-PORT':4096,'SRC-IP':8192,'AND':32768,'OR':65536,'NOT':131072};
  var ended=false;
  function finish(status,body){if(ended)return;ended=true;$done({response:{status:status,headers:{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'},body:body}});}

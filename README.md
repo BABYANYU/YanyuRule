@@ -8,8 +8,8 @@
 |---|---|
 | 源码仓库 | BABYANYU/YanyuRule，私有，生产分支 main |
 | Cloudflare Pages | 项目 yanyurule |
-| 正式网站 | https://rule.yanyubaby.eu.org/ |
-| 唯一对外入口 | https://rule.yanyubaby.eu.org |
+| 正式网站 | https://rule.fakeyou.eu.org/ |
+| 唯一对外入口 | https://rule.fakeyou.eu.org |
 | 数据范围 | Surge、Mihomo、Loon、QuantumultX、Shadowrocket、Egern、SingBox、Surfboard |
 | 每日同步 | 北京时间 00:00，GitHub 定时任务可能延迟 |
 | VPS | 无安装、无常驻服务、无数据库 |
@@ -36,9 +36,9 @@
    | YANYURULE_SCHEDULER_ENABLED | 已验证定时链路后设为 true |
 
    真正首次部署或删除旧站后重新部署时，上次线上基线不存在，可仅在初始化构建临时设 YANYURULE_INITIAL_BUILD=1；成功后立即改回 0 并重新构建验证。正常更新的基线失败不能借此绕过。
-5. 添加自定义域名 rule.yanyubaby.eu.org。DNS 使用 CNAME：名称 rule，目标 yanyurule.pages.dev。确认 HTTPS 正常，不修改其他 DNS 记录。
+5. 添加自定义域名 rule.fakeyou.eu.org。DNS 使用 CNAME：名称 rule，目标 yanyurule.pages.dev。确认 HTTPS 正常，不修改其他 DNS 记录。
 6. GitHub → Settings → Secrets and variables → Actions → Variables：
-   - YANYURULE_PUBLIC_BASE_URL=https://rule.yanyubaby.eu.org
+   - YANYURULE_PUBLIC_BASE_URL=https://rule.fakeyou.eu.org
    - YANYURULE_ENABLED=true：首次部署成功后才启用。
 
    工作流使用 GitHub 自动提供的 GITHUB_TOKEN。不要把 CF OAuth、账号级 Token 或 SSH 凭据存入仓库。
@@ -129,9 +129,9 @@ b 组同理。共用 .cache，输出、锁文件及失败回退按组隔离。�
 
 八客户端迁移及三项目维护记录：[2026-11-01 记录](documentation/MULTI-CLIENT-2026-11-01.md)。
 
-UI 维护：site/index.html 定义客户端导航和分享元信息，site/style.css 定义侧栏及响应式布局，site/app.js 统一处理导航与选择。2026-11-01 按用户最新要求，将分享元信息完整恢复至 4f4a6dc 的原始 head：主标题“YanyuRule · 规则库”，副标题“YanyuRule，由 YANYU 设计与维护的 Surge 与 Mihomo 规则库。”。撤销零宽占位及后来新增的 Open Graph/Twitter/canonical 标签，保留现有 UI、八客户端功能及同步。原文仍提到两客户端是用户要求原样恢复的结果，不要擅自更换文案。网页内容恢复不能替代 Telegram 原网址实际预览验收。
+UI 维护：site/index.html 定义客户端导航和分享元信息，site/style.css 定义侧栏及响应式布局，site/app.js 统一处理导航与选择。分享主标题为“YanyuRule · 规则库”，副标题为“多客户端规则库”。
 
-Telegram 分享只使用 https://rule.yanyubaby.eu.org 。用户已撤销参数分享地址、独立部署地址和测试页面，不再将这些作为替代入口。当前原网址的 Telegram 预览尚未恢复，不能因其他地址曾成功而标为完成。主站历史部署已按用户要求删除，只有当前生产部署保留；Pages 平台自带域名及任意查询参数不能作为独立资源删除，统一跳转需具备 Cloudflare 规则权限，目前现有授权对该接口返回 403。数据分片域名属于八客户端功能依赖，不作为独立网站推广，也不能随测试地址一起删除。
+Telegram 分享使用 https://rule.fakeyou.eu.org/ 。已安装的旧域名订阅需替换域名，路径可直接沿用；带脚本地址的过滤模块请从新站重新安装。数据分组仍通过各自的 Pages 地址提供订阅。
 
 文档维护提交可使用 `[CF-Pages-Skip]` 前缀跳过 Pages 构建，避免仅写维护记录就生成新部署；功能更新和每日同步提交不能加此标记。
 

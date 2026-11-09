@@ -1,10 +1,10 @@
 #!name=YanyuRule Loon Filter
 #!desc=本地过滤规则类型，仅处理 yanyu.rule 虚拟域名。
 #!author=YANYU
-#!homepage=https://rule.yanyubaby.eu.org/
+#!homepage=https://rule.fakeyou.eu.org/
 
 [Script]
-http-request ^https:\/\/yanyu\.rule\/Loon\/list\? script-path=https://rule.yanyubaby.eu.org/modules/client-rule-filter.js,timeout=30,tag=YanyuRule Filter,enable=true
+http-request ^https:\/\/yanyu\.rule\/Loon\/list\? script-path=https://rule.fakeyou.eu.org/modules/client-rule-filter.js,timeout=30,tag=YanyuRule Filter,enable=true
 
 [MITM]
 hostname = %APPEND% yanyu.rule

@@ -60,7 +60,7 @@ async function main(){
   let previous=null;try{previous=JSON.parse(await readFile(path.join(DIST,'status.json'),'utf8'));}catch{try{previous=JSON.parse(await readFile(path.join(CACHE,'last-success-'+GROUP+'.json'),'utf8'));}catch{}}
   if(args.has('--production')&&process.env.YANYURULE_BASELINE_URL){
    const baseline=new URL(process.env.YANYURULE_BASELINE_URL);
-   if(baseline.protocol!=='https:'||baseline.pathname!=='/status.json'||!(baseline.origin===SITE_GROUPS[GROUP].origin||GROUP==='main'&&baseline.hostname==='rule.yanyubaby.eu.org'))throw Error('Invalid production baseline URL');
+   if(baseline.protocol!=='https:'||baseline.pathname!=='/status.json'||!(baseline.origin===SITE_GROUPS[GROUP].origin||GROUP==='main'&&baseline.hostname==='rule.fakeyou.eu.org'))throw Error('Invalid production baseline URL');
    try{
     const r=await fetch(baseline,{cache:'no-store',signal:AbortSignal.timeout(30000)});if(!r.ok)throw Error('HTTP '+r.status);
     const value=await r.json();if(value.brand!=='YanyuRule'||(value.group||'main')!==GROUP||!CLIENTS.every(c=>Number.isSafeInteger(value.counts?.[c])&&value.counts[c]>0))throw Error('Invalid published baseline');
@@ -99,7 +99,7 @@ async function main(){
   await saveJSON('/data/meta/capabilities.json',{generated_at:capabilities.generated_at,capabilities:caps});
   for(const client of CLIENTS)await saveJSON('/data/index/'+client+'.json',indexes[client]);
   if(GROUP==='main'){await cp(path.join(ROOT,'site'),OUT,{recursive:true});await versionFrontend(OUT);}
-  else{await put('/index.html','<!doctype html><meta charset="utf-8"><title>YanyuRule data</title><a href="https://rule.yanyubaby.eu.org/">YanyuRule 规则库</a>');await cp(path.join(ROOT,'site/404.html'),path.join(OUT,'404.html'));await put('/_headers','/*\n  Access-Control-Allow-Origin: *\n  X-Content-Type-Options: nosniff\n  Cache-Control: public, max-age=300, must-revalidate\n\n/status.json\n  Cache-Control: no-cache\n');}
+  else{await put('/index.html','<!doctype html><meta charset="utf-8"><title>YanyuRule data</title><a href="https://rule.fakeyou.eu.org/">YanyuRule 规则库</a>');await cp(path.join(ROOT,'site/404.html'),path.join(OUT,'404.html'));await put('/_headers','/*\n  Access-Control-Allow-Origin: *\n  X-Content-Type-Options: nosniff\n  Cache-Control: public, max-age=300, must-revalidate\n\n/status.json\n  Cache-Control: no-cache\n');}
   const publicFiles=await files(OUT);if(publicFiles.length>20000)throw Error('PAGES_FILE_LIMIT '+publicFiles.length);
   let totalBytes=0,maxFileBytes=0;const integrity=[];
   for(const f of publicFiles){const bytes=await readFile(f);if(bytes.length>MAX)throw Error('PAGES_SIZE_LIMIT '+path.relative(OUT,f));totalBytes+=bytes.length;maxFileBytes=Math.max(maxFileBytes,bytes.length);integrity.push({path:'/'+path.relative(OUT,f).split(path.sep).join('/'),bytes:bytes.length,sha256:hash(bytes)});}

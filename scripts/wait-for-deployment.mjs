@@ -1,6 +1,6 @@
 import {SITE_GROUPS} from '../site/clients.mjs';
-const base=new URL(process.env.YANYURULE_PUBLIC_BASE_URL||'https://rule.yanyubaby.eu.org');
-if(base.protocol!=='https:'||base.hostname!=='rule.yanyubaby.eu.org'&&base.origin!==SITE_GROUPS.main.origin)throw Error('Unexpected public site URL');
+const base=new URL(process.env.YANYURULE_PUBLIC_BASE_URL||'https://rule.fakeyou.eu.org');
+if(base.protocol!=='https:'||base.hostname!=='rule.fakeyou.eu.org'&&base.origin!==SITE_GROUPS.main.origin)throw Error('Unexpected public site URL');
 const expected=process.env.SYNC_REQUEST_ID;
 if(!/^[A-Za-z0-9_-]{1,100}$/.test(expected||''))throw Error('Missing sync request ID');
 const until=Date.now()+20*60000;let success=false;
