@@ -9,7 +9,7 @@ import {versionFrontend} from './frontend-assets.mjs';
 import {SITE_GROUPS,adaptCapability} from '../site/clients.mjs';
 const ROOT=process.env.NODE_ENV==='test'&&process.env.YANYURULE_TEST_ROOT?path.resolve(process.env.YANYURULE_TEST_ROOT):fileURLToPath(new URL('../',import.meta.url));
 const SOURCE='https://magicrule.pages.dev';
-const ALLOWED_ORIGINS=new Set([SOURCE,'https://rule-26r.pages.dev']);
+const ALLOWED_ORIGINS=new Set([SOURCE,'https://rule-26r.pages.dev','https://rule2-ze9.pages.dev']);
 const GROUP=process.env.YANYURULE_GROUP||'main';
 if(!SITE_GROUPS[GROUP])throw Error('Unknown deployment group');
 const CLIENTS=SITE_GROUPS[GROUP].clients;

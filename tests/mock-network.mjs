@@ -5,6 +5,7 @@ const updated=process.env.YANYURULE_MOCK_UPDATED==='1';
 const bytes=Buffer.from(updated?'DOMAIN,new.example.test\n':'DOMAIN,example.test\n');
 const artifactRequests=new Set();
 const snapshots=new Set();
+const clientOrigin=client=>client==='Egern'?'https://rule2-ze9.pages.dev':'https://magicrule.pages.dev';
 // Keep deterministic retry tests fast; production uses the real backoff delays.
 const realTimeout=globalThis.setTimeout;
 globalThis.setTimeout=(fn,ms,...args)=>realTimeout(fn,ms<=10000?0:ms,...args);
@@ -14,8 +15,8 @@ globalThis.fetch=async input=>{
   const snapshot=new URL(input).searchParams.get('_yanyurule_snapshot');if(!snapshot)throw Error('Metadata was not refreshed');snapshots.add(snapshot);
  }
  if(pathname==='/data/meta/capabilities.json')value={capabilities:Object.fromEntries(CLIENTS.map(c=>[c,{}]))};
- else if(pathname.startsWith('/data/index/')){const client=pathname.split('/').at(-1).replace('.json','');value={rules:[{id:'11111111-1111-4111-8111-111111111111',name:'Test',types:['DOMAIN'],manifest:'https://magicrule.pages.dev/data/rules/'+client+'/'+(updated?'b':'a').repeat(24)+'/manifest.json'}]};}
- else if(pathname.endsWith('/manifest.json')){const client=pathname.split('/')[3];value={client,rule:'Test',artifacts:[{key:'rules',ext:'list',role:'full',url:'https://magicrule.pages.dev/data/_shared/artifacts/Test_rules_'+(updated?'abcdef0123456789':'123456789abcdef0')+'.list',dedupe:{mode:'exact',bytes_sha256:process.env.YANYURULE_MOCK_FAIL==='1'?'0'.repeat(64):createHash('sha256').update(bytes).digest('hex')}}]};}
+ else if(pathname.startsWith('/data/index/')){const client=pathname.split('/').at(-1).replace('.json','');value={rules:[{id:'11111111-1111-4111-8111-111111111111',name:'Test',types:['DOMAIN'],manifest:clientOrigin(client)+'/data/rules/'+client+'/'+(updated?'b':'a').repeat(24)+'/manifest.json'}]};}
+ else if(pathname.endsWith('/manifest.json')){const client=pathname.split('/')[3];value={client,rule:'Test',artifacts:[{key:'rules',ext:'list',role:'full',url:clientOrigin(client)+'/data/_shared/artifacts/'+(client==='Egern'?'Egern':'Test')+'_rules_'+(updated?'abcdef0123456789':'123456789abcdef0')+'.list',dedupe:{mode:'exact',bytes_sha256:process.env.YANYURULE_MOCK_FAIL==='1'?'0'.repeat(64):createHash('sha256').update(bytes).digest('hex')}}]};}
  else if(pathname.startsWith('/data/_shared/artifacts/')){
   if(process.env.YANYURULE_MOCK_TRANSITION==='1'&&snapshots.size===1)return new Response('DOMAIN,previous-snapshot.example.test\n');
   if(process.env.YANYURULE_MOCK_STALE==='1'){
