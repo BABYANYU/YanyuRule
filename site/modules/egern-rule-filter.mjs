@@ -1,5 +1,6 @@
 /* YanyuRule Egern local filter: strict flat rule-set YAML, no backend fallback. */
-const BITS={domain_set:1,domain_suffix_set:2,domain_keyword_set:4,domain_wildcard_set:8,ip_cidr_set:16,ip_cidr6_set:32,asn_set:64,url_regex_set:128,user_agent_set:256,dest_port_set:512,geoip_set:1024,protocol_set:2048};
+const BITS={domain_set:1,domain_suffix_set:2,domain_keyword_set:4,domain_wildcard_set:8,ip_cidr_set:16,ip_cidr6_set:32,asn_set:64,url_regex_set:128,user_agent_set:256,dest_port_set:512,geoip_set:1024,protocol_set:2048,domain_regex_set:4096};
+const ALLOWED_MASK=Object.values(BITS).reduce((mask,bit)=>mask|bit,0);
 function glob(pattern,value){let p=0,v=0,star=-1,start=0;pattern=pattern.toLowerCase();value=value.toLowerCase();while(v<value.length){if(p<pattern.length&&(pattern[p]==='?'||pattern[p]===value[v])){p++;v++;}else if(pattern[p]==='*'){star=p++;start=v;}else if(star>=0){p=star+1;v=++start;}else return false;}while(pattern[p]==='*')p++;return p===pattern.length;}
 export function filterYaml(body,mask,skip=false,exclude=''){
  if(typeof body!=='string'||body.length>1048576||unescape(encodeURIComponent(body)).length>1048576)throw Error('Source exceeds 1 MiB');
@@ -22,7 +23,7 @@ export default async function(ctx){
  let url,source,mask,exclude;
  try{url=new URL(ctx.request.url);if(url.origin!=='https://yanyu.rule'||url.pathname!=='/Egern/list'||ctx.request.method&&ctx.request.method!=='GET')throw Error('Invalid request');for(const key of url.searchParams.keys())if(!['s','c','o','n','x'].includes(key)||url.searchParams.getAll(key).length!==1)throw Error('Unexpected parameter');
   const name=url.searchParams.get('s')||'',selection=url.searchParams.get('c')||'';mask=Number(selection);exclude=(url.searchParams.get('x')||'').trim();
-  if(!/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}\/[a-zA-Z0-9_-]{1,80}\.yaml$/i.test(name)||!/^\d{1,4}$/.test(selection)||mask<1||(mask&4095)!==mask||url.searchParams.get('o')!=='rule-set')throw Error('Invalid selection');
+  if(!/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}\/[a-zA-Z0-9_-]{1,80}\.yaml$/i.test(name)||!/^\d{1,4}$/.test(selection)||mask<1||(mask&ALLOWED_MASK)!==mask||url.searchParams.get('o')!=='rule-set')throw Error('Invalid selection');
   if(exclude.length>256||/[\r\n\0]/.test(exclude))throw Error('Invalid exclusion');source='https://yanyurule-data-b.pages.dev/rules/Egern/'+name;
  }catch(e){return reply(400,'# YanyuRule: '+e.message+'\n');}
  try{const response=await ctx.http.get(source,{headers:{'Accept-Encoding':'identity'},timeout:25000});if(response.status!==200)throw Error('Source download failed');const length=Number(response.headers?.get?.('content-length'));if(length>1048576)throw Error('Source exceeds 1 MiB');return reply(200,filterYaml(await response.text(),mask,url.searchParams.get('n')==='1',exclude));}

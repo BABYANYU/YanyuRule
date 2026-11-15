@@ -30,7 +30,7 @@ test('persistent corruption is rejected after four attempts, even with an old ca
 });
 
 test('size limit remains fatal without retry, including streamed bodies',async()=>{
- let calls=0;await assert.rejects(verifiedDownload(url,{maxBytes:2,sleep,fetchImpl:async()=>{calls++;return new Response(good);}}),/PAGES_SIZE_LIMIT/);assert.equal(calls,1);
+ let calls=0;await assert.rejects(verifiedDownload(url,{expected,maxBytes:2,sleep,fetchImpl:async()=>{calls++;return new Response(good);}}),/PAGES_SIZE_LIMIT/);assert.equal(calls,1);
 });
 
 test('valid 304 and header-normalized content keep the existing verification rules',async()=>{

@@ -2,7 +2,7 @@ import {createHash,randomUUID} from 'node:crypto';
 import {mkdir,readFile,writeFile,stat,rm,rename,cp,open,readdir} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {artifactVerification} from './integrity.mjs';
+import {artifactVerification,validArtifactExpectation} from './integrity.mjs';
 import {verifiedDownload} from './verified-download.mjs';
 import {retrySnapshot} from './retry-snapshot.mjs';
 import {versionFrontend} from './frontend-assets.mjs';
@@ -29,29 +29,38 @@ function verified(bytes,expected){
 function sourceURL(value){const u=new URL(value,SOURCE);if(!ALLOWED_ORIGINS.has(u.origin)||u.username||u.password||u.search||u.hash)throw Error('Unexpected upstream URL: '+value);return u;}
 function localPath(value){const u=sourceURL(value);const p=decodeURIComponent(u.pathname);if(p.includes('\\')||p.includes('\0')||p.split('/').some(x=>x==='..'||x==='.')||!p.startsWith('/'))throw Error('Unsafe file path');return p;}
 async function put(p,bytes){const f=path.join(OUT,p.replace(/^\//,''));await mkdir(path.dirname(f),{recursive:true});await writeFile(f,bytes);}
-async function request(value,{immutable=false,expected=null}={}){
+async function request(value,{immutable=false,expected=null,allowUnverified=false,versioned=false}={}){
+ if(!(allowUnverified&&expected===null)&&!validArtifactExpectation(expected))throw Error('INVALID_ARTIFACT_HASH '+sourceURL(value).pathname);
  const u=sourceURL(value),key=hash(u.href),bodyFile=path.join(CACHE,key+'.bin'),metaFile=path.join(CACHE,key+'.json');
  usedCache.add(key);
  let meta=null,cached=null;
  try{meta=JSON.parse(await readFile(metaFile,'utf8'));cached=await readFile(bodyFile);if(hash(cached)!==meta.sha256)throw Error('Cache integrity');}catch{meta=null;cached=null;}
- if(immutable&&cached&&verified(cached,expected)){cacheHits++;return cached;}
+ if(immutable&&cached&&(allowUnverified&&expected===null||verified(cached,expected))){cacheHits++;return cached;}
  const headers={'User-Agent':'YanyuRule-Sync/1.0 (daily static mirror)'};
  const target=new URL(u);
  if(!immutable&&!expected){target.searchParams.set('_yanyurule_snapshot',snapshotId);headers['Cache-Control']='no-cache';}
  else if(meta?.etag&&cached)headers['If-None-Match']=meta.etag;
  else if(meta?.lastModified&&cached)headers['If-Modified-Since']=meta.lastModified;
- const result=await verifiedDownload(target,{headers,expected,cached,maxBytes:MAX,onRetry:({attempt,error})=>log(`Retry ${attempt}/3 with fresh upstream cache: ${error}`)});
+ const result=await verifiedDownload(target,{headers,expected,cached,allowUnverified,versioned,maxBytes:MAX,onRetry:({attempt,error})=>log(`Retry ${attempt}/3 with fresh upstream cache: ${error}`)});
  if(result.verification==='semantic')normalizedHeaders++;
  if(result.notModified){cacheHits++;return result.bytes;}
  const {bytes,etag,lastModified}=result;
  await writeFile(bodyFile,bytes);await writeFile(metaFile,JSON.stringify({sha256:hash(bytes),etag,lastModified}));
  downloaded++;networkBytes+=bytes.length;return bytes;
 }
-async function json(value){const bytes=await request(value);try{return JSON.parse(bytes.toString('utf8'));}catch{throw Error('Invalid JSON '+value);}}
+async function json(value,{versioned=false}={}){const bytes=await request(value,{allowUnverified:true,versioned});try{return JSON.parse(bytes.toString('utf8'));}catch{throw Error('Invalid JSON '+value);}}
 async function parallel(items,fn,label){let pos=0,done=0;let failed=null;const start=Date.now();await Promise.all(Array.from({length:4},async()=>{while(pos<items.length&&!failed){const item=items[pos++];try{await fn(item);done++;completed++;if(done%100===0||done===items.length)log(`${label}: ${done}/${items.length}, ${Math.round((Date.now()-start)/1000)}s`);}catch(e){failed=e;}}}));if(failed)throw failed;}
 async function files(root){const out=[];for(const ent of await readdir(root,{withFileTypes:true})){const full=path.join(root,ent.name);if(ent.isDirectory())out.push(...await files(full));else out.push(full);}return out;}
 async function saveJSON(p,value){await put(p,JSON.stringify(value));}
+async function saveAuxiliary(file,value){
+ const temp=file+'.'+randomUUID()+'.tmp';
+ try{await writeFile(temp,value);await rename(temp,file);}
+ catch(error){console.warn('SYNC_WARNING: published snapshot retained; auxiliary write failed: '+path.basename(file)+' '+error.code);}
+ finally{await rm(temp,{force:true}).catch(error=>console.warn('SYNC_WARNING: temporary file cleanup failed: '+error.code));}
+}
 async function main(){
+ if(args.has('--production')&&!process.env.YANYURULE_BASELINE_URL&&process.env.YANYURULE_INITIAL_BUILD!=='1')throw Error('Missing production baseline URL');
+ let committed=false;
  const lockPath=path.join(ROOT,GROUP==='main'?'.sync.lock':'.sync-'+GROUP+'.lock');const lock=await open(lockPath,'wx');
  try{
   await mkdir(CACHE,{recursive:true});await rm(OUT,{recursive:true,force:true});await mkdir(OUT,{recursive:true});
@@ -77,22 +86,23 @@ async function main(){
   log('Index entries: '+jobs.length);
   const artifacts=new Map();
   await parallel(jobs,async j=>{
-   const m=await json(j.manifest);
+   const m=await json(j.manifest,{versioned:true});
    if(m.client!==j.client||m.rule!==j.rule.name||!Array.isArray(m.artifacts))throw Error('Manifest identity mismatch '+j.path);
+   if(!m.artifacts.length)throw Error('Empty rule artifacts '+j.path);
    const keys=new Set();
-   for(const a of m.artifacts){const upstream=a.url;const p=localPath(upstream);if(!p.startsWith('/data/_shared/artifacts/')&&!p.startsWith('/data/rules/'))throw Error('Unexpected artifact path '+p);if(!/^[A-Za-z0-9_-]{1,80}$/.test(a.key)||!(/^[A-Za-z0-9]{1,8}$/).test(a.ext)||keys.has(a.key+'.'+a.ext))throw Error('Invalid or duplicate artifact key');keys.add(a.key+'.'+a.ext);const expected=a.dedupe||null;const existing=artifacts.get(p);if(existing?.expected&&expected&&(existing.expected.semantic_sha256||existing.expected.bytes_sha256)!==(expected.semantic_sha256||expected.bytes_sha256))throw Error('Conflicting artifact hash '+p);const destinations=existing?.destinations||new Set();const stable='/rules/'+j.client+'/'+j.rule.id+'/'+a.key+'.'+a.ext;destinations.add(stable);artifacts.set(p,{upstream,path:p,destinations,expected:expected||existing?.expected});a.url=stable;}
+   for(const a of m.artifacts){const upstream=a.url;const p=localPath(upstream);if(!p.startsWith('/data/_shared/artifacts/')&&!p.startsWith('/data/rules/'))throw Error('Unexpected artifact path '+p);if(!/^[A-Za-z0-9_-]{1,80}$/.test(a.key)||!(/^[A-Za-z0-9]{1,8}$/).test(a.ext)||keys.has(a.key+'.'+a.ext))throw Error('Invalid or duplicate artifact key');keys.add(a.key+'.'+a.ext);const expected=a.dedupe;if(!validArtifactExpectation(expected))throw Error('INVALID_ARTIFACT_HASH '+p);const existing=artifacts.get(p);if(existing?.expected&&expected&&(existing.expected.semantic_sha256||existing.expected.bytes_sha256)!==(expected.semantic_sha256||expected.bytes_sha256))throw Error('Conflicting artifact hash '+p);const destinations=existing?.destinations||new Set();const stable='/rules/'+j.client+'/'+j.rule.id+'/'+a.key+'.'+a.ext;destinations.add(stable);artifacts.set(p,{upstream,path:p,destinations,expected:expected||existing?.expected});a.url=stable;}
    j.outputManifest=m;
    await saveJSON(j.outputPath,m);
   },'Manifests');
   log('Unique artifacts: '+artifacts.size);
-  await parallel([...artifacts.values()],async a=>{const bytes=await request(a.upstream,{immutable:/_[a-f0-9]{16,}\./i.test(a.path),expected:a.expected});for(const destination of a.destinations)await put(destination,bytes);},'Artifacts');
+  await parallel([...artifacts.values()],async a=>{const bytes=await request(a.upstream,{immutable:/_[a-f0-9]{16,}\./i.test(a.path),expected:a.expected,versioned:/_[a-f0-9]{16,}\./i.test(a.path)||/^\/data\/rules\/[^/]+\/[a-f0-9]{24}\//.test(a.path)});for(const destination of a.destinations)await put(destination,bytes);},'Artifacts');
   for(const j of jobs){for(const a of j.outputManifest.artifacts)a.byte_size=(await stat(path.join(OUT,a.url.slice(1)))).size;await saveJSON(j.outputPath,j.outputManifest);}
   let iconCount=0;
   if(withIcons){
    const config=await json('/data/meta/config.json');const catalog=await json(config.icon_catalog_url);
    if(!Array.isArray(catalog.icons)||catalog.icons.length===0)throw Error('Empty icon catalog');
    const iconJobs=new Map();for(const icon of catalog.icons){const u=sourceURL(icon.url);const name=path.posix.basename(u.pathname);if(!/^[a-zA-Z0-9._-]+$/.test(name))throw Error('Invalid icon name');const p='/icons/assets/'+name;iconJobs.set(p,{upstream:u.href,path:p});icon.url=p;}
-   await parallel([...iconJobs.values()],async a=>{await put(a.path,await request(a.upstream,{immutable:true}));},'Icons');
+   await parallel([...iconJobs.values()],async a=>{await put(a.path,await request(a.upstream,{immutable:true,allowUnverified:true}));},'Icons');
    await saveJSON('/icons/catalog.json',catalog);await saveJSON('/icons/sources.json',await json(config.icon_sources_url));iconCount=catalog.icons.length;
   }
   const caps={};for(const client of CLIENTS){if(!capabilities.capabilities[client])throw Error('Missing capabilities '+client);caps[client]=adaptCapability(client,capabilities.capabilities[client]);}
@@ -111,10 +121,18 @@ async function main(){
   const previousDir=DIST+'.previous';await rm(previousDir,{recursive:true,force:true});
   let hadPrevious=false;try{await stat(DIST);await rename(DIST,previousDir);hadPrevious=true;}catch(e){if(e.code!=='ENOENT')throw e;}
   try{await rename(OUT,DIST);}catch(e){if(hadPrevious)await rename(previousDir,DIST);throw e;}
-  await writeFile(path.join(CACHE,'last-success-'+GROUP+'.json'),JSON.stringify(status));
+  committed=true;
+  // dist/status.json is authoritative. Auxiliary cache/report failures cannot undo a committed snapshot.
+  await saveAuxiliary(path.join(CACHE,'last-success-'+GROUP+'.json'),JSON.stringify(status));
   // Cache is shared by independently built groups; never prune another group's cache.
-  const report={...status,downloaded,cache_hits:cacheHits,network_bytes:networkBytes,normalized_headers:normalizedHeaders};await writeFile(path.join(ROOT,GROUP==='main'?'sync-report.json':'sync-report-'+GROUP+'.json'),JSON.stringify(report,null,2));log(JSON.stringify(report));
- }finally{await lock.close();await rm(lockPath,{force:true});}
+  const report={...status,downloaded,cache_hits:cacheHits,network_bytes:networkBytes,normalized_headers:normalizedHeaders};await saveAuxiliary(path.join(ROOT,GROUP==='main'?'sync-report.json':'sync-report-'+GROUP+'.json'),JSON.stringify(report,null,2));log(JSON.stringify(report));
+ }finally{
+  const cleanup=await Promise.allSettled([lock.close(),rm(lockPath,{force:true})]);
+  for(const result of cleanup)if(result.status==='rejected'){
+   if(!committed)throw result.reason;
+   console.warn('SYNC_WARNING: published snapshot retained; lock cleanup failed: '+result.reason.code);
+  }
+ }
 }
 retrySnapshot(async()=>{
  snapshotId=randomUUID();completed=0;downloaded=0;cacheHits=0;networkBytes=0;normalizedHeaders=0;usedCache.clear();
