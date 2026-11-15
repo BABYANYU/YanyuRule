@@ -141,6 +141,8 @@ Telegram 分享使用 https://rule.fakeyou.eu.org/ 。已安装的旧域名订�
 
 ### 2026-11-15 可靠性审查
 
+完整维护交接：[审查、修复、验证与排障步骤](documentation/AUDIT-2026-11-15.md) · [三站上线验收数据](documentation/AUDIT-2026-11-15-deployment.json)。
+
 - 当前绑定的正式域名为 `rule.fakeyou.eu.org`，`rule.yanyubaby.eu.org` 在本轮检查时未配置有效 DNS；不要将旧域名失效误判为规则同步失败。更换域名需同步 Pages 绑定、DNS、GitHub 公开站点变量及代码允许的 origin。
 - 生产同步缺少基线配置会拒绝执行；首次建站只允许显式设置 `YANYURULE_INITIAL_BUILD=1`，完成后恢复为 `0`。
 - 规则产物必须带合法的上游 SHA-256 校验元数据；空产物清单不能发布。标准头语义校验仍保留，以兼容上游共享文件。
