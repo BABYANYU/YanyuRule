@@ -86,7 +86,7 @@ async function showIcons(){
 }
 function about(){
  navigation('about');state.dialogId++;abortDetail?.abort();setRoute(null,'about');$('#detail-client').textContent='关于';const body=$('#detail-body');body.replaceChildren(dialogHeading('YanyuRule'),el('p','about-copy','多客户端规则库'));
- const credit=el('p','about-credit');credit.append(el('span','','由 '),el('strong','','YANYU'),el('span','',' 设计与维护'));const contact=link('Telegram ↗','https://t.me/+88807915423','contact-link');contact.setAttribute('aria-label','通过 Telegram 联系 YANYU');body.append(credit,contact);
+ const contact=link('Telegram ↗','https://t.me/+88807915423','contact-link');contact.setAttribute('aria-label','通过 Telegram 联系 YANYU');body.append(contact);
  body.append(el('p','about-copyright','© '+new Date().getFullYear()+' YANYU · YanyuRule'),el('p','about-rights','所有版权归 YANYU 所有'));
  if(!$('#detail').open)$('#detail').showModal();
 }
