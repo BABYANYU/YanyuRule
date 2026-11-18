@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="color-scheme" content="light">
+  <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#fafaf8">
   <meta name="description" content="多客户端规则库">
   <title>YanyuRule · 规则库</title>
@@ -16,6 +16,7 @@
   <meta property="og:site_name" content="YanyuRule">
   <meta property="og:title" content="YanyuRule · 规则库">
   <meta property="og:description" content="多客户端规则库">
+  <script src="/theme.v1.js"></script>
   <link rel="stylesheet" href="/style.css?v=contrast3">
 </head>
 <body>
@@ -24,7 +25,10 @@
     <div class="header-inner">
       <a id="rules-home" class="brand" href="/" aria-label="YanyuRule 首页" aria-current="page">YanyuRule</a>
       <nav class="top-nav" aria-label="主导航">
-        <button id="icons-open" class="nav-link" aria-pressed="false">图标库</button>
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="切换深色模式" hidden>
+          <svg class="theme-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15A8 8 0 0 1 9 4a8 8 0 1 0 11 11Z"/></svg>
+          <svg class="theme-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+        </button>
         <button id="about" class="nav-link" aria-pressed="false">关于</button>
       </nav>
     </div>

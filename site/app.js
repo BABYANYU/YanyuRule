@@ -7,7 +7,7 @@ const manifestCache=new Map();
 function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;}
 function dialogHeading(text){const n=el('h2','detail-title',text);n.id='dialog-title';return n;}
 function button(text,cls,fn){const n=el('button',cls,text);n.type='button';if(fn)n.addEventListener('click',fn);return n;}
-function navigation(view='rules'){$('#detail').classList.toggle('about-dialog',view==='about');for(const [id,target]of [['rules-home','rules'],['icons-open','icons'],['about','about']]){const n=$('#'+id);n.classList.toggle('active',target===view);n.setAttribute(id==='rules-home'?'aria-current':'aria-pressed',id==='rules-home'?(target===view?'page':'false'):String(target===view));}}
+function navigation(view='rules'){$('#detail').classList.toggle('about-dialog',view==='about');for(const [id,target]of [['rules-home','rules'],['about','about']]){const n=$('#'+id);n.classList.toggle('active',target===view);n.setAttribute(id==='rules-home'?'aria-current':'aria-pressed',id==='rules-home'?(target===view?'page':'false'):String(target===view));}}
 let ruleIconCatalog=new Map();
 const iconContrastCache=new Map();
 function fixIconContrast(img,url){try{if(!iconContrastCache.has(url)){const canvas=document.createElement('canvas');canvas.width=32;canvas.height=32;const context=canvas.getContext('2d',{willReadFrequently:true});if(!context)return;context.drawImage(img,0,0,32,32);iconContrastCache.set(url,needsDarkInk(context.getImageData(0,0,32,32).data));}img.classList.toggle('light-ink',iconContrastCache.get(url));}catch{/* A failed contrast probe must not hide an otherwise usable image. */}}
@@ -41,7 +41,7 @@ function render(updateRoute=true){
  $('#page-info').textContent=all.length?`显示 ${(state.page-1)*PAGE_SIZE+1}–${Math.min(state.page*PAGE_SIZE,all.length)}，共 ${nf.format(all.length)} 项`:'0 项规则';
  document.querySelectorAll('.tab').forEach(n=>{const active=n.dataset.client===state.client;n.classList.toggle('active',active);n.setAttribute('aria-selected',String(active));n.tabIndex=active?0:-1;});
  document.querySelectorAll('.filter').forEach(n=>n.classList.toggle('active',n.dataset.filter===state.filter));
- $('#icons-open').hidden=!status.icon_count;syncStatus();if(updateRoute)setRoute();
+ syncStatus();if(updateRoute)setRoute();
 }
 function syncStatus(){const current=groupStatuses[groupForClient(state.client)];const health=current?syncHealth(current):{text:'该客户端数据暂不可用',stale:true};$('#sync-mode').textContent=health.text;$('#sync-mode').classList.toggle('error',health.stale);const full=date(current?.last_success,true);$('#sync-time').textContent=current?'更新于 '+full.replace(/^\d{4}\./,''):'';$('#sync-time').title=current?full+'（北京时间）':'';$('#copyright-year').textContent=String(new Date().getFullYear());}
 async function loadManifest(r,client,signal){const url=new URL(resourceURL(r.manifest,client));if(!url.pathname.startsWith('/data/rules/'+client+'/'))throw Error('无效清单路径');const path=url.origin===location.origin?url.pathname:url.href,key=client+':'+path;const m=manifestCache.get(key)||await json(path,signal);if(m.client!==client||m.rule!==r.name||!Array.isArray(m.artifacts))throw Error('清单不匹配');manifestCache.set(key,m);return m;}
@@ -98,7 +98,7 @@ $('#search').addEventListener('input',e=>{state.query=e.target.value;state.page=
 for(const [id,delta]of [['prev',-1],['next',1]])$('#'+id).addEventListener('click',()=>{state.page+=delta;render();$('#grid').scrollIntoView({block:'start',behavior:'instant'});});
 $('#close').addEventListener('click',()=>$('#detail').close());$('#detail').addEventListener('close',()=>{state.dialogId++;abortDetail?.abort();navigation('rules');setRoute();});
 $('#detail').addEventListener('click',e=>{if(e.target===$('#detail')){const r=$('#detail').getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)$('#detail').close();}});
-$('#about').addEventListener('click',about);$('#icons-open').addEventListener('click',showIcons);
+$('#about').addEventListener('click',about);
 $('#rules-home').addEventListener('click',e=>{
  e.preventDefault();
  if($('#detail').open)$('#detail').close();
