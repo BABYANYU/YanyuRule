@@ -1,6 +1,8 @@
 # 六客户端迁移与三项目维护
 
-日期：2026-11-01。用户明确授权创建 `yanyurule-data-a`、`yanyurule-data-b` 两个免费 Pages 项目并公开规则数据。仍使用原私有仓库 `BABYANYU/YanyuRule`，不新建仓库、不新增 DNS、不修改 VPS。
+日期：2026-11-01。用户明确授权创建 `yanyurule-data-a`、`yanyurule-data-b` 两个免费 Pages 项目并公开规则数据。沿用仓库 `BABYANYU/YanyuRule`，不新建仓库、不新增 DNS、不修改 VPS。
+
+补充（2026-11-18）：仓库已公开，站点设计与代码按 MIT 许可发布，规则数据版权归各来源所有。本文及维护记录中更早出现的“私有仓库 / private”只描述当时的仓库状态。
 
 ## 分组与恢复配置
 
@@ -76,6 +78,6 @@ SingBox、Surfboard 提供现成文件，不虚构过滤模块。保留 SRS/JSON
 | yanyurule-data-a | b82cd6ef-f405-4420-9900-33faa82afa5a |
 | yanyurule-data-b | bb559d5a-9384-4ee5-b785-0be0e376f702 |
 
-三个项目均为生产分支 main、INITIAL_BUILD=0；输出目录和基线各自对应。GitHub API 再次核实源码仓库 private，未创建新仓库或引入 CF 账号级凭据。
+三个项目均为生产分支 main、INITIAL_BUILD=0；输出目录和基线各自对应。GitHub API 再次核实源码仓库可见性，未创建新仓库或引入 CF 账号级凭据。
 
 45 项测试及三组云端全量文件校验通过；线上核对 9,481 个清单引用和 34 个规则文件样本 SHA-256，覆盖文本、YAML、JSON、MRS、SRS、插件及模块。跨域头、缺失规则 404、主站八个入口正常。四类新过滤模块读取线上真实 AcFun 数据并在相应脚本环境模拟中成功筛选，未调用动态后端函数。内置浏览器自动控制不可用，未声称完成自动截图或手机客户端导入验收。

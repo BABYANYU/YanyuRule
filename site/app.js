@@ -74,6 +74,8 @@ async function showDetail(r){
   const subscriptions=section('规则订阅与下载');subscriptions.append(el('p','field-help',client==='Mihomo'?'YAML / TEXT 按 behavior 区分使用；MRS 为 Mihomo 二进制格式，请在兼容的版本中使用。':'复制对应格式的链接，在 '+client+' 中添加规则集。'));
   let total=0;for(const a of m.artifacts){if(a.empty)continue;const url=resourceURL(a.url,client),row=el('div','artifact'),info=el('div');info.append(el('div','artifact-name',a.label||a.key||'规则文件'),el('div','artifact-meta',[String(a.ext||'').toUpperCase(),a.binary?'二进制':'文本',a.recommended?'推荐':null,a.byte_size!=null?formatBytes(a.byte_size):null].filter(Boolean).join(' · ')));const actions=el('div','artifact-actions'),dl=button('下载文件','download');dl.addEventListener('click',()=>download(a,dl,client));actions.append(button('复制链接','copy',()=>copy(url)),dl,link('打开',url,'download'));row.append(info,actions);subscriptions.append(row);total++;}
   if(!total)subscriptions.append(el('p','muted','该规则暂未发布可用文件。'));host.append(subscriptions);
+  const upstream=[...new Set((Array.isArray(m.providers)?m.providers:Array.isArray(r.providers)?r.providers:[]).filter(p=>typeof p==='string'&&/^https?:\/\//i.test(p)))];
+  if(upstream.length){const credits=section('来源与致谢');for(const p of upstream)credits.append(link(p,p,'provider'));credits.append(el('p','field-help','原规则作者的署名、来源与版权声明保留在规则文件中。'));host.append(credits);}
   customControls(r,m,host,capabilities[client]);
  }catch(e){if(id!==state.dialogId||signal.aborted)return;loading.replaceChildren(el('span','error','详情读取失败。'),button('重新加载','text-button',()=>showDetail(r)));}
 }
@@ -86,8 +88,13 @@ async function showIcons(){
 }
 function about(){
  navigation('about');state.dialogId++;abortDetail?.abort();setRoute(null,'about');$('#detail-client').textContent='关于';const body=$('#detail-body');body.replaceChildren(dialogHeading('YanyuRule'),el('p','about-copy','多客户端规则库'));
- const contact=link('Telegram ↗','https://t.me/+88807915423','contact-link');contact.setAttribute('aria-label','通过 Telegram 联系 YANYU');body.append(contact);
- body.append(el('p','about-copyright','© '+new Date().getFullYear()+' YANYU · YanyuRule'),el('p','about-rights','所有版权归 YANYU 所有'));
+ const credit=el('p','about-credit');credit.append(el('span','','由 '),el('strong','','YANYU'),el('span','',' 设计与维护'));const contact=link('Telegram ↗','https://t.me/+88807915423','contact-link');contact.setAttribute('aria-label','通过 Telegram 联系 YANYU');body.append(credit,contact);
+ const year=new Date().getFullYear();
+ body.append(el('p','about-copyright','© '+year+' YANYU · YanyuRule'),el('p','about-rights','站点设计与代码 © '+year+' YANYU，按 MIT 许可发布；规则数据版权归各来源所有。'));
+ const sources=section('规则数据来源');sources.className='detail-section about-sources';
+ sources.append(link('MagicRule · magicrule.pages.dev','https://magicrule.pages.dev','provider'),link('MIT 许可全文','https://github.com/BABYANYU/YanyuRule/blob/main/LICENSE','provider'));
+ sources.append(el('p','field-help','规则数据每日从 MagicRule 同步；各规则的原始署名、来源与许可保留在清单和规则文件中，品牌图标来自 Simple Icons（CC0）。'));
+ body.append(sources);
  if(!$('#detail').open)$('#detail').showModal();
 }
 function selectClient(client){if(!CLIENTS.includes(client))return;state.client=client;state.page=1;render();}
