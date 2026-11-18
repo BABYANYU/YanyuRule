@@ -6,7 +6,7 @@
 
 | 项目 | 配置 |
 |---|---|
-| 源码仓库 | BABYANYU/YanyuRule，私有，生产分支 main |
+| 源码仓库 | BABYANYU/YanyuRule，公开，生产分支 main |
 | Cloudflare Pages | 项目 yanyurule |
 | 正式网站 | https://rule.fakeyou.eu.org/ |
 | 唯一对外入口 | https://rule.fakeyou.eu.org |
@@ -14,7 +14,7 @@
 | 每日同步 | 北京时间 00:00，GitHub 定时任务可能延迟 |
 | VPS | 无安装、无常驻服务、无数据库 |
 
-网站公开与仓库私有分别管理。创建新项目或仓库前必须先与用户确认可见性及发布范围；不得擅自公开源码。
+网站公开与仓库私有分别管理。创建新项目或仓库前必须先与用户确认可见性及发布范围；源码与站点分离维护。
 
 ## 部署流程
 
