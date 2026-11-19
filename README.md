@@ -34,4 +34,4 @@ Surge 使用 INI，Mihomo 使用 YAML，二者不能互换；Mihomo 的 YAML、T
 - 规则库：<https://rule.fakeyou.eu.org/>
 - 主页筛选与客户端选择：在网页中完成；筛选后的规则地址可在客户端内订阅。
 
-项目代码采用 [MIT License](LICENSE)。规则和品牌图标的来源与适用条款见 [第三方来源与许可](THIRD_PARTY_NOTICES.md)。
+项目代码采用 [MIT License](LICENSE)。规则数据来自 MagicRule，具体许可以各规则声明为准。品牌图标来自 Simple Icons；项目采用 CC0，但各图标许可需逐项核对。详情见[图标来源清单](site/brand-icons/sources.json)、[免责声明](site/brand-icons/DISCLAIMER.md)及 [CC0 文本](site/brand-icons/LICENSE.txt)。
